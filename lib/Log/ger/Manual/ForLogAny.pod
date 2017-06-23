@@ -15,6 +15,7 @@ package Log::ger::Manual::ForLogAny;
 
 Log::ger can be used in procedural style in addition to OO style. Aside from
 preference, this gives the benefit of being able to optimize away unneeded
-logging statements to avoid runtime overhead (see L<Log::ger::Plugin::OptAway>.
+logging statements to avoid runtime overhead (see L<Log::ger::Plugin::OptAway>).
+
 
 =head1 FAQ

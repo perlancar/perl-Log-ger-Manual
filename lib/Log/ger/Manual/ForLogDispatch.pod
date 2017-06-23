@@ -1,0 +1,21 @@
+package Log::ger::Manual::ForLogDispatch;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Log::ger for Log::Dispatch users
+
+=pod
+
+=head1 WHY LOG::DISPATCH
+
+
+=head1 WHY LOG::GER OVER LOG::DISPATCH
+
+Log::ger can be used in procedural style in addition to OO style. Aside from
+preference, this gives the benefit of being able to optimize away unneeded
+logging statements to avoid runtime overhead (see L<Log::ger::Plugin::OptAway>).
+
+
+=head1 FAQ

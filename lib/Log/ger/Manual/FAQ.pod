@@ -8,7 +8,7 @@ package Log::ger::Manual::FAQ;
 
 =head1 OUTPUT
 
-=head2 How do I create multiple loggers?
+=head2 How to create multiple loggers?
 
 For example, in L<Log::Any>:
 
@@ -20,25 +20,55 @@ For example, in L<Log::Any>:
 
 in Log::ger:
 
- # instead of installing to package, we setup objects/hashes for the secondary
- # loggers
- my $log_dump = Log::ger::setup_object(category => "dump");
- # or, for hash: my $log_dump = Log::ger::setup_hash(category => "dump");
+ # instead of installing to package, we setup objects (or hashes) for the
+ # secondary loggers
+ my $log_dump = Log::ger->get_logger(category => "dump");
 
  log_debug("Headers is: %s", $http_res->{headers});
- $log_dump->log_debug($http_res->{content});
- # or, for hash: $log_dump->{log_debug}->($http_res->{content});
+ $log_dump->debug($http_res->{content});
+
+=head2 How to send logs to several outputs?
+
+TODO
+
+=head2 How to send debug messages to screen, but warnings/errors to file?
+
+TODO
+
+=head2 How to send debug messages to a file, but warnings/errors to another file?
+
+TODO
+
+=head2 How to log warnings/die messages?
+
+
+=head1 LEVEL
+
+=head2 How to use custom levels?
+
+TODO
 
 
 =head1 FORMAT
 
-=head2 How do I do custom formatting
+=head2 How to do custom formatting?
 
 For example, a la L<Log::Contextual>:
 
  log_warn { 'The number of stuffs is: ' . $obj->stuffs_count };
 
 See L<Log::ger::Format::Block> for an example.
+
+=head2 How to add timestamps?
+
+TODO
+
+
+=head1 TARGETS
+
+=head2 How to customize format, output, filter on a per-target basis?
+
+TODO
 
 
 =head1 SEE ALSO

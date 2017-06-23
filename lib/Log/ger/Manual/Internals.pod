@@ -88,18 +88,22 @@ received by hook: C<level> (numeric level), C<str_level>.
 Used to create "log_is_I<level>" routines. Run for each level. Extra Arguments
 received by hooks: C<level> (numeric level), C<str_level>.
 
-=item * after_install_routines
+=item * before_install_routines
 
 Extra arguments received by hooks: C<routines> which is in the form of:
 
  [
-   [$coderef, $name, $flags],
+   [$coderef, $name, $level, $flags],
    ...
  ]
 
 where C<$flags> has this bits: 1 is set if routine is a "log_LEVEL" routine
 instead of a "log_is_LEVEL" routine, 2 is set if routine is expected to be
 called as a method instead of a subroutine.
+
+=item * after_install_routines
+
+Extra arguments received by hooks: C<routines>.
 
 =back
 

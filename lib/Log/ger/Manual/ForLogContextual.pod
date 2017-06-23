@@ -1,0 +1,17 @@
+package Log::ger::Manual::ForLogContextual;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Log::ger for Log::Contextual users
+
+=pod
+
+=head1 WHY LOG::CONTEXTUAL
+
+
+=head1 WHY LOG::GER OVER LOG::CONTEXTUAL
+
+
+=head1 FAQ

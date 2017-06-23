@@ -1,0 +1,17 @@
+package Log::ger::Manual::ForLog4perl;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Log::ger for Log::Log4perl users
+
+=pod
+
+=head1 WHY LOG::LOG4PERL
+
+
+=head1 WHY LOG::GER OVER LOG::LOG4PERL
+
+
+=head1 FAQ
