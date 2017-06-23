@@ -1,0 +1,113 @@
+package Log::ger::Manual::Internals;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Log::ger internals
+
+=head1 DESCRIPTION
+
+When an importer package does this:
+
+ use Log::ger;
+
+Basically all Log::ger does is construct logging routines and install them to
+importer's package (target), e.g. L<log_warn>, L<log_debug>, L<log_is_debug> and
+so on. Log::ger also records the importer's package name. When a resetup is
+requested (e.g. due to a change of log level or outputs), Log::ger will again
+construct logging routines and install them for each importer that has been
+recorded, updating the routines.
+
+Actually, instead of installing routines to a package, Log::ger can also target
+a hash or an object (which is basically the same as installing to a package, but
+a "random" package name will be used for the object).
+
+
+=head1 HOOKS AND PLUGINS
+
+Hooks are how Log::ger provides its flexibility. At various times (phases),
+Log::ger will turn to running hooks to get some behavior or result. For example
+when wanting to construct a logging routine or formatting routine or
+before/after installing a logging routine. Plugins, which are modules in the
+Log::ger::{Plugin,Output,Format,Filter,...} namespaces, can supply these hooks.
+
+Hooks are stored in the C<%Global_Hooks> variable, where the key is phase name
+and the value an array of hook records. Each hook record is in the form of:
+
+ [$key, $prio, $coderef]
+
+where C<$key> is package name, C<$prio> is a number between 0-100 (the lower the
+number, the higher the priority and the earlier it is run), C<$coderef> is the
+actual hook routine.
+
+A hook routine is passed a hash argument and is expected to return an array:
+
+ [$result, $flow_control]
+
+By the default each hook will be executed in order of its priority.
+C<$flow_control> can be set to 1 by a hook to stop immediately after this hook
+instead of continuing to the next. Some phases will nevertheless stop after the
+first hook that returns non-undef C<$result>. A hook that returns undef is
+effectively declining and causing Log::ger to move to the next hook in the
+chain.
+
+Aguments received by hook: C<target> (str, can be C<package> if installing to a
+package, or C<hash> or C<object>), C<target_arg> (str, when C<target> is
+C<package>, will be the package name; when C<target> is C<hash> will be the
+hash; when C<target> is C<object> will be the object's package), C<init_args>
+(hash, arguments passed to Log::ger when importing). In some phases, hook will
+receive more arguments (see phase documentation below).
+
+Available phases:
+
+=over
+
+=item * create_filter
+
+=item * create_formatter
+
+=item * create_routine_names
+
+Used to construct routine names. Hook must return this:
+
+ [{
+   log_subs    => [ [NAME, STR_LEVEL], ... ],
+   is_subs     => [ [NAME, STR_LEVEL], ... ],
+   log_methods => [ [NAME, STR_LEVEL], ... ],
+   is_methods  => [ [NAME, STR_LEVEL], ... ],
+ }]
+
+=item * create_log_routine
+
+Used to create "log_I<level>" routines. Run for each level. Extra arguments
+received by hook: C<level> (numeric level), C<str_level>.
+
+=item * create_is_routine
+
+Used to create "log_is_I<level>" routines. Run for each level. Extra Arguments
+received by hooks: C<level> (numeric level), C<str_level>.
+
+=item * after_install_routines
+
+Extra arguments received by hooks: C<routines> which is in the form of:
+
+ [
+   [$coderef, $name, $flags],
+   ...
+ ]
+
+where C<$flags> has this bits: 1 is set if routine is a "log_LEVEL" routine
+instead of a "log_is_LEVEL" routine, 2 is set if routine is expected to be
+called as a method instead of a subroutine.
+
+=back
+
+Aside from the global hooks, there are also per-target hooks, which are stored
+in C<%Per_Package_Hooks>, C<%Per_Hash_Hooks>, C<%Per_Object_Hooks>.
+
+
+=head1 TARGETS
+
+Log::ger can install logger routines to a package, or an object (which is
+similar to installing to a package), or a hash (usually for testing).

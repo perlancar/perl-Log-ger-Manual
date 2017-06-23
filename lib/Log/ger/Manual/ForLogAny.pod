@@ -1,0 +1,20 @@
+package Log::ger::Manual::ForLogAny;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Log::ger for Log::Any users
+
+=pod
+
+=head1 WHY LOG::ANY
+
+
+=head1 WHY LOG::GER OVER LOG::ANY
+
+Log::ger can be used in procedural style in addition to OO style. Aside from
+preference, this gives the benefit of being able to optimize away unneeded
+logging statements to avoid runtime overhead (see L<Log::ger::Plugin::OptAway>.
+
+=head1 FAQ

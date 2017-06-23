@@ -1,0 +1,44 @@
+package Log::ger::Manual::FAQ;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: FAQ on Log::ger
+
+=head1 OUTPUT
+
+=head2 How do I create multiple loggers?
+
+For example, in L<Log::Any>:
+
+ my $log = Log::Any->get_logger;
+ my $log_dump = Log::Any->get_logger(category => "dump"); # to dump contents
+
+ $log->debugf("Headers is: %s", $http_res->{headers});
+ $log_dump->debug($http_res->{content});
+
+in Log::ger:
+
+ # instead of installing to package, we setup objects/hashes for the secondary
+ # loggers
+ my $log_dump = Log::ger::setup_object(category => "dump");
+ # or, for hash: my $log_dump = Log::ger::setup_hash(category => "dump");
+
+ log_debug("Headers is: %s", $http_res->{headers});
+ $log_dump->log_debug($http_res->{content});
+ # or, for hash: $log_dump->{log_debug}->($http_res->{content});
+
+
+=head1 FORMAT
+
+=head2 How do I do custom formatting
+
+For example, a la L<Log::Contextual>:
+
+ log_warn { 'The number of stuffs is: ' . $obj->stuffs_count };
+
+See L<Log::ger::Format::Block> for an example.
+
+
+=head1 SEE ALSO
