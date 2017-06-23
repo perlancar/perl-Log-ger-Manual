@@ -10,12 +10,73 @@ package Log::ger::Manual::ForLogAny;
 
 =head1 WHY LOG::ANY
 
+Log::Any is one of the (currently) few logging libraries on CPAN which separate
+producers and consumers. This means, instead of having to configure logging
+output in your module like this:
+
+ package MyLib;
+ use Log::SomeLib;
+
+ my $log = Log::SomeLib->new(
+     output => ...,
+ );
+
+ sub mymethod {
+     $log->warn("blah ...");
+ }
+
+you just log:
+
+ package MyLibrary;
+ use Log::Any::App '$log';
+
+ sub mymethod {
+     $log->warn("blah ...");
+ }
+
+and the configuration of outputs is done on the application side.
+
 
 =head1 WHY LOG::GER OVER LOG::ANY
 
 Log::ger can be used in procedural style in addition to OO style. Aside from
 preference, this gives the benefit of being able to optimize away unneeded
 logging statements to avoid runtime overhead (see L<Log::ger::Plugin::OptAway>).
+
+Log::ger has a smaller startup overhead compared to Log::Any. Log::Any used to
+be very light also (startup overhead under 1ms) until version 0.15.
+
+Log::ger gives you customizable levels and routine names.
+
+Log::ger allows you to do custom formatting style.
+
+
+=head1 MIGRATING
+
+To ease migrating, L<Log::ger::Like::LogAny> is provided. You can change this
+line in your code:
+
+ use Log::Any;
+
+into:
+
+ use Log::ger::Like::LogAny;
+
+and this:
+
+ my $log = Log::Any->get_logger;
+
+into:
+
+ my $log = Log::Any::Like::LogAny->get_logger;
+
+and this:
+
+ use Log::Any '$log';
+
+into:
+
+ use Log::ger::Like::LogAny '$log';
 
 
 =head1 FAQ
