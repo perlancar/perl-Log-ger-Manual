@@ -46,7 +46,26 @@ TODO
 
 =head2 How to use custom levels?
 
-TODO
+One way:
+
+ use Log::ger ();
+ BEGIN {
+     our %Log::ger::Levels = (
+         critical => 1,
+         error    => 2,
+         warning  => 3,
+         info     => 4,
+         extra    => 5,
+     );
+     our %Log::ger::Level_Aliases = (
+         warn     => 3,
+         verbose  => 4,
+     );
+
+Do this before initializing any package with C<use Log::ger>. The above example
+will create these logging routines: C<log_critical>, C<log_error>,
+C<log_warning>, C<log_info>, C<log_extra>. The aliases won't get the logging
+routines but C<Log::ger::Util::numeric_level> will recognize them.
 
 
 =head1 FORMAT
