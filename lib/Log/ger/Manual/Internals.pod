@@ -14,14 +14,14 @@ When an importer package does this:
 
 Basically all Log::ger does is construct logging routines and install them to
 importer's package (target), e.g. L<log_warn>, L<log_debug>, L<log_is_debug> and
-so on. Log::ger also records the importer's package name. When a resetup is
-requested (e.g. due to a change of log level or outputs), Log::ger will again
-construct logging routines and install them for each importer that has been
-recorded, updating the routines.
+so on. Log::ger also records the target name. When a reinit is requested (e.g.
+due to a change of log level or outputs), Log::ger will again construct logging
+routines and install them to each target, replacing the old routines.
 
-Actually, instead of installing routines to a package, Log::ger can also target
-a hash or an object (which is basically the same as installing to a package, but
-a "random" package name will be used for the object).
+In addition to installing routines to a package, Log::ger can also target a hash
+or an object (which is basically the same as installing to a package, but the
+routines will expect to be called as object methods instead of plain
+subroutines, i.e. they expect the first argument to be the object).
 
 
 =head1 HOOKS AND PLUGINS
