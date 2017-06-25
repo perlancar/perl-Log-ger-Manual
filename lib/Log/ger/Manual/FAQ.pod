@@ -29,17 +29,50 @@ in Log::ger:
 
 =head2 How to send logs to several outputs?
 
-TODO
+Use L<Log::ger::Output::Composite>, which can log to multiple outputs as well as
+multiple output of the same type (e.g. two or more
+L<File|Log::ger::Output::File>'s).
 
-=head2 How to send debug messages to screen, but warnings/errors to file?
+=head2 How to send trace/debug messages to screen, but warnings/errors to file?
 
-TODO
+Using L<Log::ger::Output::Composite>'s per-output level:
 
-=head2 How to send debug messages to a file, but warnings/errors to another file?
+ Log::ger::Output Composite => (
+     Screen => {
+         level => ['trace', 'debug'],
+     },
+     File => {
+         conf => { path=>'/path/to/file.log' },
+         level => ['warn', 'error'],
+     },
+ );
 
-TODO
+=head2 How to send trace/debug messages to a file, but warnings/errors to another file?
+
+Using L<Log::ger::Output::Composite>'s per-output level:
+
+ Log::ger::Output Composite => (
+     File => [
+         {
+             conf => { path=>'file1.log' },
+             level => ['trace', 'debug'],
+         },
+         {
+             conf => { path=>'file2.log' },
+             level => ['warn', 'error'],
+         },
+     ],
+ );
+
+=head2 How to filter by category?
+
+Using L<Log::ger::Output::Composite>.
+
+TODO example.
 
 =head2 How to log warnings/die messages?
+
+TODO
 
 
 =head1 LEVEL
@@ -85,9 +118,20 @@ TODO
 
 =head1 TARGETS
 
-=head2 How to customize format, output, filter on a per-target basis?
+=head2 How to customize format, output, filter, plugin on a per-target basis?
 
-TODO
+To use a plugin only for the current package:
+
+ package MyPackage;
+
+ use Log::ger::Plugin;
+ Log::ger::Plugin->set_for_current_package(
+     'PluginName',
+     conf1 => ..., ...);
+ use Log::ger;
+
+Do the same thing for format (using L<Log::ger::Format>), filter (using
+L<Log::ger::Filter>), or output (using L<Log::ger::Output>).
 
 
 =head1 SEE ALSO
