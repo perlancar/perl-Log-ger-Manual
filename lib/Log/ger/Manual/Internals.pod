@@ -29,7 +29,7 @@ subroutines, i.e. they expect the first argument to be the object).
 Hooks are how Log::ger provides its flexibility. At various times (phases),
 Log::ger will turn to running hooks to get some behavior or result. For example
 when wanting to construct a logging routine or formatting routine or
-before/after installing a logging routine. Plugins, which are modules in the
+before/after installing logging routines. Plugins, which are modules in the
 Log::ger::{Plugin,Output,Format,Filter,...} namespaces, can supply these hooks.
 
 Hooks are stored in the C<%Global_Hooks> variable, where the key is phase name
