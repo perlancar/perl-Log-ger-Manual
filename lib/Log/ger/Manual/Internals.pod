@@ -37,20 +37,20 @@ and the value an array of hook records. Each hook record is in the form of:
 
  [$key, $prio, $coderef]
 
-where C<$key> is package name, C<$prio> is a number between 0-100 (the lower the
-number, the higher the priority and the earlier it is run), C<$coderef> is the
-actual hook routine.
+where C<$key> is (plugin) package name, C<$prio> is a number between 0-100 (the
+lower the number, the higher the priority and the earlier it is run),
+C<$coderef> is the actual hook routine. A plugin is supposed to put only at most
+one hook per phase.
 
 A hook routine is passed a hash argument and is expected to return an array:
 
  [$result, $flow_control]
 
-By the default each hook will be executed in order of its priority.
-C<$flow_control> can be set to 1 by a hook to stop immediately after this hook
-instead of continuing to the next. Some phases will nevertheless stop after the
-first hook that returns non-undef C<$result>. A hook that returns undef is
-effectively declining and causing Log::ger to move to the next hook in the
-chain.
+By default each hook will be executed in order of its priority. C<$flow_control>
+can be set to 1 by a hook to stop immediately after this hook instead of
+continuing to the next. Some phases will nevertheless stop after the first hook
+that returns non-undef C<$result>. A hook that returns undef is effectively
+declining and causing Log::ger to move to the next hook in the chain.
 
 Aguments received by hook: C<target> (str, can be C<package> if installing to a
 package, or C<hash> or C<object>), C<target_arg> (str, when C<target> is
