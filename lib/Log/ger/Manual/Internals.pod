@@ -56,8 +56,10 @@ Aguments received by hook: C<target> (str, can be C<package> if installing to a
 package, or C<hash> or C<object>), C<target_arg> (str, when C<target> is
 C<package>, will be the package name; when C<target> is C<hash> will be the
 hash; when C<target> is C<object> will be the object's package), C<init_args>
-(hash, arguments passed to Log::ger when importing). In some phases, hook will
-receive more arguments (see phase documentation below).
+(hash, arguments passed to Log::ger when importing, e.g. C<< {category =>
+'My::Package'} >>; it also serves as a per-target stash which survives reinit,
+by convention you can put stuffs here under keys that start with C<_>). In some
+phases, hook will receive more arguments (see phase documentation below).
 
 Available phases:
 
