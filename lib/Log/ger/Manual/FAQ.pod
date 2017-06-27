@@ -101,7 +101,7 @@ C<log_warning>, C<log_info>, C<log_extra>. The aliases won't get the logging
 routines but C<Log::ger::Util::numeric_level> will recognize them.
 
 
-=head1 FORMAT
+=head1 FORMAT & LAYOUT
 
 =head2 How to do custom formatting?
 
@@ -113,12 +113,12 @@ See L<Log::ger::Format::Block> for an example.
 
 =head2 How to add timestamps?
 
-TODO
+Use a layouter, e.g. L<Log::ger::Layout::Pattern>.
 
 
 =head1 TARGETS
 
-=head2 How to customize format, output, filter, plugin on a per-target basis?
+=head2 How to customize format/layout, output, plugin on a per-target basis?
 
 To use a plugin only for the current package:
 
@@ -130,8 +130,8 @@ To use a plugin only for the current package:
      conf1 => ..., ...);
  use Log::ger;
 
-Do the same thing for format (using L<Log::ger::Format>), filter (using
-L<Log::ger::Filter>), or output (using L<Log::ger::Output>).
+Do the same thing for format (using L<Log::ger::Format>), layout (using
+L<Log::ger::Layout>), or output (using L<Log::ger::Output>).
 
 
 =head1 SEE ALSO
