@@ -24,6 +24,52 @@ routines will expect to be called as object methods instead of plain
 subroutines, i.e. they expect the first argument to be the object).
 
 
+=head1 GLOSSARY
+
+=head2 Formatter
+
+A routine that takes arguments supplied by the user to the logger routine (e.g.
+C<< log_warn("blah", $args, ...) >> and converts it to the message (usually
+string) that is sent to the output (or the layouter, if there is one).
+
+=head2 Output
+
+=head2 Log routine
+
+=head2 Is routine
+
+=head2 Layouter
+
+A routine that takes the formatted message (usually a string) and converts it to
+the final message string that is sent to output.
+
+=head2 Plugin
+
+A Perl module that supplies hooks.
+
+=head2 Target
+
+=head2 Phase
+
+=head2 Hook
+
+=head2 Hook priority
+
+=head2 Init
+
+The process of constructing logger routines and installing them to targets.
+
+=head2 Logger routine
+
+=head2 Level
+
+=head2 Composite output
+
+=head2 Category
+
+=head2 Category level
+
+
 =head1 HOOKS AND PLUGINS
 
 Hooks are how Log::ger provides its flexibility. At various times (phases),
@@ -64,8 +110,6 @@ phases, hook will receive more arguments (see phase documentation below).
 Available phases:
 
 =over
-
-=item * create_filter
 
 =item * create_formatter
 
