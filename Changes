@@ -1,3 +1,14 @@
+0.010    2017-06-26 (PERLANCAR)
+
+         - Set prereq version Log::ger to 0.010.
+
+         - Mention layout (Log::ger 0.009+).
+
+         - Document init_args as per-target stash.
+
+         - Add glossary.
+
+
 0.007    2017-06-26 (PERLANCAR)
 
          - Set prereq version Log::ger to 0.007.
