@@ -1,3 +1,9 @@
+0.011   2017-06-30 (PERLANCAR)
+
+	- Update to Log::ger 0.011 (new create_logml_routine phase, changes
+	  in hook argument 'routines').
+
+
 0.010    2017-06-26 (PERLANCAR)
 
          - Set prereq version Log::ger to 0.010.
