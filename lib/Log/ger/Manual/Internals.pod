@@ -113,6 +113,16 @@ Available phases:
 
 =item * create_formatter
 
+Used to construct formatter routine, which will be called with arguments from
+the user when she calls the logging routines.
+
+=item * create_layouter
+
+Used to construct layouter routine, which will be called with arguments C<<
+($fmsg, \%init_args, $lnum, $lname) >> where C<$fmsg> is formatted message from
+the formatter, C<%init_args> are arguments given to C<< Log::ger->get_logger >>
+or to Log::ger's import(), C<$lnum> is numeric level, C<$lname> is string level.
+
 =item * create_routine_names
 
 Used to construct routine names. Hook must return this (all keys are optional):
