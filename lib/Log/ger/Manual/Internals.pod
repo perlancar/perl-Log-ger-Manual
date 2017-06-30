@@ -136,9 +136,6 @@ Used to construct routine names. Hook must return this (all keys are optional):
 
    logml_subs    => [ [NAME, undef    ], ... ],
    logml_methods => [ [NAME, undef    ], ... ],
-
-   logml_subs    => [ [NAME, undef    ], ... ],
-   logml_methods => [ [NAME, undef    ], ... ],
  }]
 
 Where C<log_subs> and C<log_methods> are names of per-level log routines,
