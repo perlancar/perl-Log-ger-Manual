@@ -10,8 +10,8 @@ package Log::ger::Manual::ForLogAny;
 
 =head1 WHY LOG::ANY
 
-Log::Any is one of the (currently) few logging libraries on CPAN which separate
-producers and consumers. This means, instead of having to configure logging
+Log::Any is one of the first logging libraries on CPAN which promotes separation
+of producers and consumers. This means, instead of having to configure logging
 output in your module like this:
 
  package MyLib;
@@ -19,6 +19,7 @@ output in your module like this:
 
  my $log = Log::SomeLib->new(
      output => ...,
+     level => ...,
  );
 
  sub mymethod {
@@ -28,13 +29,13 @@ output in your module like this:
 you just log:
 
  package MyLibrary;
- use Log::Any::App '$log';
+ use Log::Any '$log';
 
  sub mymethod {
      $log->warn("blah ...");
  }
 
-and the configuration of outputs is done on the application side.
+and the configuration of outputs and leels is done on the application side.
 
 
 =head1 WHY LOG::GER OVER LOG::ANY
@@ -50,7 +51,8 @@ be very light also (startup overhead under 1ms) until version 0.15.
 
 Log::ger gives you customizable levels and routine names.
 
-Log::ger allows you to do custom formatting style.
+Log::ger allows you to log in a custom format, e.g. using block a la
+L<Log::Contextual>, raw data structure as JSON, etc.
 
 
 =head1 MIGRATING
