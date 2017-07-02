@@ -42,6 +42,8 @@ and the configuration of outputs is done on the application side.
 Log::ger can be used in procedural style in addition to OO style. Aside from
 preference, this gives the benefit of being able to optimize away unneeded
 logging statements to avoid runtime overhead (see L<Log::ger::Plugin::OptAway>).
+A procedural wrapper for Log::Any could also be written to accomplish the same,
+but this is native in Log::ger.
 
 Log::ger has a smaller startup overhead compared to Log::Any. Log::Any used to
 be very light also (startup overhead under 1ms) until version 0.15.
