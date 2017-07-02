@@ -101,8 +101,8 @@ declining and causing Log::ger to move to the next hook in the chain.
 Aguments received by hook: C<target> (str, can be C<package> if installing to a
 package, or C<hash> or C<object>), C<target_arg> (str, when C<target> is
 C<package>, will be the package name; when C<target> is C<hash> will be the
-hash; when C<target> is C<object> will be the object's package), C<init_args>
-(hash, arguments passed to Log::ger when importing, e.g. C<< {category =>
+hash; when C<target> is C<object> will be the object), C<init_args> (hash,
+arguments passed to Log::ger when importing, e.g. C<< {category =>
 'My::Package'} >>; it also serves as a per-target stash which survives reinit,
 by convention you can put stuffs here under keys that start with C<_>). In some
 phases, hook will receive more arguments (see phase documentation below).
@@ -113,39 +113,69 @@ Available phases:
 
 =item * create_formatter
 
+Used to construct formatter routine, which will be called with arguments from
+the user when she calls the logging routines.
+
+=item * create_layouter
+
+Used to construct layouter routine, which will be called with arguments C<<
+($fmsg, \%init_args, $lnum, $lname) >> where C<$fmsg> is formatted message from
+the formatter, C<%init_args> are arguments given to C<< Log::ger->get_logger >>
+or to Log::ger's import(), C<$lnum> is numeric level, C<$lname> is string level.
+
 =item * create_routine_names
 
-Used to construct routine names. Hook must return this:
+Used to construct routine names. Hook must return this (all keys are optional):
 
  [{
-   log_subs    => [ [NAME, STR_LEVEL], ... ],
-   is_subs     => [ [NAME, STR_LEVEL], ... ],
-   log_methods => [ [NAME, STR_LEVEL], ... ],
-   is_methods  => [ [NAME, STR_LEVEL], ... ],
+   log_subs      => [ [NAME, STR_LEVEL], ... ],
+   log_methods   => [ [NAME, STR_LEVEL], ... ],
+
+   is_subs       => [ [NAME, STR_LEVEL], ... ],
+   is_methods    => [ [NAME, STR_LEVEL], ... ],
+
+   logml_subs    => [ [NAME, undef    ], ... ],
+   logml_methods => [ [NAME, undef    ], ... ],
  }]
+
+Where C<log_subs> and C<log_methods> are names of per-level log routines,
+C<is_subs> an C<is_methods> are names of per-level level detection routines,
+C<logml_subs> and C<logml_methods> are names of multiple-level log routines.
 
 =item * create_log_routine
 
-Used to create "log_I<level>" routines. Run for each level. Extra arguments
-received by hook: C<level> (numeric level), C<str_level>.
+Used to create per-level "log_I<level>" routines which will be called with C<<
+(\%init_args, $msg) >> arguments. Called for each routine specified in the
+C<log_subs> (or C<log_methods>) in the routine names (see documentation on
+C<create_routine_names> phase). Extra arguments received by hook: C<name>
+(routine name), C<level> (numeric level), C<str_level>.
 
 =item * create_is_routine
 
-Used to create "log_is_I<level>" routines. Run for each level. Extra Arguments
-received by hooks: C<level> (numeric level), C<str_level>.
+Used to create per-level "log_is_I<level>" routines. Called for each routine
+specified in the C<is_subs> (or C<is_methods>) in the routine names (see
+documentation on C<create_routine_names> phase). Extra Arguments received by
+hooks: C<name> (routine name), C<level> (numeric level), C<str_level>.
+
+=item * create_logml_routine
+
+Used to create multiple-level "log" routines which will be called with C<<
+(\%init_args, $level, $msg) >> arguments. Called for each routine specified in
+the C<logml_subs> (or C<logml_methods>) in the routine names (see documentation
+on C<create_routine_names> phase). Extra arguments received by hooks: C<name>
+(routine name).
 
 =item * before_install_routines
 
 Extra arguments received by hooks: C<routines> which is in the form of:
 
  [
-   [$coderef, $name, $level, $flags],
+   [$coderef, $name, $numlevel, $type],
    ...
  ]
 
-where C<$flags> has this bits: 1 is set if routine is a "log_LEVEL" routine
-instead of a "log_is_LEVEL" routine, 2 is set if routine is expected to be
-called as a method instead of a subroutine.
+Where C<$type> is either C<log_sub>, C<log_method>, C<logml_sub>,
+C<logml_method>, C<is_sub>, C<is_method>.
 
 =item * after_install_routines
 
