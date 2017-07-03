@@ -84,3 +84,19 @@ into:
 
 
 =head1 FAQ
+
+=head2 In my application, I have some modules using Log::Any and some using Log::ger. I want to consume logs using Log::Any, how do I do that?
+
+Install L<Log::ger::Output::LogAny> then in your application:
+
+ use Log::ger::Output 'LogAny';
+
+This will send logs produced via Log::ger to Log::Any.
+
+=head2 In my application, I have some modules using Log::Any and some using Log::ger. I want to consume logs using Log::ger, how do I do that?
+
+Install L<Log::Any::Adapter::LogGer> then in your application:
+
+ use Log::Any::Adapter 'LogGer';
+
+This will send logs produced via Log::Any to Log::ger.
