@@ -29,7 +29,7 @@ subroutines, i.e. they expect the first argument to be the object).
 =head2 Formatter
 
 A routine that takes arguments supplied by the user to the logger routine (e.g.
-C<< log_warn("blah", $args, ...) >> and converts it to the message (usually
+C<< log_warn("blah %s", $args, ...) >> and converts it to the message (usually
 string) that is sent to the output (or the layouter, if there is one).
 
 =head2 Output
@@ -90,13 +90,15 @@ one hook per phase.
 
 A hook routine is passed a hash argument and is expected to return an array:
 
- [$result, $flow_control]
+ [$result, $flow_control, ...]
 
 By default each hook will be executed in order of its priority. C<$flow_control>
 can be set to 1 by a hook to stop immediately after this hook instead of
 continuing to the next. Some phases will nevertheless stop after the first hook
 that returns non-undef C<$result>. A hook that returns undef is effectively
 declining and causing Log::ger to move to the next hook in the chain.
+
+Some phases might return extra elements.
 
 Aguments received by hook: C<target> (str, can be C<package> if installing to a
 package, or C<hash> or C<object>), C<target_arg> (str, when C<target> is
@@ -116,6 +118,13 @@ Available phases:
 Used to construct formatter routine, which will be called with arguments from
 the user when she calls the logging routines.
 
+It should return:
+
+ [\&formatter, $flow_control, $formatter_name]
+
+C<$formatter_name> is optional and defaults to C<default>, which is the default
+formatter used for all logging routines.
+
 =item * create_layouter
 
 Used to construct layouter routine, which will be called with arguments C<<
@@ -128,19 +137,22 @@ or to Log::ger's import(), C<$lnum> is numeric level, C<$lname> is string level.
 Used to construct routine names. Hook must return this (all keys are optional):
 
  [{
-   log_subs      => [ [NAME, STR_LEVEL], ... ],
-   log_methods   => [ [NAME, STR_LEVEL], ... ],
+   log_subs      => [ [NAME, STR_LEVEL, FMT_NAME], ... ],
+   log_methods   => [ [NAME, STR_LEVEL, FMT_NAME], ... ],
 
-   is_subs       => [ [NAME, STR_LEVEL], ... ],
-   is_methods    => [ [NAME, STR_LEVEL], ... ],
+   is_subs       => [ [NAME, STR_LEVEL, FMT_NAME], ... ],
+   is_methods    => [ [NAME, STR_LEVEL, FMT_NAME], ... ],
 
-   logml_subs    => [ [NAME, undef    ], ... ],
-   logml_methods => [ [NAME, undef    ], ... ],
- }]
+   logml_subs    => [ [NAME, undef    , FMT_NAME], ... ],
+   logml_methods => [ [NAME, undef    , FMT_NAME], ... ],
+ }, ...]
 
 Where C<log_subs> and C<log_methods> are names of per-level log routines,
 C<is_subs> an C<is_methods> are names of per-level level detection routines,
 C<logml_subs> and C<logml_methods> are names of multiple-level log routines.
+
+C<FMT_NAME> is optional and defaults to C<default> (the default formatter
+routine).
 
 =item * create_log_routine
 
