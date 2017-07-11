@@ -1,3 +1,8 @@
+0.013   2017-07-11 (PERLANCAR)
+
+	- Update to Log::ger 0.013 (multiple formatters).
+
+
 0.012   2017-07-03 (PERLANCAR)
 
         - Set prereq version Log::ger to 0.012.
