@@ -115,6 +115,10 @@ See L<Log::ger::Format::Block> for an example.
 
 Use a layouter, e.g. L<Log::ger::Layout::Pattern>.
 
+=head2 How to redact sensitive information?
+
+TODO
+
 
 =head1 TARGETS
 
