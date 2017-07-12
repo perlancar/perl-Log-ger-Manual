@@ -13,10 +13,10 @@ When an importer package does this:
  use Log::ger;
 
 Basically all Log::ger does is construct logging routines and install them to
-importer's package (target), e.g. L<log_warn>, L<log_debug>, L<log_is_debug> and
+importer's package (target), e.g. C<log_warn>, C<log_debug>, C<log_is_debug> and
 so on. Log::ger also records the target name. When a reinit is requested (e.g.
 due to a change of log level or outputs), Log::ger will again construct logging
-routines and install them to each target, replacing the old routines.
+routines and install them to each target, replacing the old ones.
 
 In addition to installing routines to a package, Log::ger can also target a hash
 or an object (which is basically the same as installing to a package, but the
