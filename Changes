@@ -1,3 +1,14 @@
+0.015   2017-07-12 (PERLANCAR)
+
+        - Update to Log::ger 0.013 (latest).
+
+        - Internals: Add section about the details of init process.
+
+        - Add more FAQ items.
+
+        - Fixes.
+
+
 0.013   2017-07-11 (PERLANCAR)
 
 	- Update to Log::ger 0.013 (multiple formatters).
