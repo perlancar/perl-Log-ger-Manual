@@ -1,6 +1,6 @@
 0.015   2017-07-12 (PERLANCAR)
 
-        - Update to Log::ger 0.013 (latest).
+        - Update to Log::ger 0.015 (latest).
 
         - Internals: Add section about the details of init process.
 
