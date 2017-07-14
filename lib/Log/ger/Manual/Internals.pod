@@ -264,4 +264,9 @@ are not needed with a no-op.
 =head1 TARGETS
 
 Log::ger can install logger routines to a package, or an object (which is
-similar to installing to a package), or a hash (usually for testing).
+similar to installing to a package), or a hash (usually for testing). The
+routines that are installed into C<package> target are of type C<*_subs>. The
+routines that are installed into C<object> target package are of type
+C<*_methods>. The routines that are installed into C<hash> target are of type
+C<*_methods> but they will expect to be called as a normal subroutine (i.e. no
+object reference as first C<$self> argument).
