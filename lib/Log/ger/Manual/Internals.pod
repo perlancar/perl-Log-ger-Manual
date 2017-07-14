@@ -49,6 +49,11 @@ A Perl module that supplies hooks.
 
 =head2 Target
 
+A package that will be installed with logging routines. Aside from package,
+Log:;ger can also install routines to a hash or an object. Installing to an
+object is essentially the same as installing to a package: Log::ger will pick a
+"random" package for the object and install the routines there.
+
 =head2 Phase
 
 =head2 Hook
@@ -80,7 +85,12 @@ before/after installing logging routines. Plugins, which are modules in the
 Log::ger::{Plugin,Output,Format,Filter,...} namespaces, can supply these hooks.
 
 Hooks are stored in the C<%Global_Hooks> variable, where the key is phase name
-and the value an array of hook records. Each hook record is in the form of:
+and the value an array of hook records. There are also C<%Per_Package_Hooks>,
+C<%Per_Object_Hooks>, and C<%Per_Hash_Hooks> to store per-target hooks that will
+only be used for specific targets. This way, the logging routines for each
+package and object/hash can be customized.
+
+Each hook record is in the form of:
 
  [$key, $prio, $coderef]
 
