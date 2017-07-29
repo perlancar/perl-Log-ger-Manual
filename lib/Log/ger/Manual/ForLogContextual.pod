@@ -10,8 +10,29 @@ package Log::ger::Manual::ForLogContextual;
 
 =head1 WHY LOG::CONTEXTUAL
 
+L<Log::Contextual> provides block style, if that's what you like:
+
+ log_trace { "foo bar " . some_heavy_calculation() };
+
+The block will not be executed if the log level is higher than C<trace>,
+although C<log_trace()> itself is still called.
+
+Log::Contextual provides interface for L<Log::Log4perl>, L<Log::Dispatch>,
+L<Log::Dispatchouli>, and some others. But this is not unique to
+Log::Contextual; other libraries like L<Log::Any> or L<Log::ger> can also use
+various backends.
+
 
 =head1 WHY LOG::GER OVER LOG::CONTEXTUAL
+
+Log::Contextual does not yet encourage separation of logging consumer and
+producer. You have to (or, the documentation encourages you to) set up the
+backend in the same place as the logging.
+
+Log::ger is faster (see benchmark in L<Bencher::Scenarios::LogGer>) and has a
+smaller startup overhead.
+
+Log::ger also provides block style if you want (see L<Log::ger::Format::Block>).
 
 
 =head1 FAQ
