@@ -1,6 +1,13 @@
-0.015001 2017-07-12 (PERLANCAR)
+0.015.002  2017-07-31 (PERLANCAR)
 
-	- [doc] Link to other pod's from the main module.
+	   - Fill up some text for ForLogContextual.
+
+	   - Add FAQ entry: how to log Perl warning/die message.
+
+
+0.015.001  2017-07-12 (PERLANCAR)
+
+           - [doc] Link to other pod's from the main module.
 
 
 0.015   2017-07-12 (PERLANCAR)
