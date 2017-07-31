@@ -47,6 +47,22 @@ in Log::ger:
  log_debug("Headers is: %s", $http_res->{headers});
  $log_dump->debug($http_res->{content});
 
+=head2 How to log Perl warning/die message?
+
+ use Log::ger;
+ $SIG{__WARN__} = sub {
+     log_warn(join "", @_);
+     warn @_;
+ };
+ $SIG{__DIE__} = sub {
+     log_fatal(join "", @_);
+     die @_;
+ };
+
+ warn "This is a warning"; # message will also be logged
+ die  "This is an error";  # message will also be logged before script dies
+
+
 =head1 OUTPUT
 
 =head2 How to send logs to several outputs?
@@ -178,7 +194,7 @@ For example, a la L<Log::Contextual>:
 
 See L<Log::ger::Format::Block> for an example.
 
-=head2 How to add timestamps?
+=head2 How to add timestamps (and other stuffs)?
 
 Use a layouter, e.g. L<Log::ger::Layout::Pattern>.
 
