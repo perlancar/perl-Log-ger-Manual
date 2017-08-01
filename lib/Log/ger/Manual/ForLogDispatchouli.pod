@@ -1,0 +1,41 @@
+package Log::ger::Manual::ForLogDispatchouli;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Log::ger for Log::Dispatch users
+
+=pod
+
+=head1 WHY LOG::DISPATCHOULI
+
+Log::Dispatchouli is most known as the logging system used by L<Dist::Zilla>,
+which is also written by RJBS.
+
+It is a convenient package that lets you log to file, screen, as well as syslog.
+It uses L<Log::Dispatch> output modules as the backend, hence the name. Some
+options exist to configure the formatting. It uses L<String::Flogger> to format
+the message string.
+
+
+=head1 WHY NOT LOG::DISPATCHOULI
+
+Too few levels (only normal, normal+die (fatal), and debug).
+
+You cannot add more or custom outputs.
+
+
+=head1 WHY LOG::GER OVER LOG::DISPATCHOULI
+
+Log::ger encourages separation of producers and consumers, so in modules when
+logging you don't have to deal with setting up level and outputs.
+
+Log::ger can be used in procedural style in addition to OO style. Aside from
+preference, this gives the benefit of being able to optimize away unneeded
+logging statements to avoid runtime overhead (see L<Log::ger::Plugin::OptAway>).
+
+Log::ger is faster and has smaller startup overhead.
+
+
+=head1 FAQ
