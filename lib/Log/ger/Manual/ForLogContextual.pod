@@ -10,7 +10,8 @@ package Log::ger::Manual::ForLogContextual;
 
 =head1 WHY LOG::CONTEXTUAL
 
-L<Log::Contextual> provides block style, if that's what you like:
+In my opinion, just about the only good thing about L<Log::Contextual> is that
+it provides block style by default, if that's what you like:
 
  log_trace { "foo bar " . some_heavy_calculation() };
 
@@ -29,8 +30,12 @@ Log::Contextual does not yet encourage separation of logging consumer and
 producer. You have to (or, the documentation encourages you to) set up the
 backend in the same place as the logging.
 
-Log::ger is faster (see benchmark in L<Bencher::Scenarios::LogGer>) and has a
-smaller startup overhead.
+Log::ger is much faster and has a significantly smaller startup overhead.
+Although Log::Contextual's documentation mentions being "efficient" (in terms of
+avoiding executing the block if level is not active), Log::Contextual is not
+efficient in that it adds I<considerable> logging overhead. See benchmark in
+L<Bencher::Scenarios::LogGer>. I think you are better off using Log4perl
+directly than through Log::Contextual.
 
 Log::ger also provides block style if you want (see L<Log::ger::Format::Block>).
 
