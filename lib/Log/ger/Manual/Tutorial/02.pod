@@ -11,7 +11,8 @@ package Log::ger::Manual::Tutorial::02;
 As shown in the previous post, logging with Log::ger is as simple as loading
 Log::ger with C<use Log::ger> and then using one of the C<log_trace>,
 C<log_debug>, C<log_info>, C<log_warn>, C<log_error>, C<log_fatal> statements.
-These statements logger subroutines, one for each level. They accept a string:
+These subroutines are the I<logger> subroutines, there is one for each level.
+They accept a string:
 
  log_warn("This is a log message");
 
@@ -26,7 +27,7 @@ sprintf if there are two or more arguments):
 In sprintf mode, data structure will automatically be dumped and C<undef> will
 also be shown as C<< <undef> >>.
 
-In addition to the logger subroutines, there are also the level detection
+In addition to the logger subroutines, there are also the I<level detection>
 routines: C<log_is_trace>, C<log_is_debug>, C<log_is_info>, C<log_is_warn>,
 C<log_is_error>, C<log_is_fatal>. They are sometimes used if you want to do some
 complex logging:
@@ -50,3 +51,7 @@ can do this with Log::ger too, although I personally do not recommend this:
  if ($log->is_trace) {
      ...
  }
+
+The logger methods are named according to the level names (so there is no
+C<log_> prefix as in the subroutine version). The level detection methods are
+named I<is_LEVEL>, e.g. C<is_trace>, C<is_debug>, and so on.

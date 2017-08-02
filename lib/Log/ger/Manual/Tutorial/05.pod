@@ -48,7 +48,10 @@ to level C<info>.
 
 =head1 LOGGING UNDER A DIFFERENT CATEGORY
 
+ package My::App::Module4;
  use Log::ger ();
- my $log = Log::ger->get_logger(category => "Foo");
+ my $log     = Log::ger->get_logger(); # by default will use the caller's package
+ my $log_foo = Log::ger->get_logger(category => "Foo");
 
- $log->warn("This message will be logged under the category 'Foo'");
+ $log->warn("This message will be logged under the category 'My::App::Module4'");
+ $log_foo->warn("This message will be logged under the category 'Foo'");

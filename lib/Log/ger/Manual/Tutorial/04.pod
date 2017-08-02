@@ -52,7 +52,7 @@ or:
  use Log::ger::Output;
  Log::ger::Output->set(File => (path => '/tmp/app.log', lazy => 1));
 
-If you want to output to two or more destination, you can use
+If you want to output to two or more destinations, you can use
 L<Log::ger::Output::Composite> which multiplexes the message to multiple
 outputs:
 
