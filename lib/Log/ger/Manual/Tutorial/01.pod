@@ -44,7 +44,7 @@ an application normally in production environment, as opposed to having to stop
 a program and run it under the debugger. Of course, a proper debugger has its
 strengths too.
 
-Compared to peppering "print" statements all over your prgoram, logging using a
+Compared to peppering "print" statements all over your program, logging using a
 framework brings the flexibility of turning on/off the statements according to
 the notion of level/severity (or other criteria), and redirecting where the log
 messages should go. On the other hand, "print" statement is simpler and does not
