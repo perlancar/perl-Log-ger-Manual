@@ -65,7 +65,7 @@ in Log::ger:
 
 =head1 OUTPUT
 
-=head1 How to switch output?
+=head2 How to switch output?
 
 Just issue another C<< Log::ger::Output->set() >> which will replace previous
 output plugin.
