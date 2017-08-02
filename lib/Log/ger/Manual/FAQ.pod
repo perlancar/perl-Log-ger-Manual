@@ -65,10 +65,20 @@ in Log::ger:
 
 =head1 OUTPUT
 
+=head1 How to switch output?
+
+Just issue another C<< Log::ger::Output->set() >> which will replace previous
+output plugin.
+
+ Log::ger::Output->set("Screen");
+ log_warn("foo!"); # goes to screen
+ Log::ger::Output->set("SimpleFile", path=>"app.log");
+ log_warn("bar!"); # goes to file
+
 =head2 How to send logs to several outputs?
 
-Use L<Log::ger::Output::Composite>, which can log to multiple outputs as well as
-multiple output of the same type (e.g. two or more
+Use L<Log::ger::Output::Composite>, which can multiplex log message to multiple
+outputs, including multiple outputs of the same type (e.g. two or more
 L<File|Log::ger::Output::File>'s).
 
 =head2 How to send trace/debug messages to screen, but warnings/errors to file?
