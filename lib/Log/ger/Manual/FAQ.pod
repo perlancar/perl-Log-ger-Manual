@@ -118,9 +118,20 @@ Using L<Log::ger::Output::Composite>.
 
 TODO example.
 
-=head2 How to log warnings/die messages?
 
-TODO
+=head1 OUTPUT: FILE
+
+=head2 How to have different applications log to the same file?
+
+You need to use a file output module which supports locking, e.g.
+L<FileWriteRotate|Log::ger::Output::FileWriteRotate> or
+L<File|Log::ger::Output::File> then enable locking so that on every log a lock
+is acquired first.
+
+One nice thing about the FileWriteRotate output module is that
+L<File::Write::Rotate> provides a buffer so when you temporarily fail writing
+(e.g. disk is momentarily full or lock momentarily cannot be acquired) log
+messages (up to a certain number of them) is kept at the memory buffer first.
 
 
 =head1 LEVEL
