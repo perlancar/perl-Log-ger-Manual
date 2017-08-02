@@ -1,0 +1,52 @@
+package Log::ger::Manual::Tutorial::02;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Logging with Log::ger
+
+=head1 LOGGING WITH LOG::GER
+
+As shown in the previous post, logging with Log::ger is as simple as loading
+Log::ger with C<use Log::ger> and then using one of the C<log_trace>,
+C<log_debug>, C<log_info>, C<log_warn>, C<log_error>, C<log_fatal> statements.
+These statements logger subroutines, one for each level. They accept a string:
+
+ log_warn("This is a log message");
+
+or a sprintf template and one or more arguments (so in other words, it will do
+sprintf if there are two or more arguments):
+
+ log_warn("User %s does not exist", $user);
+ log_warn("HTTP status code %d, message %s, result structure %s",
+          $code, $message, $res);
+ log_warn("Subroutine arguments(%s)", \@_);
+
+In sprintf mode, data structure will automatically be dumped and C<undef> will
+also be shown as C<< <undef> >>.
+
+In addition to the logger subroutines, there are also the level detection
+routines: C<log_is_trace>, C<log_is_debug>, C<log_is_info>, C<log_is_warn>,
+C<log_is_error>, C<log_is_fatal>. They are sometimes used if you want to do some
+complex logging:
+
+ if (log_is_trace()) {
+     require Blah;
+     my $x = Blah->new(foo=>1, bar=>2);
+     log_trace("Blah is %s", $x->as_string);
+ }
+
+=head1 OO-STYLE
+
+Some other logging frameworks use OO-style, where you first request a logger
+object then log (or detect level) by calling methods on the logger object. You
+can do this with Log::ger too, although I personally do not recommend this:
+
+ use Log::ger (); # don't import log_* and log_is_* subroutines
+
+ my $log = Log::ger->get_logger;
+ $log->trace("blah");
+ if ($log->is_trace) {
+     ...
+ }

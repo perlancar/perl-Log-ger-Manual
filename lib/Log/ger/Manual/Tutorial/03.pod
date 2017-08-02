@@ -1,0 +1,111 @@
+package Log::ger::Manual::Tutorial::03;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Logging levels
+
+=head1 WHAT IS LOGGING LEVEL?
+
+When logging a message, you can choose from one of the several available levels:
+
+ log_info("This is just an informational message");
+ log_warn("This is a warning, you have been warned");
+ log_error("This is an error!");
+ log_fatal("This is a serious error!!! I can't continue"); exit;
+
+Level signifies the importance, urgency, and/or severity of the message. One of
+the main ways the log messages are filtered is by level.
+
+
+=head1 WHICH LEVEL SHOULD I USE FOR WHICH PURPOSE?
+
+Log::ger comes with the following standard levels, sorted from the most
+important/severe to the least. The number in parentheses is the numeric
+representation for that level:
+
+ fatal (1)
+ error (2)
+ warn (3)
+ info (4)
+ debug (5)
+ trace (6)
+
+There is no absolute set of rules on which level you should use for which
+purposes. The most important thing is to be consistent. Here are some links you
+can read:
+
+=over
+
+=item * Choosing a Log Level (L<Log::Any>)
+
+L<http://blogs.perl.org/users/preaction/2017/03/choosing-a-log-level.html>
+
+=item * When to use the different log levels?
+
+L<https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels>
+
+=back
+
+I personally use this set of rule:
+
+=over
+
+=item * C<info|warn|error|fatal> vs C<debug|trace>
+
+C<info>, C<warn> and higher are to be shown to end users of application
+(non-developers) while C<debug> and C<trace> are meant only for developers. This
+means, C<debug> and C<trace> messages tend to be more technical and precise.
+
+=item * C<info> only for verbose output
+
+C<info> should only be shown when users specify increased verbosity, e.g. via
+command-line option C<--verbose>.
+
+=item * C<warn>
+
+C<warn> is for informing that there are some abnormality but not necessarily an
+error.
+
+=item * C<error>
+
+C<error> is for error condition (obviously) but the program can continue.
+
+=item * C<fatal>
+
+C<fatal> is for a serious error that renders the program unable to continue.
+
+=item * C<debug> vs C<trace>
+
+Between C<debug> and C<trace>: C<trace> is usually for dumping internal data
+structures or informing the flow of program execution (entering/leaving a
+subroutine), for everything else developer-related, use C<debug>.
+
+=back
+
+
+=head1 SETTING LEVEL
+
+At the start of program, the level is set to C<warn>. This means messages logged
+by C<log_info()> or C<log_debug()> by default won't be shown even after we set
+an output.
+
+To change level, you can use:
+
+ use Log::ger::Util;
+
+ Log::ger::Util::set_level("info"); # or ...
+ Log::ger::Util::set_level(4);
+
+C<set_level()> will die if you feed it an unknown level.
+
+Normally you will only need to do this in an application, not in modules. And if
+you use a framework like L<Perinci::CmdLine>, you don't need to do this at all
+because the framework will set the appropriate level for the user).
+
+
+=head1 CUSTOM LEVELS
+
+A more complex program might want to customize (increase the number of) levels.
+Log::ger allows you to do this. See L<Log::ger::Manual::FAQ> for more details.

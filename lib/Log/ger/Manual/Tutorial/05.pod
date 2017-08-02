@@ -1,0 +1,54 @@
+package Log::ger::Manual::Tutorial::05;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Categories
+
+=head1 WHAT ARE CATEGORIES?
+
+Aside from filtering log messages by level, you can also filter by category.
+Category normally maps to Perl packages (but they can also be something else).
+For example:
+
+ # in My/App/Module1.pm
+ package My::App::Module1;
+ use Log::ger;
+ sub foo {
+     log_warn("foo!");
+ }
+ 1;
+
+ # in My/App/Module2.pm
+ package My::App::Module2;
+ use Log::ger;
+ sub bar {
+     log_warn("bar!");
+ }
+ 1;
+
+Logger subroutines in C<My::App::Module1> will log messages under the category
+C<My::App::Module1>, while logger subroutines in C<My::App::Module2> will log
+messages under the category C<My::App::Module2>. In your application, you can do
+something like:
+
+ use Log::ger::Output Composite => (
+     outputs => { ... },
+     category_level => {
+         'My::App' => 'info',
+         'My::App::Module1' => 'debug',
+         'My::App::Module2' => 'error',
+     },
+ );
+
+The above means, other modules under C<My::App>, like C<My::App::Module3> is set
+to level C<info>.
+
+
+=head1 LOGGING UNDER A DIFFERENT CATEGORY
+
+ use Log::ger ();
+ my $log = Log::ger->get_logger(category => "Foo");
+
+ $log->warn("This message will be logged under the category 'Foo'");

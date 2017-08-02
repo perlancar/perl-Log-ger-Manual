@@ -1,0 +1,51 @@
+package Log::ger::Manual::Tutorial::01;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: What is logging? Why logging? Logging vs ...
+
+=head1 WHAT IS LOGGING?
+
+Logging is recording information during run-time. You can log any kind of
+information, from dumping internal data structures and tracing the flow of
+program execution (for debugging purposes), showing the progress of activities
+(for verbose output a.k.a. progress report to the user), and so on (auditing,
+accounting, security monitoring, source code documentation, etc).
+
+With L<Log::ger>, this is as simple as C<use>-ing Log::ger and adding logging
+statements, for example:
+
+ use Log::ger;
+
+ sub process_user {
+     log_trace("Entering process_user(%s)", \@_);
+
+     ...
+
+     log_trace("Leaving process_user(), result=%s", $res);
+     return $res;
+ }
+
+ log_trace("Starting program");
+ for my $user (@ARGV) {
+     log_info("Processing user %s", $user);
+     process_user($user);
+ }
+ log_trace("Ending program");
+
+
+=head1 WHY LOGGING? LOGGING VS ...
+
+Compared to using a debugger (with standard features like single-stepping,
+breakpoints, watchpoints, etc), logging can help diagnose problems while you run
+an application normally in production environment, as opposed to having to stop
+a program and run it under the debugger. Of course, a proper debugger has its
+strengths too.
+
+Compared to peppering "print" statements all over your prgoram, logging using a
+framework brings the flexibility of turning on/off the statements according to
+the notion of level/severity (or other criteria), and redirecting where the log
+messages should go. On the other hand, "print" statement is simpler and does not
+require extra module/framework.

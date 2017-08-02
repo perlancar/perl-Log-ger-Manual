@@ -1,0 +1,13 @@
+package Log::ger::Manual::Tutorial;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Log::ger tutorial series
+
+=head1 DESCRIPTION
+
+This tutorial series contains the following tutorial pages:
+
+# INSERT_MODULES_LIST /^Log::ger::Manual::Tutorial::/

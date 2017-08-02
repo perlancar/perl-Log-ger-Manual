@@ -1,0 +1,68 @@
+package Log::ger::Manual::Tutorial::04;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Logging outputs
+
+=head1 PRODUCING AND CONSUMING
+
+The act of logging:
+
+ log_info("This is just an informational message");
+ log_warn("This is a warning, you have been warned");
+
+is called I<producing> the log. By default the messages don't go anywhere so you
+do not see them. When an application is run, logging output(s) (and level) are
+set up; only then the messages will be shown, either to the terminal (screen),
+file, or some other destination. The act of taking a log message and showing it
+through some output is called I<consuming> the log.
+
+
+=head1 CHOOSING AN OUTPUT
+
+There are a variety of output modules you can choose in Log::ger, for example:
+
+=over
+
+=item * L<Log::ger::Output::Screen>
+
+=item * L<Log::ger::Output::File>
+
+=item * L<Log::ger::Output::Syslog>
+
+=back
+
+To select an output:
+
+ use Log::ger::Output 'Screen';
+
+or:
+
+ use Log::ger::Output;
+ Log::ger::Output->set('Screen');
+
+To pass configuration parameters to an output module:
+
+ use Log::ger::Output File => (path => '/tmp/app.log', lazy => 1);
+
+or:
+
+ use Log::ger::Output;
+ Log::ger::Output->set(File => (path => '/tmp/app.log', lazy => 1));
+
+If you want to output to two or more destination, you can use
+L<Log::ger::Output::Composite> which multiplexes the message to multiple
+outputs:
+
+ use Log::ger::Output Composite => (
+     outputs => {
+         Screen => {},
+         File   => { conf => {path=>'/tmp/app.log', lazy=>1} },
+     },
+ );
+
+Apart from multiplexing output, Composite can also set per-output level,
+per-category level, and per-output per-category level. We will cover Composite
+in subsequent tutorial post.

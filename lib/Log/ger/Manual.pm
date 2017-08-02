@@ -8,6 +8,8 @@ package Log::ger::Manual;
 
 =head1 DESCRIPTION
 
-See the following documentation pages:
+This distribution contains the following documentation pages:
 
 # INSERT_MODULES_LIST -Log::ger::Manual
+
+Start with L<Log::ger::Manual::Tutorial>.
