@@ -56,3 +56,15 @@ except when wanting to customize category (will be explained in later posts):
 The logger methods are named according to the level names (so there is no
 C<log_> prefix as in the subroutine version). The level detection methods are
 named I<is_LEVEL>, e.g. C<is_trace>, C<is_debug>, and so on.
+
+Why do I prefer procedural style? First, it's shorter to type and you can omit
+the parentheses:
+
+ log_warn "blah";
+ $log->warn("blah");
+
+It's more convenient to convert a C<print> or C<printf> statement to logging
+statement, or vice versa.
+
+Second, if you use subroutine form it's possible to use
+L<Log::ger::Plugin::OptAway> to remove them completely during run-time.

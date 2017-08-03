@@ -1,0 +1,32 @@
+package Log::ger::Manual::Tutorial::07_Layout;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Layout plugins
+
+=head1 WHAT IS A LAYOUT PLUGIN?
+
+A layout plugin provides code to modify a log message (usually decorate, add
+more information) after it is formatted by the formatter. This functionality is
+separated from formatter plugin for more flexibility.
+
+Most of the time, the layout plugin that you might want to use is
+L<Log::ger::Layout::Pattern>. This plugin is similar to the pattern layout
+module L<Log::Log4perl::Layout::PatternLayout> in L<Log::Log4perl>. In fact,
+most of the placeholders follow the Log4perl version. This plugin lets you add
+extra information like timestamp, PID, category name, level name, and so on to
+the log message, aside from the log message itself.
+
+For example:
+
+ use Log::ger::Layout Pattern => (format => '[%d][%c]%% %m');
+ use Log::ger::Output 'Screen';
+ use Log::ger;
+
+ log_warn("a warning");
+
+will print something like:
+
+ [2017-08-03T14:51:18][main]% a warning

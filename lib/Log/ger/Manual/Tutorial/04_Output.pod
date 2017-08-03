@@ -34,6 +34,10 @@ There are a variety of output modules you can choose in Log::ger, for example:
 
 =back
 
+Search CPAN for more C<Log::ger::Output::*> modules. And when you don't find one
+suitable for your needs, it's easy to write your own (see
+L<49_WritingAnOutputPlugin|Log::ger::Manual::Tutorial::49_WritingAnOutputPlugin>).
+
 To select an output:
 
  use Log::ger::Output 'Screen';

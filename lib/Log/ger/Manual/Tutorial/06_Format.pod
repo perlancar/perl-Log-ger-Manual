@@ -1,0 +1,57 @@
+package Log::ger::Manual::Tutorial::06_Format;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Format plugins
+
+=head1 WHAT IS A FORMAT PLUGIN?
+
+L<Log::ger> is flexible; it allows you to customize what arguments you want to
+pass to the logger routines and how to format them into string (if at all).
+
+The default behaviour of Log::ger is the sprintf-style formatting:
+
+ log_warn "single argument, string as-is";
+ log_warn("more than 1 argument, first arg is sprintf format, rest are arguments: %s %d",
+          [data => {structure=>1}], 1234);
+
+Aside from sprintf, data structure arguments are also dumped (using L<Data::Dmp>
+if available, or L<Data::Dumper> otherwise). Undef arguments are rendered as C<<
+<undef> >>.
+
+This default behavior is chosen because back when I was using L<Log::Any>, I
+find that 90-95% of the time I'm using the sprintf methods (C<warnf>, C<debugf>,
+and so on).
+
+
+=head1 THE BLOCK FORMAT
+
+Format plugins can change how logger routines process/format the arguments. For
+example, the L<Log::ger::Format::Block> format plugin causes your logger
+routines to accept a block as the first argument, and the rest of the arguments
+will be passed to that block. The block will only be executed if message is to
+be produced.
+
+ log_debug { require Some::Object; my $obj = Some::Object->new; "Object is ".$obj->as_string };
+ log_info { do_heavy_calculation(@_) }, "arg", "more arg";
+
+This style is suitable if you often do something calculation-heavy to produce
+the log message. Another logging framework that uses this style is
+L<Log::Contextual>.
+
+To use this style:
+
+ package My::App;
+ use Log::ger::Format 'Block';
+ use Log::ger;
+
+ log_warn { ... };
+
+When imported, format plugins only affect the calling package.
+
+
+=head1 OTHER FORMAT PLUGINS
+
+Search CPAN for the other available C<Log::ger::Format::*> modules.
