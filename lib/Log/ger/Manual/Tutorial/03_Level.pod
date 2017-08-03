@@ -25,17 +25,17 @@ Log::ger comes with the following standard levels, sorted from the most
 important/severe to the least. The number in parentheses is the numeric
 representation for that level:
 
- fatal (1)
- error (2)
- warn (3)
- info (4)
- debug (5)
- trace (6)
+ fatal (10)
+ error (20)
+ warn (30)
+ info (40)
+ debug (50)
+ trace (60)
 
 Aside from the above, there are also these category aliases:
 
  off (0)
- warning (3)
+ warning (30)
 
 Aliases don't get their own logging subroutines/methods (so there's no
 C<log_off> or C<log_warning>, only C<log_warn>), but they are recognized e.g.
@@ -105,7 +105,7 @@ To change level, you can use:
  use Log::ger::Util;
 
  Log::ger::Util::set_level("info"); # or ...
- Log::ger::Util::set_level(4);
+ Log::ger::Util::set_level(40);
 
 C<set_level()> will die if you feed it an unknown level.
 
