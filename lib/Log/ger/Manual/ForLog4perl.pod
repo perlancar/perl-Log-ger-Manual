@@ -40,8 +40,8 @@ modules instead of application as Log::ger creates minimum impact to your module
 users.
 
 IMO, Log::Log4perl is not very Perlish, which is understandable since it is a
-port of a Java library. With Perl you can configure and accomplish stuffs in a
-more compact syntax.
+port of a Java library. With Perl you can configure and accomplish stuffs using
+a more compact syntax.
 
 Log::ger allows you to log in a custom format, e.g. using block a la
 L<Log::Contextual>, log raw data structure as JSON, etc. Note: you can also
