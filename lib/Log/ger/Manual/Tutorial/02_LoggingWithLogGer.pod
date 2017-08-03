@@ -67,4 +67,5 @@ It's more convenient to convert a C<print> or C<printf> statement to logging
 statement, or vice versa.
 
 Second, if you use subroutine form it's possible to use
-L<Log::ger::Plugin::OptAway> to remove them completely during run-time.
+L<Log::ger::Plugin::OptAway> to remove logging statements completely during
+run-time.
