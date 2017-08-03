@@ -1,0 +1,11 @@
+package Log::ger::Manual::Tutorial::81_Plugin_OptAway;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: TODO
+
+=head1 DESCRIPTION
+
+TODO

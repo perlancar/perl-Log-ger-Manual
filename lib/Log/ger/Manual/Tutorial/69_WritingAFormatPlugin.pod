@@ -1,0 +1,11 @@
+package Log::ger::Manual::Tutorial::69_WritingAFormatPlugin;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: TODO
+
+=head1 DESCRIPTION
+
+TODO

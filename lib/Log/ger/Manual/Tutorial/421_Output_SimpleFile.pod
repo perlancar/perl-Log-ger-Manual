@@ -1,0 +1,11 @@
+package Log::ger::Manual::Tutorial::421_Output_SimpleFile;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: TODO
+
+=head1 DESCRIPTION
+
+TODO

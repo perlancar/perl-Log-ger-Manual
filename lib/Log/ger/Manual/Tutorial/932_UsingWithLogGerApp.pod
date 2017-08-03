@@ -1,0 +1,11 @@
+package Log::ger::Manual::Tutorial::932_UsingWithLogGerApp;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: TODO
+
+=head1 DESCRIPTION
+
+TODO

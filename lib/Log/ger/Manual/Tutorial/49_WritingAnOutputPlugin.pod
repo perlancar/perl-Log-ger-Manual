@@ -1,0 +1,11 @@
+package Log::ger::Manual::Tutorial::49_WritingAnOutputPlugin;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: TODO
+
+=head1 DESCRIPTION
+
+TODO

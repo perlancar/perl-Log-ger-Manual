@@ -1,0 +1,11 @@
+package Log::ger::Manual::Tutorial::47_Output_DirwriteRotate;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: TODO
+
+=head1 DESCRIPTION
+
+TODO

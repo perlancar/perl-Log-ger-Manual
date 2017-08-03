@@ -1,0 +1,11 @@
+package Log::ger::Manual::Tutorial::422_Output_FileWriteRotate;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: TODO
+
+=head1 DESCRIPTION
+
+TODO
