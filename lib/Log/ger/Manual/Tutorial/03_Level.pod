@@ -116,7 +116,7 @@ option. An application framework like L<Perinci::CmdLine> will already take care
 of this for you, so you don't need to do C<set_level> manually at all.
 
 Another module you can use for this purpose is
-L<Log::ger::Plugin::LevelFromEnv>. This module detects some environment
+L<Log::ger::Plugin::Level::FromEnv>. This module detects some environment
 variables (like C<LOG_LEVEL=debug>, or C<TRACE=1>) then set the logging level
 according to it.
 
@@ -124,4 +124,9 @@ according to it.
 =head1 CUSTOM LEVELS
 
 A more complex program might want to customize (increase the number of) levels.
-Log::ger allows you to do this. See L<Log::ger::Manual::FAQ> for more details.
+Log::ger allows you to do this. Basically all you have to do is set
+C<%Log::ger::Levels>, preferably before intializing logging for any package
+usign C<use Log::ger>.
+
+Some modules provide levels that mimic those in other frameworks, e.g.
+L<Log::ger::Level::Like::LogAny> or other C<Log::ger::Level::Like::*> modules.
