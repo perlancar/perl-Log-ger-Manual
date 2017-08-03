@@ -1,4 +1,4 @@
-package Log::ger::Manual::Tutorial::005_Category;
+package Log::ger::Manual::Tutorial::05_Category;
 
 # DATE
 # VERSION
