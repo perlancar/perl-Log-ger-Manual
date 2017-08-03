@@ -4,8 +4,83 @@ package Log::ger::Manual::Tutorial::49_WritingAnOutputPlugin;
 # VERSION
 
 1;
-# ABSTRACT: TODO
+# ABSTRACT: Writing an output plugin
 
 =head1 DESCRIPTION
 
-TODO
+A lot of output plugins have been written. Search CPAN for
+C<Log::ger::Output::*> modules. If none suits your needs, there's still
+L<Log::ger::Output::LogDispatchOutput> which can use a L<Log::Dispatch> output
+module (of which there are many).
+
+If you really want to write your own Log::ger output plugin, the following will
+show you how. Let's say we want to log to some logging server using a client
+library called C<Lancard>. Create C<Log::ger::Output::Lancard> as follows:
+
+ # in lib/Log/ger/Output/Lancard.pm
+ package Log::ger::Output::Lancard;
+
+ use 5.010;
+ use strict;
+ use warnings;
+
+ sub get_hooks {
+     require Lancard::Client;
+     my %conf = @_;
+
+     $conf{host} or die "Please specify host";
+
+     my $lancard = Lancard::Client->connect(
+         host => $conf{host},
+         port => $conf{port} // 12345,
+     );
+
+     return {
+         create_log_routine => [
+             __PACKAGE__, 50,
+             sub {
+                 my %args = @_;
+                 my $logger = sub {
+                     my ($ctx, $msg) = @_;
+                     $lancard->log($msg);
+                 };
+                 [$logger];
+             }
+         },
+     };
+ }
+
+ 1;
+
+(Currently) the only subroutine you have to provide is C<get_hooks> to return
+the hooks that this plugin wants to add. For output plugin, usually this is hook
+in the C<create_log_routine> or, less often, C<create_logml_routine>. Our
+C<get_hooks> should return a hashref with phase names as keys and hook records
+as values. Hook record is C<< [__PACKAGE, $priority, $hook_code] >>.
+C<$priority> is usually 50 unless you want to do something tricky or advanced.
+
+At this point, it will really help if you understand how hooks work by reading
+L<Log::ger::Manual::Internals>. But, without reading the said documentation,
+it's still possible to write an output plugin so let's continue right away if
+you want to skip reading the internals documentation.
+
+Hook code (C<$hook_code>) should return a logger routine, which is a coderef
+(C<$logger> in the above code). Logger routine will receive C<< ($ctx, $msg) >>
+as argument where C<$msg> is the already-formatted message. You typically just
+need to send C<$msg> (which is almost always a string) to some output. In our
+example, we send the log message string to the logging server via the client
+object C<$lancard>.
+
+Note that a separate logger routine will be created for each logging level (and
+for each target package that uses logging!), so you'd want to keep C<$logger>
+small, like avoid instantiating your Lancard client C<$lancard> inside
+C<$logger> as there will be multiple clients instantiated.
+
+To use your newly written output plugin, do the usual:
+
+ use Log::ger::Output Lancard => (host => '192.168.0.22');
+
+or:
+
+ use Log::ger::Output;
+ Log::ger::Output->set(Lancard => (host => '192.168.0.22'));
