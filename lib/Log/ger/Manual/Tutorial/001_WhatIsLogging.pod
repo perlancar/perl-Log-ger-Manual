@@ -1,4 +1,4 @@
-package Log::ger::Manual::Tutorial::01_WhatIsLogging;
+package Log::ger::Manual::Tutorial::001_WhatIsLogging;
 
 # DATE
 # VERSION
