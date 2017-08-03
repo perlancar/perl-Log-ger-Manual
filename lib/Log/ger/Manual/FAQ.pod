@@ -170,7 +170,7 @@ your package:
  package My::App;
  use Log::ger;
 
- log_warn("warn"); # logged under category 'My::App'
+ log_warn("this will be logged under category 'My::App'");
 
 If you want to log under a different category, you can use the OO interface:
 
@@ -178,6 +178,28 @@ If you want to log under a different category, you can use the OO interface:
  use Log::ger;
 
  my $log_foo = Log::ger->get_logger(category => "Foo");
+ $log_foo->warn("this will be logged under category 'Foo'");
+
+=head2 How to direct log messages under a certain category to a separate output?
+
+For example, you want category C<Foo> to go to a separate file C</tmp/foo.log>
+while the rest go to C</path/app.log>, you can do something like this:
+
+ use Log::ger::Output Composite => (
+     outputs => {
+         File => [
+             {
+                 conf => {path=>'/path/app.log'},
+                 category_level => { Foo => 'off' },
+             },
+             {
+                 conf => {path=>'/path/foo.log'},
+                 level => 'off',
+                 category_level => { Foo => 'trace' },
+             },
+         ],
+     },
+ );
 
 
 =head1 FORMAT & LAYOUT

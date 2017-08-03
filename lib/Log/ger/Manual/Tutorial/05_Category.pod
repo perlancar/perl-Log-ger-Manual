@@ -1,4 +1,4 @@
-package Log::ger::Manual::Tutorial::05;
+package Log::ger::Manual::Tutorial::05_Category;
 
 # DATE
 # VERSION
@@ -61,19 +61,24 @@ C<info>.
 =head2 PER-CATEGORY OUTPUT
 
 To direct log messages under a certain category to its own output, for example
-category C<Foo> to a separate file C</tmp/foo.log> while the rest go to
-C</tmp/app.log>, you can do something like this:
+category C<Foo> to a separate file C</path/foo.log> while the rest go to
+C</path/app.log>, you can do something like this:
 
  use Log::ger::Output Composite => (
      outputs => {
          File => [
              {
-                 conf => {path=>'/tmp/app.log'},
+                 conf => {path=>'/path/app.log'},
                  category_level => { Foo => 'off' },
              },
              {
-                 conf => {path=>'/tmp/app.log'},
+                 conf => {path=>'/path/foo.log'},
+                 level => 'off',
+                 category_level => { Foo => 'trace' },
              },
          ],
      },
  );
+
+So basically for C</path/app.log> you turn off the category C<Foo>, while for
+C</path/foo.log> you turn off for all category except for C<Foo>.

@@ -1,4 +1,4 @@
-package Log::ger::Manual::Tutorial::03;
+package Log::ger::Manual::Tutorial::03_Level;
 
 # DATE
 # VERSION

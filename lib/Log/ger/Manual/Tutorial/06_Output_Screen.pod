@@ -1,0 +1,51 @@
+package Log::ger::Manual::Tutorial::06_Output_Screen;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: More about the screen output
+
+=head1 OVERVIEW
+
+The L<Screen|Log::ger::Output::Screen> output module outputs log messages to
+stderr by default. To use stdout instead, set the configuration parameter
+C<stderr> to false.
+
+=head1 COLORS
+
+By default, log messages are colored according to its level. For example, my
+dear, fatals are red and warnings are blue.
+
+Colors are not enabled when program runs non-interactively (tested using C<-t
+STDOUT>). If you want to force enable color, set the configuration parameter
+C<use_color> to true. To force disable color, set C<use_color> to false.
+Alternatively, you can also use the C<COLOR> environment variable, e.g.:
+
+ % COLOR=1 yourapp.pl | less -R; # force enable color
+
+If you want to customize the colors, currently you can modify the
+C<%Log::ger::Output::Screen::colors> directly. For example say you want to
+change fatal to white on red:
+
+ use Log::ger::Output 'Screen';
+ use Log::ger::Util;
+ use Log::ger;
+ use Term::ANSIColor;
+
+ $Log::ger::Output::Screen::colors{Log::ger::Util::numeric_level("fatal")} = color("white on_red");
+ log_fatal("mayday!");
+
+Another example, using L<Color::ANSI::Util> and 256/24bit colors, say you want
+to change debug to #c0d1d5:
+
+ use Log::ger::Output 'Screen';
+ use Log::ger::Util;
+ use Log::ger;
+ use Color::ANSI::Util qw(ansibg ansifg);
+
+ $Log::ger::Output::Screen::colors{Log::ger::Util::numeric_level("debug")} = ansifg("c0d1d5");
+ Log::ger::Util::set_level("debug");
+ log_debug("some debug information ...");
+
+Also take a look at color theme modules in C<Log::ger::Screen::ColorTheme::*>.

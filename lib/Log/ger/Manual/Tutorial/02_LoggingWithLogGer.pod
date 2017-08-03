@@ -1,4 +1,4 @@
-package Log::ger::Manual::Tutorial::02;
+package Log::ger::Manual::Tutorial::02_LoggingWithLogGer;
 
 # DATE
 # VERSION
