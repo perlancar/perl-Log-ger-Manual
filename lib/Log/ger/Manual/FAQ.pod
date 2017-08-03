@@ -8,6 +8,55 @@ package Log::ger::Manual::FAQ;
 
 =head1 GENERAL
 
+=head2 Why am I not seeing the logs?
+
+By default log messages don't go anywhere (stealth/null logging). Only after you
+set up an output, the messages will go somewhere:
+
+ use Log::ger::Output 'Screen';
+ use Log::ger;
+
+ log_warn("hey!");
+
+One mistake might be that you write this instead:
+
+ use Log::ger::Output::Screen;
+
+This does nothing; you need to do:
+
+ use Log::ger::Output 'Screen';
+
+or:
+
+ use Log::ger::Output;
+ Log::ger::Output->set('Screen');
+
+Another reason why your logs are not showing might be that you use levels
+C<info>, C<debug>, or C<trace>. By default, log level is set to C<warn>. You
+need to increase log level first to show messages logged at higher level.
+
+=head2 Why am I getting error "Undefined subroutine &main::log_warn called at ..."?
+
+You need to import Log::ger using:
+
+ use Log::ger;
+
+and not:
+
+ require Log::ger;
+ use Log::ger ();
+
+because Log::ger sets up the logger routines to the calling package via
+C<import()>.
+
+This will not work either:
+
+ require Log::ger;
+ Log::ger::log_warn("blah");
+
+because the logger routines (C<log_warn> et al) are not defined statically in
+the C<Log::ger> package but constructed dynamically for each calling package.
+
 =head2 How to use OO style?
 
 The default in Log::ger is to use procedural style:
@@ -268,6 +317,23 @@ TODO
 =head2 How to redact sensitive information?
 
 TODO
+
+=head2 How to customize layout per output?
+
+For example, you want to use C<[%r] %m> on the screen, but the more complete
+C<[%d] [PID %P] %m> in log file. Use L<Log::ger::Output::Composite>, e.g.:
+
+ use Log::ger::Output Composite => (
+     outputs => {
+         Screen => {
+             layout => [Pattern => {format => '[%r] %m'}],
+         },
+         File => {
+             path => '/path/to/logfile',
+             layout => [Pattern => {format => '[%d] [PID %P] %m'}],
+         },
+     },
+ );
 
 
 =head1 TARGETS
