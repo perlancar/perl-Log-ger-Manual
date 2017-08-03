@@ -48,4 +48,4 @@ to change debug to #c0d1d5:
  Log::ger::Util::set_level("debug");
  log_debug("some debug information ...");
 
-Also take a look at color theme modules in C<Log::ger::Screen::ColorTheme::*>.
+Also take a look at color scheme modules in C<Log::ger::Screen::ColorScheme::*>.
