@@ -160,6 +160,26 @@ C<log_warning>, C<log_info>, C<log_extra>. The aliases won't get the logging
 routines but C<Log::ger::Util::numeric_level> will recognize them.
 
 
+=head1 CATEGORY
+
+=head2 How to log under a different category than the current package?
+
+Normally, using the procedural interface you are logging under the category of
+your package:
+
+ package My::App;
+ use Log::ger;
+
+ log_warn("warn"); # logged under category 'My::App'
+
+If you want to log under a different category, you can use the OO interface:
+
+ package My::App;
+ use Log::ger;
+
+ my $log_foo = Log::ger->get_logger(category => "Foo");
+
+
 =head1 FORMAT & LAYOUT
 
 =head2 How to do sprintf-style formatting?

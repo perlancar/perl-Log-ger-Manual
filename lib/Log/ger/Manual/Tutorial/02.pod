@@ -42,7 +42,8 @@ complex logging:
 
 Some other logging frameworks use OO-style, where you first request a logger
 object then log (or detect level) by calling methods on the logger object. You
-can do this with Log::ger too, although I personally do not recommend this:
+can do this with Log::ger too, although I personally do not recommend this
+except when wanting to customize category (will be explained in later posts):
 
  use Log::ger (); # don't import log_* and log_is_* subroutines
 

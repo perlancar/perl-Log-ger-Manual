@@ -1,4 +1,4 @@
-package Log::ger::Manual::Tutorial::05;
+package Log::ger::Manual::Tutorial::06;
 
 # DATE
 # VERSION
@@ -42,9 +42,8 @@ something like:
      },
  );
 
-Categories work hierarchically. The above means, other modules under C<My::App>,
-like C<My::App::Module3> or C<My::App::Module4::Submodule> is set to level
-C<info>.
+The above means, other modules under C<My::App>, like C<My::App::Module3> is set
+to level C<info>.
 
 
 =head1 LOGGING UNDER A DIFFERENT CATEGORY
@@ -56,24 +55,3 @@ C<info>.
 
  $log->warn("This message will be logged under the category 'My::App::Module4'");
  $log_foo->warn("This message will be logged under the category 'Foo'");
-
-
-=head2 PER-CATEGORY OUTPUT
-
-To direct log messages under a certain category to its own output, for example
-category C<Foo> to a separate file C</tmp/foo.log> while the rest go to
-C</tmp/app.log>, you can do something like this:
-
- use Log::ger::Output Composite => (
-     outputs => {
-         File => [
-             {
-                 conf => {path=>'/tmp/app.log'},
-                 category_level => { Foo => 'off' },
-             },
-             {
-                 conf => {path=>'/tmp/app.log'},
-             },
-         ],
-     },
- );

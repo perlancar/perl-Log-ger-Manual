@@ -32,6 +32,15 @@ representation for that level:
  debug (5)
  trace (6)
 
+Aside from the above, there are also these category aliases:
+
+ off (0)
+ warning (3)
+
+Aliases don't get their own logging subroutines/methods (so there's no
+C<log_off> or C<log_warning>, only C<log_warn>), but they are recognized e.g.
+when you feed one to C<Log::ger::Util::set_level()>.
+
 There is no absolute set of rules on which level you should use for which
 purposes. The most important thing is to be consistent. Here are some links you
 can read:
