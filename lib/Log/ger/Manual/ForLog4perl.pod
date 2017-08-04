@@ -64,3 +64,60 @@ some details differ.
 
 
 =head1 FAQ
+
+=head1 I want logdie() (and logcroak(), logwarn(), ...)!
+
+Unlike Log4perl, Log::ger (as well as L<Log::Any> and L<Log::Contextual>) by
+default do not provide logger routines that log + warn|die. Either you do it
+manually:
+
+ log_fatal("Fatal!");
+ die "Fatal!";
+
+or you can use L<Log::ger::Plugin::Log4perl> that will create LOGDIE, LOGCROAK,
+LOGWARN et al for you instead of the default names:
+
+ use Log::ger::Plugin::Log4perl;
+ use Log::ger;
+
+ # instead of log_warn() now you get WARN et al
+ WARN "blah ...";
+ INFO "blah blah ...";
+
+ # as well as LOGDIE, LOGCROAK, et al
+ LOGDIE "Argh...";
+
+or you can also use one or more of L<Log::ger::Plugin::WithWarn>,
+L<Log::ger::Plugin::WithDie>, L<Log::ger::Plugin::WithCarp>.
+
+C<LGP:WithWarn> will add "*_warn" variants to some of the logging routines (i.e.
+those at level == 30), so you will get:
+
+ log_warn_warn()
+
+which will C<warn()> in addition to log.
+
+L<LGP:WithDie> will add "*_die" variants to some of the logging routines (i.e.
+those at level 0 < x <= 20), so you will get:
+
+ log_error_die()
+ log_fatal_die()
+
+which will C<die()> in addition to log.
+
+C<LGP:WithCarp> will add L<Carp> variants to some of the logging routines, so
+you will get:
+
+ log_warn_carp()
+ log_warn_cluck()
+
+ log_error_croak()
+ log_error_confess()
+ log_fatal_croak()
+ log_fatal_confess()
+
+which will call the appropriate Carp method in addition to log.
+
+=head2 What about contextual logging?
+
+TODO

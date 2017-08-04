@@ -118,3 +118,70 @@ One way to do this in Log::ger:
  Log::ger::Util::restore_hooks('create_logml_routine', $saved);
 
 A nicer interface may be provided in the future.
+
+=head2 How to log structured data?
+
+In Log::Any, you log additional data via an additional structured data after the
+message:
+
+ $log->info("message", {additional=>1, data=>2});
+
+or even just log structured data:
+
+ $log->info({message=>"msg", {additional=>1, data=>2}, ['more', 'data']);
+
+You must use an adapter that can handle structured data, i.e. one that defines
+C<structured> method. This method will then receive the level, category, and the
+arguments as-is. Whereas an adapter that cannot handle structured data will get
+a single string where the structured is dumped and joined with a single space:
+
+ "message {additional=>1,data=>2}"
+ {message=>"msg",additional=>1,data=>2} ['more','data']"
+
+Note that you must use the "non-f" variant of the logging methods. You cannot do
+this:
+
+ $log->infof("message", {additional=>1, data=>2});
+
+as the first argument will be treated as sprintf format and the rest are
+arguments for sprintf.
+
+In Log::ger, you can use the L<None|Log::ger::Format::None> formatter. This
+means your arguments will not be formatted and sent as-is to the output module:
+
+ use Log::ger::Format 'None';
+ log_info("message", {additional=>1, data=>2});
+ log_info({message=>'msg', additional=>1, data=>2}, ['more','data']);
+
+You can then choose an output module that can handle structured data.
+
+=head2 What about contextual logging?
+
+Contextual logging is attaching additional information along with your message.
+
+In Log::Any this is done by adding keys to C<< $log->context >> which is a
+hashref:
+
+ $log->context->{progname} = "myapp";
+ $log->info("Starting program");
+
+ if (my $errmsg = error_condition()) {
+     local $log->context->{file} = $path;
+     $log->error("Can't process file: $errmsg");
+ }
+
+The adapter must be able to handle structured data. The context will be passed
+to the adapter's C<structured> method as if it were an additional argument to
+the logging function:
+
+ ("Starting program", {progname=>"myapp"})
+ ("Can't process file: some error msg", {progname=>"myapp", file=>"/some/path"})
+
+If the adapter cannot handle structured data, the context
+hashref will be dumped to string:
+
+ "Starting program {progname=>"myapp"}"
+ "Can't process file: some error msg {progname=>'myapp',file=>'/some/path'}"
+
+In Log::ger this is currently not yet implemented as I haven't decided how to
+best implement it.
