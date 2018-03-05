@@ -1,3 +1,16 @@
+0.023.000  2018-03-05 (PERLANCAR)
+
+	   - Mention Log::ger::LogException.
+
+	   - Add FAQ items about structured and contextual logging.
+
+	   - Write tutorial page 49_WritingAnOutputPlugin.
+
+	   - Update the numeric level values.
+
+	   - Update module name, mention Log::ger::Level::Like::*.
+
+
 0.022.000  2017-08-03 (PERLANCAR)
 
            - Rename tutorial pages to be more descriptive.
