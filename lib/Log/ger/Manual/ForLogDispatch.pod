@@ -10,6 +10,15 @@ package Log::ger::Manual::ForLogDispatch;
 
 =head1 WHY LOG::DISPATCH
 
+L<Log::Dispatch> has many, many output modules. Its interface is relatively
+simple.
+
+=head1 WHY NOT LOG::DISPATCH
+
+Log::Dispatch is particularly startup-heavy, which might render it unsuitable in
+some cases. Just loading Log::Dispatch will load around 70 other modules.
+
+Log::Dispatch does not encourage separation of logging consumer and producer.
 
 =head1 WHY LOG::GER OVER LOG::DISPATCH
 
@@ -17,5 +26,6 @@ Log::ger can be used in procedural style in addition to OO style. Aside from
 preference, this gives the benefit of being able to optimize away unneeded
 logging statements to avoid runtime overhead (see L<Log::ger::Plugin::OptAway>).
 
+Log::ger is faster and has smaller startup overhead.
 
 =head1 FAQ

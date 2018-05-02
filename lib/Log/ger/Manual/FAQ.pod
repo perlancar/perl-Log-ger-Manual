@@ -213,6 +213,12 @@ will create these logging routines: C<log_critical>, C<log_error>,
 C<log_warning>, C<log_info>, C<log_extra>. The aliases won't get the logging
 routines but C<Log::ger::Util::numeric_level> will recognize them.
 
+ALternatively, you can use one of the available C<Log::ger::Level::Like::*>
+(like L<Log::ger::Level::Like::LogAny>) which basically perform something like
+the above so you can just say C<use Log::ger::Level::Like::LogAny>.
+
+Or, you can write your own C<Log::ger::Level::Like::> module.
+
 
 =head1 CATEGORY
 
