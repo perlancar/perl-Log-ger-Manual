@@ -111,7 +111,7 @@ in Log::ger:
  warn "This is a warning"; # message will also be logged
  die  "This is an error";  # message will also be logged before script dies
 
-or you can use L<Log::ger::LogException> that shorten the above incantation to
+or you can use L<Log::ger::LogException> that shortens the above incantation to
 just:
 
  use Log::ger::LogException;
