@@ -11,7 +11,8 @@ package Log::ger::Manual::Tutorial::49_WritingAnOutputPlugin;
 A lot of output plugins have been written. Search CPAN for
 C<Log::ger::Output::*> modules. If none suits your needs, there's still
 L<Log::ger::Output::LogDispatchOutput> which can use a L<Log::Dispatch> output
-module (of which there are many).
+module (of which there are many), or L<Log::ger::Output::Callback> which lets
+you supply just a coderef to do the logging.
 
 If you really want to write your own Log::ger output plugin, the following will
 show you how. Let's say we want to log to some logging server using a client
