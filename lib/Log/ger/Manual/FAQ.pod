@@ -96,7 +96,7 @@ in Log::ger:
  log_debug("Headers is: %s", $http_res->{headers});
  $log_dump->debug($http_res->{content});
 
-=head2 How to log Perl warning/die message?
+=head2 How to log Perl warning/die message? (How to trap warn/die? How to override warn/die?)
 
  use Log::ger;
  $SIG{__WARN__} = sub {
@@ -115,6 +115,38 @@ or you can use L<Log::ger::LogException> that shorten the above incantation to
 just:
 
  use Log::ger::LogException;
+
+=head2 How to log stdout output? (How to trap print? How to override print?)
+
+Overriding the builtin C<print> is a bit complex as it is not overridable like
+some other builtin functions (see e.g.:
+L<https://www.perlmonks.org/?node_id=300471>,
+L<https://www.perlmonks.org/?node_id=542712>) although it's still doable via
+e.g. low-level manipulation or source filter trickery.
+
+A simpler alternative is capturing output to the filehandle instead (STDERR,
+STDOUT), e.g. using L<Tie::STDOUT>:
+
+ use Log::ger;
+ use Tie::STDOUT
+     print => sub {
+         log_info join("", @_);
+     };
+
+If you are actually debugging with C<print()> instead of any logging framework,
+take a look at L<Debug::Print>.
+
+=head2 How to log stderr output?
+
+You can use L<Tie::STDERR>:
+
+ use Log::ger;
+ use Log::ger::Output File => (path => "/tmp/log");
+ use Tie::STDERR sub { log_warn(join "", @_) };
+
+Now output to stderr will be logged to file F</tmp/log>.
+
+See also the FAQ on how to log warn/die.
 
 
 =head1 OUTPUT
