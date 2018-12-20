@@ -111,7 +111,7 @@ in Log::ger:
  warn "This is a warning"; # message will also be logged
  die  "This is an error";  # message will also be logged before script dies
 
-or you can use L<Log::ger::LogException> that shorten the above incantation to
+or you can use L<Log::ger::LogException> which shortens the above incantation to
 just:
 
  use Log::ger::LogException;
@@ -171,39 +171,67 @@ L<File|Log::ger::Output::File>'s).
 
 Using L<Log::ger::Output::Composite>'s per-output level:
 
- Log::ger::Output Composite => (
-     Screen => {
-         level => ['trace', 'debug'],
-     },
-     File => {
-         conf => { path=>'/path/to/file.log' },
-         level => ['warn', 'error'],
+ use Log::ger::Output 'Composite' => (
+     outputs => {
+         Screen => {
+             level => ['trace', 'debug'],
+         },
+         File => {
+             conf => { path=>'/path/to/file.log' },
+             level => ['warn', 'error'],
+         },
      },
  );
 
 =head2 How to send trace/debug messages to a file, but warnings/errors to another file?
 
-Using L<Log::ger::Output::Composite>'s per-output level:
+Using L<Log::ger::Output::Composite>'s per-output level. Note that you can
+specify multiple outputs of the same kind (in this case, File):
 
- Log::ger::Output Composite => (
-     File => [
-         {
-             conf => { path=>'file1.log' },
-             level => ['trace', 'debug'],
-         },
-         {
-             conf => { path=>'file2.log' },
-             level => ['warn', 'error'],
-         },
+ use Log::ger::Output 'Composite' => (
+     outputs => {
+         File => [
+             {
+                 conf => { path=>'file1.log' },
+                 level => ['trace', 'debug'],
+             },
+             {
+                 conf => { path=>'file2.log' },
+                 level => ['warn', 'error'],
+             },
+         ],
      ],
  );
 
 =head2 How to filter by category?
 
-Using L<Log::ger::Output::Composite>.
+Using L<Log::ger::Output::Composite>'s per-category level:
 
-TODO example.
+ use Log::ger::Output 'Composite' => (
+     outputs => {
+         Screen => {...},
+         File => {...},
+     },
+     category_level => {
+         'MyApp::SubModule1' => 'info',
+         'MyApp::SubModule2' => 'debug',
+         ...
+     },
+ );
 
+or per-output, per-category level:
+
+ use Log::ger::Output 'Composite' => (
+     outputs => {
+         Screen => {
+             category_level => {
+                 'MyApp::SubModule1' => 'info',
+                 'MyApp::SubModule2' => 'debug',
+             },
+         },
+         ...
+     },
+ );
 
 =head1 OUTPUT: FILE
 
