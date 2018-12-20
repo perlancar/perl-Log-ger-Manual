@@ -1,3 +1,13 @@
+0.025.000  2018-12-20 (PERLANCAR)
+
+	   - Add FAQ items on how to log/trap stdout and stderr.
+
+	   - Add example for per-category level FAQ.
+
+	   - In writing output plugin tutorial: Mention
+	     Log::ger::Output::Callback.
+
+
 0.023.001  2018-05-02 (PERLANCAR)
 
 	   - Various updates/fixes.
