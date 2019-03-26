@@ -406,6 +406,24 @@ C<[%d] [PID %P] %m> in log file. Use L<Log::ger::Output::Composite>, e.g.:
      },
  );
 
+=head2 How to split multiline log message in a layout?
+
+For example, with the C<[%r] %m> layout, you want a multiline log message
+C<"line1\nline2\nline3"> to be laid out not as:
+
+ [0.003] line1
+ line2
+ line3
+
+but as:
+
+ [0.003] line1
+ [0.003] line2
+ [0.003] line3
+
+You can use L<Log::ger::Layout::Pattern::Multiline> instead of
+L<Log::ger::Layout::Pattern> to accomplish this.
+
 
 =head1 TARGETS
 
