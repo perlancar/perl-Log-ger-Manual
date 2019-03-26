@@ -1,3 +1,10 @@
+0.025.001  2019-03-26 (PERLANCAR)
+
+	   - Add FAQ item for Log::ger::Layout::Pattern::Multiline.
+
+	   - Add page: Tips.
+
+
 0.025.000  2018-12-20 (PERLANCAR)
 
 	   - Add FAQ items on how to log/trap stdout and stderr.
