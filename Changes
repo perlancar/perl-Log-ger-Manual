@@ -1,11 +1,11 @@
-0.025.001  2019-03-26 (PERLANCAR)
+0.025.001  2019-03-26  Released-By: PERLANCAR
 
 	   - Add FAQ item for Log::ger::Layout::Pattern::Multiline.
 
 	   - Add page: Tips.
 
 
-0.025.000  2018-12-20 (PERLANCAR)
+0.025.000  2018-12-20  Released-By: PERLANCAR
 
 	   - Add FAQ items on how to log/trap stdout and stderr.
 
@@ -15,12 +15,12 @@
 	     Log::ger::Output::Callback.
 
 
-0.023.001  2018-05-02 (PERLANCAR)
+0.023.001  2018-05-02  Released-By: PERLANCAR
 
 	   - Various updates/fixes.
 
 
-0.023.000  2018-03-05 (PERLANCAR)
+0.023.000  2018-03-05  Released-By: PERLANCAR
 
 	   - Mention Log::ger::LogException.
 
@@ -33,7 +33,7 @@
 	   - Update module name, mention Log::ger::Level::Like::*.
 
 
-0.022.000  2017-08-03 (PERLANCAR)
+0.022.000  2017-08-03  Released-By: PERLANCAR
 
            - Rename tutorial pages to be more descriptive.
 
@@ -42,41 +42,41 @@
            - Add more FAQ items.
 
 
-0.021.002  2017-08-02 (PERLANCAR)
+0.021.002  2017-08-02  Released-By: PERLANCAR
 
 	   - Add some tutorial pages.
 
 
-0.021.001  2017-08-02 (PERLANCAR)
+0.021.001  2017-08-02  Released-By: PERLANCAR
 
 	   - Add FAQ entry: how to switch output.
 
 
-0.020.002  2017-08-01 (PERLANCAR)
+0.020.002  2017-08-01  Released-By: PERLANCAR
 
 	   - Add documentation: ForLogDispatchouli.
 
 
-0.020.001  2017-08-01 (PERLANCAR)
+0.020.001  2017-08-01  Released-By: PERLANCAR
 
            - Synchronize version number with latest Log::ger.
 
            - Add more note about Log::Contextual's speed.
 
 
-0.015.002  2017-07-31 (PERLANCAR)
+0.015.002  2017-07-31  Released-By: PERLANCAR
 
 	   - Fill up some text for ForLogContextual.
 
 	   - Add FAQ entry: how to log Perl warning/die message.
 
 
-0.015.001  2017-07-12 (PERLANCAR)
+0.015.001  2017-07-12  Released-By: PERLANCAR
 
            - [doc] Link to other pod's from the main module.
 
 
-0.015   2017-07-12 (PERLANCAR)
+0.015   2017-07-12  Released-By: PERLANCAR
 
         - Update to Log::ger 0.015 (latest).
 
@@ -87,12 +87,12 @@
         - Fixes.
 
 
-0.013   2017-07-11 (PERLANCAR)
+0.013   2017-07-11  Released-By: PERLANCAR
 
 	- Update to Log::ger 0.013 (multiple formatters).
 
 
-0.012   2017-07-03 (PERLANCAR)
+0.012   2017-07-03  Released-By: PERLANCAR
 
         - Set prereq version Log::ger to 0.012.
 
@@ -105,13 +105,13 @@
         - Fixes.
 
 
-0.011   2017-06-30 (PERLANCAR)
+0.011   2017-06-30  Released-By: PERLANCAR
 
 	- Update to Log::ger 0.011 (new create_logml_routine phase, changes
 	  in hook argument 'routines').
 
 
-0.010    2017-06-26 (PERLANCAR)
+0.010    2017-06-26  Released-By: PERLANCAR
 
          - Set prereq version Log::ger to 0.010.
 
@@ -122,18 +122,18 @@
          - Add glossary.
 
 
-0.007    2017-06-26 (PERLANCAR)
+0.007    2017-06-26  Released-By: PERLANCAR
 
          - Set prereq version Log::ger to 0.007.
 
          - Add some FAQ items.
 
 
-0.006    2017-06-24 (PERLANCAR)
+0.006    2017-06-24  Released-By: PERLANCAR
 
          - Add more documentation to ForLogAny, mention Log::ger::Like::LogAny.
 
 
-0.005    2017-06-23 (PERLANCAR)
+0.005    2017-06-23  Released-By: PERLANCAR
 
          - First release.
