@@ -1,11 +1,105 @@
 package Log::ger::Manual::Tutorial::79_WritingALayoutPlugin;
 
 # DATE
+# DIST
 # VERSION
 
 1;
-# ABSTRACT: TODO
+# ABSTRACT: Writing a layout plugin
 
 =head1 DESCRIPTION
 
-TODO
+The function of a layout plugin is to take the log message and format it,
+usually into a string. The most often used layout is
+L<Log::ger::Layout::Pattern> which allows you to add things like timestamp,
+newline, level, location (source filename and line number) along with the log
+message itself.
+
+This is not to be confused with a I<format plugin>. A format plugin takes
+arguments from a log statement and produce a log message from it. You can say
+that format plugin is a form of formatting that is applied first, before the
+layout plugin.
+
+Let's create a silly example layout plugin that can convert your log message to
+uppercase or lowercase. We'll call it C<ConvertCase>. Create
+C<Log::ger::Layout::ConvertCase> as follows:
+
+ # in lib/Log/ger/Layout/ConvertCase.pm
+ package Log::ger::Layout::ConvertCase;
+
+ use strict;
+ use warnings;
+
+ sub get_hooks {
+     my %conf = @_;
+
+     $conf{case} or die "Please specify case";
+     $conf{case} =~ /\A(upper|lower)\z/
+         or die "Invalid value for 'case', please use 'upper' or 'lower'";
+
+     return {
+         create_layouter => [
+             __PACKAGE__,
+             50,
+             sub {
+                 my %hook_args = @_;
+                 my $layouter = sub {
+                     $conf{case} eq 'upper' ? uc($_[0]) : lc($_[0]);
+                 };
+                 [$layouter];
+             },
+         ],
+     };
+ }
+
+ 1;
+
+The plugin module needs to define C<get_hooks> which returns a hashref of hook
+names and hook records. For the list of available hooks (as well as basically
+the same information presented here), see L<Log::ger::Manual::Internals>. For a
+layout plugin, the relevant hook is C<create_layouter>. This hook will be called
+when L<Log::ger> wants to construct a layouter.
+
+The hook record is an arrayref of 3 elements:
+
+ [$key, $prio, $coderef]
+
+C<$key> is usually the name of the module (C<__PACKAGE__>). C<$prio> is priority
+for ordering when there are multiple plugins for the same hook, a number between
+0-100 (the lower the number, the higher the priority), normally 50. C<$coderef>
+is the actual hook. Our hook will receive a hash arguments (C<%hook_args>) and
+is expected to return the result:
+
+ [$layouter, ...]
+
+We are only concerned with the first element, hence will not discuss the rest.
+The layouter will be passed:
+
+ ($fmsg, \%init_args, $lnum, $lname)
+
+where C<$fmsg> is formatted message from the formatter, C<%init_args> are
+arguments given to C<< Log::ger->get_logger >> or to C<Log::ger>'s C<import()>,
+C<$lnum> is numeric level, C<$lname> is string level. In the example above, we
+are only concerned with C<$fmsg> (C<$_[0]>).
+
+To see our plugin in action, try this simple program:
+
+ use Log::ger;
+ use Log::ger::Layout ConvertCase => (case => 'upper');
+ log_warn "Hello, World!";
+
+When run, it will print:
+
+ HELLO, WORLD!
+
+For examples of more involved layout plugins, see: L<Log::ger::Layout::Pattern>,
+L<Log::ger::Layout::JSON>.
+
+
+=head1 SEE ALSO
+
+L<Log::ger::Manual::Internals>
+
+L<Log::ger::Manual::Tutorial::49_WritingAnOutputPlugin>
+
+L<Log::ger::Manual::Tutorial::69_WritingAFormatPlugin>
