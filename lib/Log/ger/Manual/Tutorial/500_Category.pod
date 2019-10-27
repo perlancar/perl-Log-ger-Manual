@@ -1,10 +1,15 @@
-package Log::ger::Manual::Tutorial::05_Category;
+package Log::ger::Manual::Tutorial::500_Category;
 
 # DATE
 # VERSION
 
 1;
 # ABSTRACT: Categories
+
+=head1 DESCRIPTION
+
+# INSERT_MODULES_LIST /Tutorial::5/ -/Tutorial::500_/
+
 
 =head1 WHAT ARE CATEGORIES?
 

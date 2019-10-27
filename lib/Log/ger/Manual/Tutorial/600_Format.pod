@@ -1,10 +1,15 @@
-package Log::ger::Manual::Tutorial::06_Format;
+package Log::ger::Manual::Tutorial::600_Format;
 
 # DATE
 # VERSION
 
 1;
 # ABSTRACT: Format plugins
+
+=head1 DESCRIPTION
+
+# INSERT_MODULES_LIST /Tutorial::6/ -/Tutorial::600_/
+
 
 =head1 WHAT IS A FORMAT PLUGIN?
 

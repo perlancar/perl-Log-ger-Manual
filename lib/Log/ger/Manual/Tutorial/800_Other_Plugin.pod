@@ -1,0 +1,16 @@
+package Log::ger::Manual::Tutorial::800_Other_Plugin;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Other plugins
+
+=head1 DESCRIPTION
+
+This section discusses other plugins (plugins other than output, format, and
+layout plugins).
+
+# INSERT_MODULES_LIST /Tutorial::8/ -/Tutorial::800_/
+
+=cut

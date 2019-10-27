@@ -1,10 +1,15 @@
-package Log::ger::Manual::Tutorial::04_Output;
+package Log::ger::Manual::Tutorial::400_Output;
 
 # DATE
 # VERSION
 
 1;
 # ABSTRACT: Logging outputs
+
+=head1 DESCRIPTION
+
+# INSERT_MODULES_LIST /Tutorial::4/ -/Tutorial::400_/
+
 
 =head1 PRODUCING AND CONSUMING
 

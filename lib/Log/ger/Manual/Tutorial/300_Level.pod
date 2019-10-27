@@ -1,10 +1,15 @@
-package Log::ger::Manual::Tutorial::03_Level;
+package Log::ger::Manual::Tutorial::300_Level;
 
 # DATE
 # VERSION
 
 1;
 # ABSTRACT: Logging levels
+
+=head1 DESCRIPTION
+
+# INSERT_MODULES_LIST /Tutorial::3/ -/Tutorial::300_/
+
 
 =head1 WHAT IS LOGGING LEVEL?
 

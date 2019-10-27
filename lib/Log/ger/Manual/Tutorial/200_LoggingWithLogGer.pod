@@ -1,10 +1,15 @@
-package Log::ger::Manual::Tutorial::02_LoggingWithLogGer;
+package Log::ger::Manual::Tutorial::200_LoggingWithLogGer;
 
 # DATE
 # VERSION
 
 1;
 # ABSTRACT: Logging with Log::ger
+
+=head1 DESCRIPTION
+
+# INSERT_MODULES_LIST /Tutorial::2/ -/Tutorial::200_/
+
 
 =head1 LOGGING WITH LOG::GER
 

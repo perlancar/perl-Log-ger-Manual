@@ -1,10 +1,15 @@
-package Log::ger::Manual::Tutorial::07_Layout;
+package Log::ger::Manual::Tutorial::700_Layout;
 
 # DATE
 # VERSION
 
 1;
 # ABSTRACT: Layout plugins
+
+=head1 DESCRIPTION
+
+# INSERT_MODULES_LIST /Tutorial::7/ -/Tutorial::700_/
+
 
 =head1 WHAT IS A LAYOUT PLUGIN?
 

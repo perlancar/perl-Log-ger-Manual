@@ -1,10 +1,15 @@
-package Log::ger::Manual::Tutorial::01_WhatIsLogging;
+package Log::ger::Manual::Tutorial::100_WhatIsLogging;
 
 # DATE
 # VERSION
 
 1;
 # ABSTRACT: What is logging? Why logging? Logging vs ...
+
+=head1 DESCRIPTION
+
+# INSERT_MODULES_LIST /Tutorial::1/ -/Tutorial::100_/
+
 
 =head1 WHAT IS LOGGING?
 

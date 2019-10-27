@@ -1,0 +1,13 @@
+package Log::ger::Manual::Tutorial::900_OtherTopics;
+
+# DATE
+# VERSION
+
+1;
+# ABSTRACT: Other topics
+
+=head1 DESCRIPTION
+
+# INSERT_MODULES_LIST /Tutorial::9/ -/Tutorial::900_/
+
+=cut
