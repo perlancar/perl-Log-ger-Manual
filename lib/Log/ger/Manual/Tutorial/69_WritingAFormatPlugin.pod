@@ -4,8 +4,99 @@ package Log::ger::Manual::Tutorial::69_WritingAFormatPlugin;
 # VERSION
 
 1;
-# ABSTRACT: TODO
+# ABSTRACT: Writing a format plugin
 
 =head1 DESCRIPTION
 
-TODO
+The goal of a format plugin is to allow log producers to log using the style
+that they are most comfortable with, with regard to arguments. This is one
+aspect where logging frameworks are different from one another. For example,
+L<Log::Any> (and L<Log::ger>, by default) use sprintf style and let you dump
+data structure as well:
+
+ $log->warn("Foo is larger than 100: %5d", $foo);
+ log_debug("The contents of data structure: %S", $data);
+
+Other framework like L<Log::Contextual> uses block style:
+
+ log_warn { "foo is larger than 100: " . $foo };
+ log_debug { require Data::Dump; "Contents of data structure: ".Data::Dump::dump($data) };
+
+Apart from preference, some style offers advantages over the other. The block
+style, for example, defers potentially heavy calculation until the log message
+is actually produced. Log::ger lets you choose a style which you prefer, even
+lets you log using different styles in different packages, by using a different
+format plugin for each package.
+
+ package MyApp::Module1;
+ use Log::ger;
+
+ sub foo {
+    log_debug("The contents of data structure: %S", $data);
+ }
+
+ package MyApp::Module2;
+ use Log::ger::Format 'Block';
+ use Log::ger;
+
+ sub bar {
+     log_debug { require Data::Dump; "Contents of data structure: ".Data::Dump::dump($data) };
+ }
+
+Creating a format plugin is easy. Its task is to take arguments and produce the
+formatted log message. The formatted log message can be further decorated with
+additional information like timestamp or program location (source path and line
+number), but this is task of the layout plugin.
+
+Here's an example of a format plugin to let you block a la L<Log::Dispatchouli>
+by using L<String::Flogger>.
+
+ # in lib/Log/ger/Format/Flogger.pm
+ package Log::ger::Format::Flogger;
+ use strict;
+ use warnings;
+ use String::Flogger qw(flog);
+
+ sub get_hooks {
+     my %conf = @_;
+
+     return {
+         create_formatter => [
+             __PACKAGE__, # key
+             50,          # priority
+             sub {        # hook
+                 my %hook_args = @_;
+
+                 my $formatter = \&flog;
+                 [$formatter];
+             }],
+     };
+ }
+ 1;
+
+Basically, in the format plugin you need to define C<get_hooks> which returns a
+hashref of phase names and hook records. For a format plugin, the relevant phase
+is C<create_formatter>. This hook will be called when L<Log::ger> wants to
+construct a formatter.
+
+The hook record is an arrayref of 3 elements:
+
+ [$key, $prio, $coderef]
+
+C<$key> is usually the name of the module (C<__PACKAGE__>). C<$prio> is priority
+for ordering when there are multiple plugins for the same hook, a number between
+0-100 (the lower the number, the higher the priority), normally 50. C<$coderef>
+is the actual hook. Our hook will receive a hash arguments (C<%hook_args>) and
+is expected to return the result:
+
+ [$formatter, ...]
+
+The formatter is another coderef which will be passed the arguments that are
+passed to a logging routine. It should return the formatted log message.
+
+For more examples of format plugins, see L<Log::ger::Format::Block>.
+
+
+=head1 SEE ALSO
+
+L<Log::ger::Manual::Internals>
