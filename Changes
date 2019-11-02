@@ -1,3 +1,9 @@
+0.028.003  2019-11-02  Released-By: PERLANCAR; Urgency: medium
+
+	   - 69_WritingAFormatPlugin tutorial: Add section on using
+	     different formats for different logging routines.
+
+
 0.028.002  2019-10-29  Released-By: PERLANCAR; Urgency: medium
 
 	   - Write tutorial page: 69_WritingAFormatPlugin.
