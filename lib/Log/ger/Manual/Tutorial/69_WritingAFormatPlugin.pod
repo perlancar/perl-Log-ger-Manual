@@ -14,8 +14,8 @@ aspect where logging frameworks are different from one another. For example,
 L<Log::Any> (and L<Log::ger>, by default) use sprintf style and let you dump
 data structure as well:
 
- $log->warn("Foo is larger than 100: %5d", $foo);
- log_debug("The contents of data structure: %S", $data);
+ $log->warnf("Foo is larger than 100: %5d", $foo);       # in Log::Any
+ log_debug("The contents of data structure: %S", $data); # in Log::ger
 
 Other framework like L<Log::Contextual> uses block style:
 
@@ -94,7 +94,76 @@ is expected to return the result:
 The formatter is another coderef which will be passed the arguments that are
 passed to a logging routine. It should return the formatted log message.
 
-For more examples of format plugins, see L<Log::ger::Format::Block>.
+=head2 Using different formats for different logging routines
+
+Log::ger allows using different formats for different logging methods. This
+allows it to mimic Log::Any, for example. In Log::Any, there are I<log> methods
+(C<warn>, C<debug>, C<info>, and so on) and I<logf> (or formatting) methods
+(C<warnf>, C<debugf>, C<infof>, and so on). I<log> methods simply join their
+arguments to form the formatted log message, e.g.:
+
+ $log->warn("The user", $user, "has not logged in for more than 30 days");
+
+The formatted log message will be the arguments joined by a single space, e.g.:
+
+ The user budi has not logged in for more than 30 days
+
+The I<logf> methods, like in Log::ger, treats the first argument as the
+sprintf-style format string and the rest of the arguments as the values to fill
+the format, e.g.:
+
+ $log->warnf("The user %s has not logged in for more than %d days", $user, 30);
+
+To allow Log::ger to emulate this Log::Any behavior, you can create a formatter
+and name it as something other than C<default>, then use it when constructing
+the logging routines. L<Log::ger::Plugin::LogAny> from L<Log::ger::Like::LogAny>
+distribution does this:
+
+ package Log::ger::Plugin::LogAny;
+
+ use strict;
+ use warnings;
+ use Log::ger ();
+
+ sub get_hooks {
+     my %conf = @_;
+
+     return {
+         create_formatter => [
+             __PACKAGE__, 50,
+             sub {
+                 my $formatter = sub {
+                     return join " ", @_;
+                 };
+                 return [$formatter, 0, 'join'];
+             },
+         ],
+         create_routine_names => [
+             __PACKAGE__, 50,
+             sub {
+                 my %args = @_;
+
+                 my $levels = [keys %Log::ger::Levels];
+
+                 return [{
+                     log_subs    => [map { (["log_$_", $_, "join"], ["log_${_}f", $_, "default"]) }
+                                         @$levels],
+                     is_subs     => [map { ["log_is_$_", $_] } @$levels],
+                     log_methods => [map { (["$_", $_, "join"], ["${_}f", $_, "default"]) }
+                                         @$levels],
+                     is_methods  => [map { ["is_$_", $_] } @$levels],
+                 }, 1];
+             }],
+     };
+ }
+
+The above code create a formatter named "join" which, as its name suggests, only
+joins the arguments. The C<create_routine_names> hook then creates the C<log>
+methods (C<warn>, C<info>, C<debug>, ...) as well as subroutines (C<log_warn>,
+C<log_info>, C<log_debug>, ...) using the C<join> formatter. While the C<logf>
+methods (C<warnf>, C<infof>, C<debugf>, ...) and subroutines (C<log_warnf>,
+C<log_infof>, C<log_debugf>, ...) use the C<default> formatter. This mimics
+Log::Any.
 
 
 =head1 SEE ALSO
