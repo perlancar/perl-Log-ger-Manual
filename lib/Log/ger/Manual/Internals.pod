@@ -26,54 +26,171 @@ subroutines, i.e. they expect the first argument to be the object).
 
 =head1 GLOSSARY
 
+=head2 Category
+
+A way to, or an attribute by which one can filter log messages. Category
+typically maps to Perl packages from which a log message is produced, but
+everytime you log a message, you can assign it an arbitrary string as the
+category.
+
+The other, most important, way to filter log messages is by its L<level|/Level>.
+
+=head2 Composite output
+
+An L<output|/Output> that simply multiplexes the log message it receives to one
+or more other outputs.
+
+Implemented in L<Log::ger::Output::Composite>.
+
 =head2 Formatter
 
 A routine that takes arguments supplied by the user to the logger routine (e.g.
 C<< log_warn("blah %s", $args, ...) >> and converts it to the message (usually
 string) that is sent to the output (or the layouter, if there is one).
 
-=head2 Output
-
-=head2 Log routine
-
-=head2 Is routine
-
-=head2 Layouter
-
-A routine that takes the formatted message (usually a string) and converts it to
-the final message string that is sent to output.
-
-=head2 Plugin
-
-A Perl module that supplies hooks.
-
-=head2 Target
-
-A package that will be installed with logging routines. Aside from package,
-Log:;ger can also install routines to a hash or an object. Installing to an
-object is essentially the same as installing to a package: Log::ger will pick a
-"random" package for the object and install the routines there.
-
-=head2 Phase
+See also L</Layouter>.
 
 =head2 Hook
 
+A code (provided by L<plugins|/Plugin>) that is called in various points of time
+(L<phase|/Phase>). Please see L</HOOKS AND PLUGINS> for more details.
+
 =head2 Hook priority
+
+A way by which different hooks that register at the same phase are ordered for
+execution. Implemented as a number between 0 to 100 where 0 means very high
+(executed first) and 100 means very low (executed last). Hooks which do not care
+about the order in which it is executed with regard to other hooks should set
+its priority to 50 (normal).
 
 =head2 Init
 
 The process of constructing logger routines and installing them to targets. See
 L</"INIT"> for more details about the process.
 
-=head2 Logger routine
+=head2 Is routine
+
+A type of routines that are constructed and installed to L<target|/Target> which
+checks for a certain level. When logging level is at a certain level or "higher"
+(more severe), the associated "is routine" will return true; and vice versa.
+This is an efficient way to avoid doing work when unneeded.
+
+The default "is routine" names are "log_is_<LEVEL>", e.g. "log_is_trace",
+"log_is_debug", and so on. An example of using an "is routine":
+
+    use Log::ger;
+
+    sub foo {
+        if (log_is_trace) {
+            # perform some calculation
+            ...
+            log_trace "Result of calculation: ...";
+        }
+    }
+
+The other type of routines that are constructed and installed to target is L<log
+routines|/Log routine>.
+
+=head2 Layouter
+
+A routine that takes the formatted message (usually a string) and converts it to
+the final message string that is sent to output. Usually a layouter is used to
+add additional information along with the log message itself, e.g. timestamp,
+source file/line number, PID (process ID), etc.
+
+See also L</Formatter>.
 
 =head2 Level
 
-=head2 Composite output
+The main way by which log messages are filtered. Level refers to the important
+or "severity" of a message. Log producer chooses to log a message with a certain
+level, e.g.:
 
-=head2 Category
+    log_trace "This is a low importance log message";
+    $log->log("error", "This is a highly important log message!");
 
-=head2 Category level
+while log consumer chooses only to "see" log messages "above" certain level
+only.
+
+Another way to filter log messages is by its L<category|/Category>.
+
+=head2 Log consumer
+
+A log consumer is a process (Perl application/script) which configures an
+L<output|/Output>. This causes all log messages that are produced (either by the
+script itself or the modules that the script uses) to be directed to the
+specified output.
+
+=head2 Log producer
+
+Any code (typically a Perl module) that uses Log::ger and invokes one or more
+L<log routines|/Log routine>. For example, this tiny module is a producer:
+
+ package MyPackage;
+ use Log::ger;
+
+ sub foo {
+     log_trace "Entering foo";
+     ...
+     log_trace "Leaving foo";
+ }
+
+ 1;
+
+When C<foo()> is used somewhere else, it will produce two log messages at the
+C<trace> level.
+
+=head2 Log routine
+
+A type of routines that are constructed and installed to L<target|/Target> which
+produces a log message.
+
+The default "log routine" names are "log_<LEVEL>", e.g. "log_trace",
+"log_debug", and so on. An example of using a "log routine":
+
+    use Log::ger;
+
+    sub foo {
+        log_trace "Entering foo";
+        ...
+        log_trace "Leaving foo";
+    }
+
+Log routines is the main type of routines that you will typically use when
+logging. The other type of routines that are constructed and installed to target
+is L<is routines|/Is routine>.
+
+=head2 Output
+
+Destination for the formatted (see L</Formatter>), laid out (see L</Layouter>)
+log message. Only log messages that have the sufficient level and matching
+category get sent to the output. Examples of output include: null (no where),
+screen (terminal), file, syslog.
+
+In Log::ger, log messages are sent to a single output. But there is a
+L<multiplexer output|/Composite output> that (re)sends the log messages to other
+output(s).
+
+=head2 Phase
+
+The order in which L<hooks|/Hooks> are executed. For more details, see L</HOOKS
+AND PLUGINS>.
+
+=head2 Plugin
+
+A Perl module that supplies hooks. For more details, see L</HOOKS AND PLUGINS>.
+
+=head2 Target
+
+A package that will be installed with logging routines. Aside from package,
+Log::ger can also install routines to a hash or an object.
+
+Installing to a hash is usually for internal testing purposes. As a Log::ger
+user, you will very rarely need to target a hash.
+
+Installing to an object is essentially the same as installing to a package:
+Log::ger will pick a "random" package for the object and install the routines
+there.
 
 
 =head1 HOOKS AND PLUGINS
