@@ -1,3 +1,8 @@
+0.028.004  2019-12-14  Released-By: PERLANCAR; Urgency: medium
+
+	   - Internals: Fill in the rest of the glossary items.
+
+
 0.028.003  2019-11-02  Released-By: PERLANCAR; Urgency: medium
 
 	   - 69_WritingAFormatPlugin tutorial: Add section on using
