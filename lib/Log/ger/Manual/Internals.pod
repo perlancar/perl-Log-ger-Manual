@@ -28,8 +28,8 @@ subroutines, i.e. they expect the first argument to be the object).
 
 =head2 Category
 
-A way to, or an attribute by which one can filter log messages. Category
-typically maps to Perl packages from which a log message is produced, but
+A way to, or an attribute by which one can filter log messages. Category by
+default is set to the Perl package from which a log message is produced, but
 everytime you log a message, you can assign it an arbitrary string as the
 category.
 
@@ -44,8 +44,8 @@ Implemented in L<Log::ger::Output::Composite>.
 
 =head2 Formatter
 
-A routine that takes arguments supplied by the user to the logger routine (e.g.
-C<< log_warn("blah %s", $args, ...) >> and converts it to the message (usually
+A routine that takes arguments supplied by the user to the log routine (e.g. C<<
+log_warn("blah %s", $args, ...) >> and converts it to the message (usually
 string) that is sent to the output (or the layouter, if there is one).
 
 See also L</Layouter>.
@@ -59,14 +59,14 @@ A code (provided by L<plugins|/Plugin>) that is called in various points of time
 
 A way by which different hooks that register at the same phase are ordered for
 execution. Implemented as a number between 0 to 100 where 0 means very high
-(executed first) and 100 means very low (executed last). Hooks which do not care
-about the order in which it is executed with regard to other hooks should set
-its priority to 50 (normal).
+(executed first) and 100 means very low (executed last). Hooks that do not care
+about the order in which they are executed with regard to other hooks should set
+their priority to 50 (normal).
 
 =head2 Init
 
-The process of constructing logger routines and installing them to targets. See
-L</"INIT"> for more details about the process.
+The process of constructing L<logger routines|/Log routine> and installing them
+to targets. See L</"INIT"> for more details about the process.
 
 =head2 Is routine
 
@@ -142,8 +142,8 @@ C<trace> level.
 
 =head2 Log routine
 
-A type of routines that are constructed and installed to L<target|/Target> which
-produces a log message.
+Or logger routine. A type of routines that are constructed and installed to
+L<target|/Target> which produces a log message.
 
 The default "log routine" names are "log_<LEVEL>", e.g. "log_trace",
 "log_debug", and so on. An example of using a "log routine":
