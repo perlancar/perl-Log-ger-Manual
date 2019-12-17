@@ -1,4 +1,4 @@
-package Log::ger::Manual::Tutorial::79_WritingALayoutPlugin;
+package Log::ger::Manual::Tutorial::790_WritingALayoutPlugin;
 
 # DATE
 # DIST
@@ -100,6 +100,6 @@ L<Log::ger::Layout::JSON>.
 
 L<Log::ger::Manual::Internals>
 
-L<Log::ger::Manual::Tutorial::49_WritingAnOutputPlugin>
+L<Log::ger::Manual::Tutorial::490_WritingAnOutputPlugin>
 
-L<Log::ger::Manual::Tutorial::69_WritingAFormatPlugin>
+L<Log::ger::Manual::Tutorial::690_WritingAFormatPlugin>

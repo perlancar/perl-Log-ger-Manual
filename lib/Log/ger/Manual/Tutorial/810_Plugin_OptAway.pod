@@ -1,4 +1,4 @@
-package Log::ger::Manual::Tutorial::81_Plugin_OptAway;
+package Log::ger::Manual::Tutorial::810_Plugin_OptAway;
 
 # DATE
 # VERSION

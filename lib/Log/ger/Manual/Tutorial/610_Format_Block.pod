@@ -1,4 +1,4 @@
-package Log::ger::Manual::Tutorial::61_Format_Block;
+package Log::ger::Manual::Tutorial::610_Format_Block;
 
 # DATE
 # VERSION

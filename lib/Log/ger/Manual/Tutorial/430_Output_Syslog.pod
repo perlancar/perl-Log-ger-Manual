@@ -1,4 +1,4 @@
-package Log::ger::Manual::Tutorial::43_Output_Syslog;
+package Log::ger::Manual::Tutorial::430_Output_Syslog;
 
 # DATE
 # VERSION

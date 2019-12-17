@@ -1,4 +1,4 @@
-package Log::ger::Manual::Tutorial::47_Output_DirwriteRotate;
+package Log::ger::Manual::Tutorial::470_Output_DirwriteRotate;
 
 # DATE
 # VERSION

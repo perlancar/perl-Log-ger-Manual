@@ -1,4 +1,4 @@
-package Log::ger::Manual::Tutorial::91_Performance;
+package Log::ger::Manual::Tutorial::910_Performance;
 
 # DATE
 # VERSION
