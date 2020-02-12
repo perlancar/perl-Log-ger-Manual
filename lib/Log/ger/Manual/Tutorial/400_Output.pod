@@ -45,7 +45,7 @@ L<490_WritingAnOutputPlugin|Log::ger::Manual::Tutorial::490_WritingAnOutputPlugi
 
 To select an output:
 
- use Log::ger::Output 'Screen';
+ use Log::ger::Output 'Screen'; # note: NOT 'use Log::ger::Output::Screen'!
 
 or:
 
