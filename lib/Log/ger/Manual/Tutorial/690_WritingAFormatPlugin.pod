@@ -15,7 +15,7 @@ L<Log::Any> (and L<Log::ger>, by default) use sprintf style and let you dump
 data structure as well:
 
  $log->warnf("Foo is larger than 100: %5d", $foo);       # in Log::Any
- log_debug("The contents of data structure: %S", $data); # in Log::ger
+ log_debug("The contents of data structure: %s", $data); # in Log::ger
 
 Other framework like L<Log::Contextual> uses block style:
 
@@ -32,7 +32,7 @@ format plugin for each package.
  use Log::ger;
 
  sub foo {
-    log_debug("The contents of data structure: %S", $data);
+    log_debug("The contents of data structure: %s", $data);
  }
 
  package MyApp::Module2;
