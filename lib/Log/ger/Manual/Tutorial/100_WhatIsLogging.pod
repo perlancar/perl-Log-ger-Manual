@@ -14,13 +14,17 @@ package Log::ger::Manual::Tutorial::100_WhatIsLogging;
 =head1 WHAT IS LOGGING?
 
 Logging is recording information during run-time. You can log any kind of
-information, from dumping internal data structures and tracing the flow of
-program execution (for debugging purposes), showing the progress of activities
-(for verbose output a.k.a. progress report to the user), and so on (auditing,
-accounting, security monitoring, source code documentation, etc).
+information for whatever purposes. Logging is most often used for debugging; you
+can dump internal data structures, record warn/die message along with their
+stack trace, or mark entering/leaving subroutines to trace the flow of program
+execution. Logging can also be used to show the progress of a long-running
+activity, to give users feedback so they know what's going on. Other uses of
+logging include: auditing, accounting, security monitoring, source code
+documentation, and so on.
 
-With L<Log::ger>, this is as simple as C<use>-ing Log::ger and adding logging
-statements, for example:
+To start logging with L<Log::ger>, all you have to do is C<use Log::ger> (or
+C<require> I<and> C<import>) then start peppering logging statements. For
+example:
 
  use Log::ger;
 
