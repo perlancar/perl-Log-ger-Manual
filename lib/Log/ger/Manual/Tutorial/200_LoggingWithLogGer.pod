@@ -16,7 +16,7 @@ package Log::ger::Manual::Tutorial::200_LoggingWithLogGer;
 As shown in the previous post, logging with Log::ger is as simple as loading
 Log::ger with C<use Log::ger> and then using one of the C<log_trace>,
 C<log_debug>, C<log_info>, C<log_warn>, C<log_error>, C<log_fatal> statements.
-These subroutines are the I<logger> subroutines, there is one for each level.
+These subroutines are the I<logger> subroutines; there is one for each level.
 They accept a string:
 
  log_warn("This is a log message");
