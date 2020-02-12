@@ -1,4 +1,4 @@
-package Log::ger::Manual::Tutorial::41Output_Screen;
+package Log::ger::Manual::Tutorial::410_Output_Screen;
 
 # DATE
 # VERSION
