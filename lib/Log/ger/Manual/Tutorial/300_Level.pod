@@ -117,8 +117,8 @@ C<set_level()> will die if you feed it an unknown level.
 Normally you will only need to do this in an application, not in modules. One
 piece of advice is to allow user to change the level without her having to
 modify the source code, for example via environment variable and/or command-line
-option. An application framework like L<Perinci::CmdLine> will already take care
-of this for you, so you don't need to do C<set_level> manually at all.
+option. An application framework like L<Perinci::CmdLine> takes care of this for
+you, so you don't need to do C<set_level> manually at all.
 
 Another module you can use for this purpose is L<Log::ger::Level::FromEnv>. This
 module detects some environment variables (like C<LOG_LEVEL=debug>, or
