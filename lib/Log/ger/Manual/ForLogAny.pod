@@ -35,7 +35,7 @@ you just log:
      $log->warn("blah ...");
  }
 
-and the configuration of outputs and leels is done on the application side.
+and the configuration of outputs and levels is done on the application side.
 
 
 =head1 WHY LOG::GER OVER LOG::ANY
