@@ -41,13 +41,21 @@ You need to import Log::ger using:
 
  use Log::ger;
 
-and not:
+or (for loading in runtime):
 
  require Log::ger;
+ Log::ger->import;
+
+and not:
+
  use Log::ger ();
 
-because Log::ger sets up the logger routines to the calling package via
-C<import()>.
+nor:
+
+ require Log::ger;
+
+In other words, the importing is necessary because Log::ger sets up the logger
+routines to the calling package via C<import()>.
 
 This will not work either:
 
@@ -56,6 +64,27 @@ This will not work either:
 
 because the logger routines (C<log_warn> et al) are not defined statically in
 the C<Log::ger> package but constructed dynamically for each calling package.
+
+=head2 Why am I getting "String found where operator expected at ..., near "log_warn "foo""? Why do I need to put parentheses after the log_* statements?
+
+You need to do:
+
+ use Log::ger;
+
+or:
+
+ BEGIN {
+     require Log::ger;
+     Log::ger->import;
+ }
+
+instead of just:
+
+ require Log::ger;
+ Log::ger->import;
+
+In other words, the import() needs to happen during compile-time to give perl
+hints that the logger statements (C<log_*>) are subroutines.
 
 =head2 How to use OO style?
 
