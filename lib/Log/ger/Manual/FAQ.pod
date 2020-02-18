@@ -501,7 +501,7 @@ obvious preference, was that so I can optimize away the logging statements if
 unneeded (like how asserts work). Another wishlist I had for a logging library
 is the ease of setting and re-setting levels, outputs, etc during runtime.
 
-A long vacation in Jun-Jul 2017 gave me the opportunity to finally wrote
+A long vacation in Jun-Jul 2017 gave me the opportunity to finally write
 Log::ger.
 
 By the way, the startup overhead of Log::Any (1.708 at the time of this writing)
