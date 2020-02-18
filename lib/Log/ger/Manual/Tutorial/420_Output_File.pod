@@ -8,4 +8,12 @@ package Log::ger::Manual::Tutorial::420_Output_File;
 
 =head1 DESCRIPTION
 
-TODO
+
+=head1 FAQ
+
+=head2 How to output to screen as well as file?
+
+See L<481_Output_Composite|Log::ger::Manual::Tutorial::481_Output_Composite>.
+
+
+=head1 SEE ALSO

@@ -1,6 +1,8 @@
 package Log::ger::Manual::FAQ;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 1;
@@ -124,6 +126,9 @@ in Log::ger:
 
  log_debug("Headers is: %s", $http_res->{headers});
  $log_dump->debug($http_res->{content});
+
+Examples of real code that produce logs to multiple loggers:
+L<WWW::PAUSE::Simple>, L<Finance::Bank::ID::Base>.
 
 =head2 How to log Perl warning/die message? (How to trap warn/die? How to override warn/die?)
 
@@ -391,6 +396,9 @@ Using L<Log::ger::Output::Composite>'s per-output level:
      },
  );
 
+See L<Log::ger::Manual::Tutorial::481_Output_Composite> for a more detailed
+example.
+
 =head2 How to send trace/debug messages to a file, but warnings/errors to another file?
 
 Using L<Log::ger::Output::Composite>'s per-output level. Note that you can
@@ -455,6 +463,35 @@ One nice thing about the FileWriteRotate output module is that
 L<File::Write::Rotate> provides a buffer so when you temporarily fail writing
 (e.g. disk is momentarily full or lock momentarily cannot be acquired) log
 messages (up to a certain number of them) is kept at the memory buffer first.
+
+=head2 How to log different things to different files (with different levels)?
+
+An application might have more than one kind of logs. A common thing is for an
+application to have two kinds of logs: an error log and an access log (like in
+Apache or Squid). You can use Log::ger for both kinds of log and have them
+easily configurable.
+
+To produce different kinds of logs, you can log to multiple loggers with
+different category. Let's say for the error log you use the default logger with
+default procedural style, and for the access log you use another logger with OO
+style and a specific category.
+
+ use Log::ger;
+ my $access_log = Log::ger->get_logger('access');
+ log_warn "goes to error log";
+ $access_log->info("goes to access log");
+
+Or you can use OO style for both:
+
+ use Log::ger (); # don't export log_* procedural routines
+ my $error_log  = Log::ger->get_logger('error');
+ my $access_log = Log::ger->get_logger('access');
+
+ $error_log->warn("goes to error log");
+ $access_log->info("goes to access log");
+
+See L<Log::ger::Manual::Tutorial::481_Output_Composite> for a more detailed
+example.
 
 
 =head1 TARGETS

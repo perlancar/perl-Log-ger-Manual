@@ -4,8 +4,96 @@ package Log::ger::Manual::Tutorial::481_Output_Composite;
 # VERSION
 
 1;
-# ABSTRACT: TODO
+# ABSTRACT: More on the Composite output
 
 =head1 DESCRIPTION
 
-TODO
+=head1 EXAMPLE 1: access log and error log
+
+A very common thing to have in an application is two kids of logs: an error log
+and an access log (like in Apache or Squid). You can use Log::ger for both kinds
+of log and have them easily configurable.
+
+=head2 Producing
+
+You have two choices. First, you use the default logger with default procedural
+style for the error log, and another logger with OO style for the access log:
+
+ use Log::ger;
+ my $access_log = Log::ger->get_logger('access');
+ log_warn "goes to error log";
+ $access_log->info("goes to access log");
+
+Or you can use OO style for both:
+
+ use Log::ger (); # don't export log_* procedural routines
+ my $error_log  = Log::ger->get_logger('error');
+ my $access_log = Log::ger->get_logger('access');
+
+ $error_log->warn("goes to error log");
+ $access_log->info("goes to access log");
+
+The example below will use the first choice.
+
+Usually, for the access log you will need to log additional pieces of
+information like the current user (and/or IP, and/or process ID, etc). A simple
+format for the access log is JSON, where each JSON object (hash) is printed as a
+single line and contains the necessary information pieces in hash keys. So let's
+create a wrapper to supply this information in a more convenient manner:
+
+ use Log::ger::Format 'None';
+
+ sub access_log {
+     my ($self, $action, $object, $note) = @_;
+     $access_log->info({
+         time   => time(),
+         user   => $self->user,
+         ip     => $self->user_ip,
+         pid    => $pid,
+
+         action => $action,
+         object => $object,
+         note   => $note,
+     });
+ }
+
+ sub handle_request {
+     my $self = shift;
+     ...
+     if ($is_success) {
+         $self->access_log($action => {file=>$file});
+     } else {
+         log_error ...;
+     }
+ }
+
+=head2 Consuming
+
+To display the logs, you can use Log::ger::Output::Composite, for example with
+this configuration:
+
+ use Log::ger::Output Composite => (
+     outputs => {
+         Screen => {
+             category_level => {access=>'off'}, # we don't show access log to screen
+         },
+         File => [
+             # error log file
+             {
+                 conf => {path=>'/path/to/app-error.log'},
+                 category_level => {access=>'off'}, # we don't show access log to error log file
+             },
+             # access log file
+             {
+                 conf => {path=>'/path/to/app-access.log'},
+                 level => 'off',
+                 category_level => {access=>'info'}, # we only show access log to access log file
+             },
+         ],
+     },
+ );
+
+See also a real-world example in L<WWW::PAUSE::Simple> and L<App::pause>.
+
+
+=head1 SEE ALSO

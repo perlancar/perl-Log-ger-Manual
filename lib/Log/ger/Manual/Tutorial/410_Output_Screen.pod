@@ -49,3 +49,13 @@ to change debug to #c0d1d5:
  log_debug("some debug information ...");
 
 Also take a look at color scheme modules in C<Log::ger::Screen::ColorScheme::*>.
+
+
+=head1 FAQ
+
+=head2 How to output to screen as well as file?
+
+See L<481_Output_Composite|Log::ger::Manual::Tutorial::481_Output_Composite>.
+
+
+=head1 SEE ALSO
