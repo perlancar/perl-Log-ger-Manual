@@ -247,7 +247,8 @@ default Log::ger adopts sprintf style:
  log_warn("blah ...", "more blah ...");
 
 Either join the arguments first, use sprintf style, or use some of the other
-formatters that support this, e.g. L<Log::ger::Like::LogAny>.
+formatters that support this, e.g. L<Log::ger::Format::Join> and
+L<Log::ger::Like::LogAny>.
 
 =head2 How to use deferred calculation of arguments?
 
