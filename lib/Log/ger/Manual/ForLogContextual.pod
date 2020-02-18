@@ -10,8 +10,17 @@ package Log::ger::Manual::ForLogContextual;
 
 =head1 WHY LOG::CONTEXTUAL
 
-In my opinion, just about the only good thing about L<Log::Contextual> is that
-it provides block style by default, if that's what you like:
+Log::Contextual is rather popular on CPAN probably because L<Task::Kensho>
+is/was displayed prominently on the L<MetaCPAN|https://metacpan.org> front page.
+Task::Kensho endorses Log::Contextual along with two other logging libraries:
+L<Log::Dispatch> and L<Log::Log4perl> (by the way, L<Log::Any>, which is by far
+more popular and heavily used than Log::Contextual, is still somehow missing in
+that list).
+
+Log::Contextual is not heavily used on CPAN, nor it is particularly efficient or
+featureful. Without any disrespect, in my opinion just about the only good thing
+about L<Log::Contextual> is that it provides block style by default, if that's
+what you like:
 
  log_trace { "foo bar " . some_heavy_calculation() };
 
