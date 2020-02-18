@@ -479,5 +479,37 @@ L<Log::ger::Layout>), or output (using L<Log::ger::Output>).
 
 =head1 THE PROJECT
 
+=head2 Why was Log::ger created?
+
+I was a happy user of L<Log::Any> from 2009-2014. Log::Any 0.15 is very
+lightweight and I was happily peppering 'use Log::Any' to many of my modules.
+Then Log::Any 1.00 was released on Christmas day 2014. David Golden took over
+Log::Any's maintenance from its original creator Jonathan Swartz, and decided to
+add Log::Any::Proxy while bringing in some other modules like L<Data::Dumper>,
+L<base>, L<Carp>. Those modules are core modules and not particularly huge
+themselves, but the result is that startup overhead of the 'use Log::Any'
+statement increased from ~1-2ms (0.15) to ~10ms (1.00). To me this means
+Log::Any is no longer a tiny little module I can sneak in the use of to just
+about any other module without care. At that time, I was also developing a CLI
+framework and was interested in doing tab completion using Perl scripts, so
+startup overhead is a very important issue for me.
+
+Since then, I planned to write my own replacement of Log::Any. Aside from
+improving the startup overhead situation, I also wanted a logging library that
+uses procedural style instead of OO. One of the reasons for that, aside from
+obvious preference, was that so I can optimize away the logging statements if
+unneeded (like how asserts work). Another wishlist I had for a logging library
+is the ease of setting and re-setting levels, outputs, etc during runtime.
+
+A long vacation in Jun-Jul 2017 gave me the opportunity to finally wrote
+Log::ger.
+
+By the way, the startup overhead of Log::Any (1.708 at the time of this writing)
+is better now. But it will probably never be as lightweight as Log::Any 0.15
+again, or as lightweight as Log::ger.
+
+My blog post in 2017, which introduces Log::ger and explains basically the same
+thing as above:
+L<https://perlancar.wordpress.com/2017/07/13/introducing-logger/>
 
 =head1 SEE ALSO
