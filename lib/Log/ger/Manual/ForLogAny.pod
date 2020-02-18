@@ -37,6 +37,10 @@ you just log:
 
 and the configuration of outputs and levels is done on the application side.
 
+I loved Log::Any and was a happy user for a long time, but the increasing
+startup overhead annoyed me enough to start the Log::ger project (see this FAQ
+entry for more details: L<Log::ger::Manual::FAQ/"Why was Log::ger created?">).
+
 
 =head1 WHY LOG::GER OVER LOG::ANY
 

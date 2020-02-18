@@ -1,3 +1,20 @@
+0.028.008  2020-02-18  Released-By: PERLANCAR; Urgency: medium
+
+           [FAQ]
+
+	   - Add section: "Why was Log::ger created?".
+
+	   - Reorder sections alphabetically, but GENERAL/ETC is kept at the top
+	     and the new THE PROJECT section kept at the end.
+
+           - Add FAQ item on why sometimes one needs parentheses after logger
+             statements.
+
+           [ForLogContextual]
+
+           - Explain why Log::Contextual is popular.
+
+
 0.028.007  2020-02-12  Released-By: PERLANCAR; Urgency: medium
 
 	   - [bugfix] Forgot to update package name for
