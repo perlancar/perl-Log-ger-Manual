@@ -1,3 +1,9 @@
+0.029.000  2020-02-18  Released-By: PERLANCAR; Urgency: medium
+
+           - Add example of application with error+access logs in
+             :Tutorial::481_Output_Composite (also mentioned in FAQ items).
+
+
 0.028.008  2020-02-18  Released-By: PERLANCAR; Urgency: medium
 
            [FAQ]
