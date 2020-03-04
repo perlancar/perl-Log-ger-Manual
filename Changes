@@ -1,3 +1,8 @@
+0.031.000  2020-03-04  Released-By: PERLANCAR; Urgency: medium
+
+	   - Mention Log::ger::Plugin::Multisets, Log::ger::Format::Join.
+
+
 0.029.000  2020-02-18  Released-By: PERLANCAR; Urgency: medium
 
            - Add example of application with error+access logs in
