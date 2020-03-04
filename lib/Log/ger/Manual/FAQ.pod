@@ -473,23 +473,47 @@ Apache or Squid). You can use Log::ger for both kinds of log and have them
 easily configurable.
 
 To produce different kinds of logs, you can log to multiple loggers with
-different category. Let's say for the error log you use the default logger with
-default procedural style, and for the access log you use another logger with OO
-style and a specific category.
+different category. Here you have choices.
+
+B<One procedural, the other OO.> Let's say for the error log you use the default
+logger with default procedural style, and for the access log you use another
+logger with OO style and a specific category.
 
  use Log::ger;
- my $access_log = Log::ger->get_logger('access');
+ my $access_log = Log::ger->get_logger(category => 'access');
  log_warn "goes to error log";
  $access_log->info("goes to access log");
 
-Or you can use OO style for both:
+B<All OO>. Or you can use OO style for both:
 
  use Log::ger (); # don't export log_* procedural routines
- my $error_log  = Log::ger->get_logger('error');
- my $access_log = Log::ger->get_logger('access');
+ my $error_log  = Log::ger->get_logger(category => 'error');
+ my $access_log = Log::ger->get_logger(category => 'access');
 
  $error_log->warn("goes to error log");
  $access_log->info("goes to access log");
+
+B<All procedural.> You can use something like L<Log::ger::Plugin::Multisets> to
+create multiple sets of logger routines, each for each category:
+
+ use Log::ger::Plugin Multisets => (
+     log_sub_prefixes => {
+         log_    => 'error',
+         access_ => 'access',
+     },
+     is_sub_prefixes => {
+         is_       => 'error',
+         access_is => 'access',
+     },
+ );
+
+ # this will create log_error, log_warn, et al to log under the category
+ # 'error'; and access_error, access_warn, et al to log under the category
+ # 'access'.
+ use Log::ger;
+
+ log_warn "goes to error log";
+ access_info "goes to access log";
 
 See L<Log::ger::Manual::Tutorial::481_Output_Composite> for a more detailed
 example.

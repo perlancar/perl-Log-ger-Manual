@@ -20,18 +20,40 @@ You have two choices. First, you use the default logger with default procedural
 style for the error log, and another logger with OO style for the access log:
 
  use Log::ger;
- my $access_log = Log::ger->get_logger('access');
+ my $access_log = Log::ger->get_logger(category => 'access');
  log_warn "goes to error log";
  $access_log->info("goes to access log");
 
 Or you can use OO style for both:
 
  use Log::ger (); # don't export log_* procedural routines
- my $error_log  = Log::ger->get_logger('error');
- my $access_log = Log::ger->get_logger('access');
+ my $error_log  = Log::ger->get_logger(category => 'error');
+ my $access_log = Log::ger->get_logger(category => 'access');
 
  $error_log->warn("goes to error log");
  $access_log->info("goes to access log");
+
+Or you can use procedural style for both using L<Log::ger::Plugin::Multisets>:
+
+ use Log::ger::Plugin Multisets => (
+     log_sub_prefixes => {
+         # prefix  => init args
+         log_      => {category=>'error' }, # or undef, to use the default init args (including category)
+         access_   => {category=>'access'},
+     },
+     is_sub_prefixes => {
+         # prefix   => category
+         is_        => {category=>'error' },
+         access_is_ => {category=>'access'},
+     },
+ );
+ use Log::ger;
+
+ access_info "goes to access log";
+ access_warn "goes to access log";
+ log_warn    "goes to error log";
+ log_debug   "goes to error log";
+ ...
 
 The example below will use the first choice.
 
