@@ -2,6 +2,9 @@
 
 	   - Mention Log::ger::Plugin::Multisets, Log::ger::Format::Join.
 
+           - [bugfix] Fix get_logger() arguments in
+             LGM:Tutorial::481_Output_Composite.
+
 
 0.029.000  2020-02-18  Released-By: PERLANCAR; Urgency: medium
 
