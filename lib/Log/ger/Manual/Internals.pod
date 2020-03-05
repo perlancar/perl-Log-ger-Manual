@@ -249,8 +249,7 @@ Available phases:
 
 =item * create_formatter
 
-Used to construct formatter routine, which will be called with arguments from
-the user when she calls the logging routines.
+Used to construct formatter routine.
 
 It should return:
 
@@ -259,13 +258,29 @@ It should return:
 C<$formatter_name> is optional and defaults to C<default>, which is the default
 formatter used for all logging routines.
 
+C<&formatter> will be passed the logger routine arguments and is responsible for
+returning the formatted message (usually a string). For example, the default
+Log::ger formatter either accepts a single argument (the message, which will be
+passed as-is as the formatted message) or multiple arguments (the first argument
+as template and for the rest of the arguments as variables, which will be
+processed a la C<sprintf()> to produce the formatted string).
+
 =item * create_layouter
 
-Used to construct layouter routine, which will be called with arguments C<<
-($fmsg, \%init_args, $lnum, $lname) >> where C<$fmsg> is formatted message from
-the formatter, C<%init_args> are arguments given to C<< Log::ger->get_logger >>
-or to Log::ger's import(), C<$lnum> is numeric level, C<$lname> is string level.
-The layouter must return the laid-out message (usually a string).
+Used to construct layouter routine.
+
+It should return:
+
+ [\&layouter, $flow_control]
+
+C<&layouter> will be called with arguments:
+
+ ($fmsg, \%init_args, $lnum, $lname)
+
+where C<$fmsg> is formatted message from the formatter, C<%init_args> are
+arguments given to C<< Log::ger->get_logger >> or to Log::ger's C<import()>,
+C<$lnum> is numeric level, and C<$lname> is string level. The layouter must
+return the laid-out message (usually a string).
 
 =item * create_routine_names
 
@@ -291,28 +306,53 @@ routine).
 
 =item * create_log_routine
 
-Used to create per-level "log_I<level>" routines which will be called with C<<
-(\%init_args, $msg) >> arguments. Called for each routine specified in the
-C<log_subs> (or C<log_methods>) in the routine names (see documentation on
-C<create_routine_names> phase). Extra arguments received by hook: C<name>
-(routine name), C<level> (numeric level), C<str_level>.
+Used to create per-level "log_I<level>" routines.
+
+It should return:
+
+ [\&create_log_routine, $flow_control]
+
+C<&create_log_routine> will be called with:
+
+ (\%init_args, $msg)
+
+for each routine specified in the C<log_subs> (or C<log_methods>) in the routine
+names (see documentation on C<create_routine_names> phase). Extra arguments
+received by hook: C<name> (routine name), C<level> (numeric level),
+C<str_level>.
 
 =item * create_is_routine
 
-Used to create per-level "log_is_I<level>" routines. Called for each routine
-specified in the C<is_subs> (or C<is_methods>) in the routine names (see
-documentation on C<create_routine_names> phase). Extra Arguments received by
-hooks: C<name> (routine name), C<level> (numeric level), C<str_level>.
+Used to create per-level "log_is_I<level>" routines.
+
+It should return:
+
+ [\&create_is_routine, $flow_control]
+
+C<&create_is_routine> will be called for each routine specified in the
+C<is_subs> (or C<is_methods>) in the routine names (see documentation on
+C<create_routine_names> phase). Extra Arguments received by hooks: C<name>
+(routine name), C<level> (numeric level), C<str_level>.
 
 =item * create_logml_routine
 
-Used to create multiple-level "log" routines which will be called with C<<
-(\%init_args, $level, $msg) >> arguments. Called for each routine specified in
-the C<logml_subs> (or C<logml_methods>) in the routine names (see documentation
-on C<create_routine_names> phase). Extra arguments received by hooks: C<name>
-(routine name).
+Used to create multiple-level "log" routines.
+
+It should return:
+
+ [\&create_logml_routine, $flow_control]
+
+C<&create_logml_routine> will be called with:
+
+ (\%init_args, $level, $msg)
+
+for each routine specified in the C<logml_subs> (or C<logml_methods>) in the
+routine names (see documentation on C<create_routine_names> phase). Extra
+arguments received by hooks: C<name> (routine name).
 
 =item * before_install_routines
+
+Will be called before routines are installed to target.
 
 Extra arguments received by hooks: C<routines> (array of routines to install),
 C<formatters> (hashref of formatter routines, if any), C<layouter> (layouter
@@ -329,6 +369,8 @@ Where C<$type> is either C<log_sub>, C<log_method>, C<logml_sub>,
 C<logml_method>, C<is_sub>, C<is_method>.
 
 =item * after_install_routines
+
+Will be called after routines are installed to target.
 
 Extra arguments received by hooks: C<routines>.
 
