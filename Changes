@@ -1,3 +1,8 @@
+0.032.000  2020-03-06  Released-By: PERLANCAR; Urgency: medium
+
+	   - Internals: update to 0.032 (filter, remove logml stuffs).
+
+
 0.031.000  2020-03-04  Released-By: PERLANCAR; Urgency: medium
 
 	   - Mention Log::ger::Plugin::Multisets, Log::ger::Format::Join.

@@ -272,7 +272,7 @@ Available phases:
 
 =item * create_filter
 
-Used to construct L</Filter|filter routine>.
+Used to construct L<filter routine|/Filter>.
 
 It should return:
 
@@ -286,7 +286,7 @@ plugin.
 
 =item * create_formatter
 
-Used to construct formatter routine.
+Used to construct L<formatter routine|/Formatter>.
 
 It should return:
 
