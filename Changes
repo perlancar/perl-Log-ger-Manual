@@ -1,3 +1,8 @@
+0.032.001  2020-03-07  Released-By: PERLANCAR; Urgency: medium
+
+	   - Rename variables/terms for clarity.
+
+
 0.032.000  2020-03-06  Released-By: PERLANCAR; Urgency: medium
 
 	   - Internals: update to 0.032 (filter, remove logml stuffs).
