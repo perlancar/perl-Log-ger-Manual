@@ -31,20 +31,20 @@ C<Log::ger::Layout::ConvertCase> as follows:
  use warnings;
 
  sub get_hooks {
-     my %conf = @_;
+     my %plugin_conf = @_;
 
-     $conf{case} or die "Please specify case";
-     $conf{case} =~ /\A(upper|lower)\z/
+     $plugin_conf{case} or die "Please specify case";
+     $plugin_conf{case} =~ /\A(upper|lower)\z/
          or die "Invalid value for 'case', please use 'upper' or 'lower'";
 
      return {
          create_layouter => [
-             __PACKAGE__,
-             50,
-             sub {
+             __PACKAGE__, # key
+             50,          # priority
+             sub {        # hook
                  my %hook_args = @_;
                  my $layouter = sub {
-                     $conf{case} eq 'upper' ? uc($_[0]) : lc($_[0]);
+                     $plugin_conf{case} eq 'upper' ? uc($_[0]) : lc($_[0]);
                  };
                  [$layouter];
              },
@@ -75,12 +75,12 @@ is expected to return the result:
 We are only concerned with the first element, hence will not discuss the rest.
 The layouter will be passed:
 
- ($fmsg, \%init_args, $lnum, $lname)
+ ($fmsg, \%per_target_conf, $lnum, $lname, \%per_msg_conf)
 
-where C<$fmsg> is formatted message from the formatter, C<%init_args> are
+where C<$fmsg> is formatted message from the formatter, C<%per_target_conf> are
 arguments given to C<< Log::ger->get_logger >> or to C<Log::ger>'s C<import()>,
-C<$lnum> is numeric level, C<$lname> is string level. In the example above, we
-are only concerned with C<$fmsg> (C<$_[0]>).
+C<$lnum> is numeric level, C<$lname> is string level, and C<%per_msg_conf> is
+optional. In the example above, we are only concerned with C<$fmsg> (C<$_[0]>).
 
 To see our plugin in action, try this simple program:
 

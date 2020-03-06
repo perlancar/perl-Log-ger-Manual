@@ -46,16 +46,16 @@ Implemented in L<Log::ger::Output::Composite>.
 
 This is a routine that takes arguments supplied by the user to the log routine
 (e.g. C<<log(level=>"info", message=>"blah", category=>"foo", ...>> and return a
-false value or a hash of meta information.
+false value or a per-message configuration.
 
-If false is returned, logging is cancelled. Otherwise, the meta hash is passed
-to the layouter and logger.
+If false is returned, logging is cancelled. Otherwise, the per-message
+configuration hash is passed to the layouter and logger.
 
 Filter is optional and can be used to do custom filtering based on some criteria
-specified in the arguments, as well as to extract the meta information in the
-arguments to be passed to the logger routine (usually provided by an output
-plugin). For example, a screen output might want to colorize a log message based
-on the category passed in the argument.
+specified in the arguments, as well as to extract the per-message configuration
+in the arguments to be passed to the logger routine (usually provided by an
+output plugin). For example, a screen output might want to colorize a log
+message based on the category passed in the argument.
 
 Regardless of whether a filter is provided, logging will still be filtered by
 level.
@@ -255,14 +255,15 @@ Some phases might return extra elements.
 
 =head2 Arguments passed to hook
 
-Aguments received by hook: C<target> (str, can be C<package> if installing to a
-package, or C<hash> or C<object>), C<target_arg> (str, when C<target> is
-C<package>, will be the package name; when C<target> is C<hash> will be the
-hash; when C<target> is C<object> will be the object), C<init_args> (hash,
-arguments passed to Log::ger when importing, e.g. C<< {category =>
-'My::Package'} >>; it also serves as a per-target stash which survives reinit,
-by convention you can put stuffs here under keys that start with C<_>). In some
-phases, hook will receive more arguments (see phase documentation below).
+Aguments received by hook: C<target_type> (str, can be C<package> if installing
+to a package, or C<hash> or C<object>), C<target_name> (str, when C<target_type>
+is C<package>, will be the package name; when C<target_type> is C<hash> will be
+the hash; when C<target_type> is C<object> will be the object),
+C<per_target_conf> (hash, arguments passed to Log::ger when importing, e.g. C<<
+{category => 'My::Package'} >>; it also serves as a per-target stash which
+survives reinit, by convention you can put stuffs here under keys that start
+with C<_>). In some phases, hook will receive more arguments (see phase
+documentation below).
 
 =head2 Phases
 
@@ -280,9 +281,9 @@ It should return:
 
 The C<&filter> routine will be passed the logger routine arguments and should
 return a false value (to signal that the logging is to be cancelled) or a
-hashref of meta information (usually extracted from the arguments). This meta
-hashref will be passed to the layouter and the logger provided by an output
-plugin.
+hashref of per-message configuration (usually extracted from the arguments).
+This per-message configuraion hashref will be passed to the layouter and the
+logger provided by an output plugin.
 
 =item * create_formatter
 
@@ -312,11 +313,11 @@ It should return:
 
 C<&layouter> will be called with arguments:
 
- ($fmsg, \%init_args, $lnum, $lname, \%meta)
+ ($fmsg, \%per_target_conf, $lnum, $lname, \%per_msg_conf)
 
-where C<$fmsg> is formatted message from the formatter, C<%init_args> are
+where C<$fmsg> is formatted message from the formatter, C<%per_target_conf> are
 arguments given to C<< Log::ger->get_logger >> or to Log::ger's C<import()>,
-C<$lnum> is numeric level, C<$lname> is string level, C<%meta> is meta
+C<$lnum> is numeric level, C<$lname> is string level, C<%per_msg_conf> is
 information provided by the filter if there is one. The layouter must return the
 laid-out message (usually a string).
 
@@ -325,11 +326,11 @@ laid-out message (usually a string).
 Used to construct routine names. Hook must return this (all keys are optional):
 
  [{
-   log_subs      => [ [NAME, STR_LEVEL, FMT_NAME, INIT_ARGS, FLT_NAME], ... ],
-   log_methods   => [ [NAME, STR_LEVEL, FMT_NAME, INIT_ARGS, FLT_NAME], ... ],
+   log_subs      => [ [NAME, STR_LEVEL, FMT_NAME, PER_TARGET_CONF, FLT_NAME], ... ],
+   log_methods   => [ [NAME, STR_LEVEL, FMT_NAME, PER_TARGET_CONF, FLT_NAME], ... ],
 
-   is_subs       => [ [NAME, STR_LEVEL, FMT_NAME, INIT_ARGS, FLT_NAME], ... ],
-   is_methods    => [ [NAME, STR_LEVEL, FMT_NAME, INIT_ARGS, FLT_NAME], ... ],
+   is_subs       => [ [NAME, STR_LEVEL, FMT_NAME, PER_TARGET_CONF, FLT_NAME], ... ],
+   is_methods    => [ [NAME, STR_LEVEL, FMT_NAME, PER_TARGET_CONF, FLT_NAME], ... ],
  }, ...]
 
 Where C<log_subs> and C<log_methods> are names of per-level log routines,
@@ -338,8 +339,8 @@ C<is_subs> an C<is_methods> are names of per-level level detection routines.
 C<FMT_NAME> is optional and defaults to C<default> (the default formatter
 routine). Can be set if the routine should use a custom formatter routine.
 
-C<INIT_ARGS> is an optional. hash. Can be set if the routine should use a custom
-init arguments.
+C<PER_TARGET_CONF> is an optional. hash. Can be set if the routine should use a
+custom per-target configuration (e.g. different category).
 
 C<FLT_NAME> is optional. Can be set if the routine should use a custom filter
 routine.
@@ -354,11 +355,11 @@ It should return:
 
 C<&create_log_routine> will be called with:
 
- (\%init_args, $msg, $lnum)
+ (\%per_target_conf, $msg, $lnum, \%per_msg_conf)
 
 for each routine specified in the C<log_subs> (or C<log_methods>) in the routine
 names (see documentation on C<create_routine_names> phase). Extra arguments
-received by hook: C<name> (routine name), C<level> (numeric level),
+received by hook: C<routine_name> (routine name), C<level> (numeric level),
 C<str_level>.
 
 =item * create_is_routine
@@ -371,8 +372,8 @@ It should return:
 
 C<&create_is_routine> will be called for each routine specified in the
 C<is_subs> (or C<is_methods>) in the routine names (see documentation on
-C<create_routine_names> phase). Extra Arguments received by hooks: C<name>
-(routine name), C<level> (numeric level), C<str_level>.
+C<create_routine_names> phase). Extra Arguments received by hooks:
+C<routine_name> (routine name), C<level> (numeric level), C<str_level>.
 
 =item * before_install_routines
 
