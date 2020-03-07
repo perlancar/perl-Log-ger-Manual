@@ -352,7 +352,7 @@ One way:
      );
 
 Do this before initializing any package with C<use Log::ger>. The above example
-will create these logging routines: C<log_critical>, C<log_error>,
+will create these logger routines: C<log_critical>, C<log_error>,
 C<log_warning>, C<log_info>, C<log_extra>. The aliases won't get the logging
 routines but C<Log::ger::Util::numeric_level> will recognize them.
 

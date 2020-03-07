@@ -1,6 +1,8 @@
 package Log::ger::Manual::Internals;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 1;
@@ -12,10 +14,10 @@ When an importer package does this:
 
  use Log::ger;
 
-Basically all Log::ger does is construct logging routines and install them to
+Basically all Log::ger does is construct logger routines and install them to
 importer's package (target), e.g. C<log_warn>, C<log_debug>, C<log_is_debug> and
 so on. Log::ger also records the target name. When a reinit is requested (e.g.
-due to a change of log level or outputs), Log::ger will again construct logging
+due to a change of log level or outputs), Log::ger will again construct logger
 routines and install them to each target, replacing the old ones.
 
 In addition to installing routines to a package, Log::ger can also target a hash
@@ -23,9 +25,9 @@ or an object (which is basically the same as installing to a package, but the
 routines will expect to be called as object methods instead of plain
 subroutines, i.e. they expect the first argument to be the object).
 
-=head2 Structure of a logging routine
+=head2 Structure of a logger routine
 
-This is the logging routine(s) that Log::ger will construct and install to
+This is the logger routine(s) that Log::ger will construct and install to
 targets, in pseudo-code (the actual constructed code is more streamlined and
 optimized):
 
@@ -68,24 +70,24 @@ optimized):
      }
 
      # send formatted message to an output
-     output_logger($per_target_conf, $fmsg, $per_msg_conf);
+     outputter($per_target_conf, $fmsg, $per_msg_conf);
  }
 
 C<$per_target_conf> is the L</"Per-target configuration">. C<$per_msg_conf> is
 the L</"Per-message configuration">. By default there is no filter; a plugin
-might supply one. An output plugin will supply the C<output_logger> routine. A
+might supply one. An output plugin will supply the C<outputter> routine. A
 default formatter is supplied by Log::ger but can also come from one or more
 plugins. By default there is no layouter, but a plugin can provide one. The
 actual routine names that will be used will be supplied by Log::ger (the default
 is C<log_trace>, C<log_debug>, and so on) or can be customized by a plugin via
 the L</create_routine_names> hook.
 
-By default, level filtering is done by Log::ger installing null logging routines
+By default, level filtering is done by Log::ger installing null logger routines
 (C<< sub {0} >>) for routine names that are above the current level (C<<
 $Log::ger::Current_Level >>). For example, the default level is warn (30) so
 routine names C<log_info> (40), C<log_debug> (50), C<log_trace> (60) will get
 installed as a null logger, while the other routines C<log_warn>, C<log_error>
-(20), C<log_fatal> (10) will get installed the logging routine described above.
+(20), C<log_fatal> (10) will get installed the logger routine described above.
 
 Filtering by category or other criteria is usually performed by a filter or the
 output plugin (e.g. the L<composite output|/"Composite output">).
@@ -111,31 +113,31 @@ Implemented in L<Log::ger::Output::Composite>.
 
 =head2 Filter
 
-This is a routine that takes arguments supplied by the user to the log routine
-(e.g. C<< log(level=>"info", message=>"blah", category=>"foo", ...) >> and
-return a false value or a per-message configuration.
+This is a routine that takes arguments supplied by the user in the logging
+statement (e.g. C<< log(level=>"info", message=>"blah", category=>"foo", ...) >>
+and return a false value or a per-message configuration.
 
 If false is returned, logging is cancelled. Otherwise, the per-message
-configuration hash is passed to the layouter and logger.
+configuration hash is passed to the layouter and outputter.
 
 Filter is optional and can be used to do custom filtering based on some criteria
 specified in the arguments, as well as to extract the per-message configuration
-in the arguments to be passed to the logger routine (usually provided by an
+in the arguments to be passed to the outputter routine (usually provided by an
 output plugin). For example, a screen output might want to colorize a log
 message based on the category passed in the argument.
 
 Regardless of whether a filter is provided, logging will still be filtered by
 level.
 
-Filter is the way a "multilevel log routine" is implemented, i.e. instead of a
-dedicated logging routine per level, a general log routine is produced and the
-level information is passed as an argument. For example: C<< log("info",
-"blah") >> or C<< log(level=>"info", message=>"blah") >>.
+Filter is the way a "multilevel logger routine" is implemented, i.e. instead of
+a dedicated logger routine per level, a general logger routine is used for all
+levels where the level information is passed as an argument. For example: C<<
+log("info", "blah") >> or C<< log(level=>"info", message=>"blah") >>.
 
 =head2 Formatter
 
-A routine that takes arguments supplied by the user to the log routine (e.g. C<<
-log_warn("blah %s", $args, ...) >> and converts it to the message (usually
+A routine that takes arguments supplied by the user to the logger routine (e.g.
+C<< log_warn("blah %s", $args, ...) >> and converts it to the message (usually
 string) that is sent to the output (or the layouter, if there is one).
 
 See also L</Layouter>.
@@ -155,31 +157,32 @@ their priority to 50 (normal).
 
 =head2 Init
 
-The process of constructing L<logger routines|/Log routine> and installing them
-to targets. See L</"INIT"> for more details about the process.
+The process of constructing L<logger routines|/Logger routine> and installing
+them to targets. See L</"INIT"> for more details about the process.
 
-=head2 Is routine
+=head2 Level checker routine
 
-A type of routines that are constructed and installed to L<target|/Target> which
-checks for a certain level. When logging level is at a certain level or "higher"
-(more severe), the associated "is routine" will return true; and vice versa.
-This is an efficient way to avoid doing work when unneeded.
+A type of routines that are constructed and installed to L<target|/Target>. Its
+function is to check for a certain level. When logging level is at a certain
+level or more severe, the associated level checker routine will return true; and
+vice versa. This is an efficient way to avoid doing work when unneeded.
 
-The default "is routine" names are "log_is_<LEVEL>", e.g. "log_is_trace",
-"log_is_debug", and so on. An example of using an "is routine":
+The default level checker routine names are "log_is_<LEVEL>", e.g.
+"log_is_trace", "log_is_debug", and so on. An example of using a level checker
+routine:
 
     use Log::ger;
 
     sub foo {
         if (log_is_trace) {
-            # perform some calculation
+            # perform some possibly quite expensive calculation
             ...
             log_trace "Result of calculation: ...";
         }
     }
 
-The other type of routines that are constructed and installed to target is L<log
-routines|/Log routine>.
+The other type of routines that are constructed and installed to target is
+L<logger routines|/Logger routine>.
 
 =head2 Layouter
 
@@ -230,7 +233,7 @@ L<log routines|/Log routine>. For example, this tiny module is a producer:
 When C<foo()> is used somewhere else, it will produce two log messages at the
 C<trace> level.
 
-=head2 Log routine
+=head2 Logger routine
 
 Or logger routine. A type of routines that are constructed and installed to
 L<target|/Target> which produces a log message.
@@ -248,7 +251,7 @@ The default "log routine" names are "log_<LEVEL>", e.g. "log_trace",
 
 Log routines is the main type of routines that you will typically use when
 logging. The other type of routines that are constructed and installed to target
-is L<is routines|/Is routine>.
+is L<level checker routines|/Level checker routine>.
 
 =head2 Output
 
@@ -257,9 +260,9 @@ log message. Only log messages that have the sufficient level and matching
 category get sent to the output. Examples of output include: null (no where),
 screen (terminal), file, syslog.
 
-In Log::ger, log messages are sent to a single output. But there is a
-L<multiplexer output|/Composite output> that (re)sends the log messages to other
-output(s).
+In Log::ger, log messages are sent to a single output by the outputter. But
+there is a L<multiplexer output|/Composite output> that (re)sends the log
+messages to other output(s).
 
 =head2 Per-message configuration
 
@@ -272,8 +275,8 @@ might be converted by the filter to this per-message configuration:
 
  {level=>'warn', ...}
 
-The per-message configuration, if available, will be passed to the L<logging
-routine|/"Structure of a logging routine">, so the logging routine can customize
+The per-message configuration, if available, will be passed to the L<logger
+routine|/"Structure of a logger routine">, so the logger routine can customize
 logging based on some criteria specified in the logging statement's arguments.
 
 See also: L</"Per-target configuration">.
@@ -289,9 +292,8 @@ or via C<import()> arguments to Log::ger:
 
  use Log::ger category => 'blah', ...;
 
-This hash will be passed to the L<logger routine|/"Structure of a logging
-routine"> so the logger routine can customize logging based on category or other
-criteria.
+This hash will be used by the L<logger routine|/"Structure of a logger routine">
+so the logger routine can customize logging based on category or other criteria.
 
 Currently, the main use of per-target configuration is to supply C<category>,
 which by default is set to the caller's package if not specified.
@@ -309,7 +311,7 @@ A Perl module that supplies hooks. For more details, see L</HOOKS AND PLUGINS>.
 
 =head2 Target
 
-A package that will be installed with logging routines. Aside from package,
+A package that will be installed with logger routines. Aside from package,
 Log::ger can also install routines to a hash or an object.
 
 Installing to a hash is usually for internal testing purposes. As a Log::ger
@@ -324,14 +326,14 @@ there.
 
 Hooks are how Log::ger provides its flexibility. At various times (phases),
 Log::ger will turn to running hooks to get some behavior or result. For example
-when wanting to construct a logging routine or formatting routine or
-before/after installing logging routines. Plugins, which are modules in the
+when wanting to construct a logger routine or formatting routine or before/after
+installing logger routines. Plugins, which are modules in the
 Log::ger::{Plugin,Output,Format,Layout,...} namespaces, can supply these hooks.
 
 Hooks are stored in the C<%Global_Hooks> variable, where the key is phase name
 and the value an array of hook records. There are also C<%Per_Package_Hooks>,
 C<%Per_Object_Hooks>, and C<%Per_Hash_Hooks> to store per-target hooks that will
-only be used for specific targets. This way, the logging routines for each
+only be used for specific targets. This way, the logger routines for each
 package and object/hash can be customized.
 
 Each hook record is in the form of:
@@ -398,7 +400,7 @@ It should return:
  [\&formatter, $flow_control, $formatter_name]
 
 C<$formatter_name> is optional and defaults to C<default>, which is the default
-formatter used for all logging routines.
+formatter used for all logger routines.
 
 C<&formatter> will be passed the logger routine arguments and is responsible for
 returning the formatted message (usually a string). For example, the default
@@ -430,15 +432,16 @@ laid-out message (usually a string).
 Used to construct routine names. Hook must return this (all keys are optional):
 
  [{
-   log_subs      => [ [NAME, STR_LEVEL, FMT_NAME, PER_TARGET_CONF, FLT_NAME], ... ],
-   log_methods   => [ [NAME, STR_LEVEL, FMT_NAME, PER_TARGET_CONF, FLT_NAME], ... ],
+   logger_subs           => [ [NAME, STR_LEVEL, FMT_NAME, PER_TARGET_CONF, FLT_NAME], ... ],
+   logger_methods        => [ [NAME, STR_LEVEL, FMT_NAME, PER_TARGET_CONF, FLT_NAME], ... ],
 
-   is_subs       => [ [NAME, STR_LEVEL, FMT_NAME, PER_TARGET_CONF, FLT_NAME], ... ],
-   is_methods    => [ [NAME, STR_LEVEL, FMT_NAME, PER_TARGET_CONF, FLT_NAME], ... ],
+   level_checker_subs    => [ [NAME, STR_LEVEL, FMT_NAME, PER_TARGET_CONF, FLT_NAME], ... ],
+   level_checker_methods => [ [NAME, STR_LEVEL, FMT_NAME, PER_TARGET_CONF, FLT_NAME], ... ],
  }, ...]
 
-Where C<log_subs> and C<log_methods> are names of per-level log routines,
-C<is_subs> an C<is_methods> are names of per-level level detection routines.
+Where C<logger_subs> and C<logger_methods> are names of per-level logger
+routines, C<level_checker_subs> an C<level_checker_methods> are names of
+per-level level checker routines.
 
 C<FMT_NAME> is optional and defaults to C<default> (the default formatter
 routine). Can be set if the routine should use a custom formatter routine.
@@ -449,35 +452,36 @@ custom per-target configuration (e.g. different category).
 C<FLT_NAME> is optional. Can be set if the routine should use a custom filter
 routine.
 
-=item * create_log_routine
+=item * create_outputter
 
-Used to create per-level "log_I<level>" routines.
+Used to create the outputter routine used inside the logger routine (see
+L</"Structure of a logger routine">).
 
 It should return:
 
- [\&create_log_routine, $flow_control]
+ [\&outputter, $flow_control]
 
-C<&create_log_routine> will be called with:
+C<&outputter> will be called with:
 
  (\%per_target_conf, $msg, \%per_msg_conf)
 
-for each routine specified in the C<log_subs> (or C<log_methods>) in the routine
-names (see documentation on C<create_routine_names> phase). Extra arguments
-received by hook: C<routine_name> (routine name), C<level> (numeric level),
-C<str_level>.
+for each routine name specified in the C<log_subs> (or C<log_methods>) in the
+routine names (see documentation on C<create_routine_names> phase). Extra
+arguments received by hook: C<routine_name> (routine name), C<level> (numeric
+level), C<str_level>.
 
-=item * create_is_routine
+=item * create_level_checker
 
 Used to create per-level "log_is_I<level>" routines.
 
 It should return:
 
- [\&create_is_routine, $flow_control]
+ [\&level_checker, $flow_control]
 
-C<&create_is_routine> will be called for each routine specified in the
-C<is_subs> (or C<is_methods>) in the routine names (see documentation on
-C<create_routine_names> phase). Extra Arguments received by hooks:
-C<routine_name> (routine name), C<level> (numeric level), C<str_level>.
+C<&level_checker> will be called for each routine specified in the
+C<level_checker_subs> (or C<level_checker_methods>) in the routine names (see
+documentation on C<create_routine_names> phase). Extra Arguments received by
+hooks: C<routine_name> (routine name), C<level> (numeric level), C<str_level>.
 
 =item * before_install_routines
 
@@ -494,7 +498,8 @@ C<routine> is in the form of:
    ...
  ]
 
-Where C<$type> is either C<log_sub>, C<log_method>, C<is_sub>, C<is_method>.
+Where C<$type> is either C<logger_sub>, C<logger_method>, C<level_checker_sub>,
+C<level_checker_method>.
 
 =item * after_install_routines
 
@@ -531,19 +536,17 @@ like L<Log::ger::Like::LogAny> or L<Log::ger::Like::Log4perl> will want to add
 their hook here to provide names other than Log::ger's default. For example,
 Log4perl has uppercase subroutine names like C<WARN> or C<DEBUG>.
 
-There are two types of routines that are created, logging routines (like
-C<log_warn>, C<log_debug>) and level detection routines, also called the "is"
-routines (like C<log_is_warn>, C<log_is_debug>). Logging routines in turn can be
-reguler, per-level routines or multilevel routines that accept numeric level as
-the first argument.
+There are two types of routines that will be created, logger routines (like
+C<log_warn>, C<log_debug>) and level checker routines (like C<log_is_warn>,
+C<log_is_debug>).
 
-Next, the logger routines are created by running the C<create_log_routine> hook,
-for each log level. The code from the hooks (usually from output plugins) are
-then combined with the formatter and layouter to form the final routine ready to
-be installed.
+Next, the outputter routines (to be used in the final logger routines) are
+created by running the C<create_outputter> hook, for each log level. The code
+from the hooks (usually from output plugins) are then combined with the
+formatter and layouter to form the final logger routine ready to be installed.
 
-Likewise, the log level detection routines are created by running the
-C<create_is_routine> hooks for each log level.
+Likewise, the level checker routines are created by running the
+C<create_level_checker> hooks for each log level.
 
 Before installing the routines, we give a chance to plugins to do stuffs in the
 C<before_install_routines> phase. Some plugins use this phase to, e.g. fixup

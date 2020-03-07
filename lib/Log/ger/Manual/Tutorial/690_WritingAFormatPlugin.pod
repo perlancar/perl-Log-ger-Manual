@@ -1,6 +1,8 @@
 package Log::ger::Manual::Tutorial::690_WritingAFormatPlugin;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 1;
@@ -92,9 +94,9 @@ is expected to return the result:
  [$formatter, ...]
 
 The formatter is another coderef which will be passed the arguments that are
-passed to a logging routine. It should return the formatted log message.
+passed to a logger routine. It should return the formatted log message.
 
-=head2 Using different formats for different logging routines
+=head2 Using different formats for different logger routines
 
 Log::ger allows using different formats for different logging methods. This
 allows it to mimic Log::Any, for example. In Log::Any, there are I<log> methods
@@ -116,7 +118,7 @@ the format, e.g.:
 
 To allow Log::ger to emulate this Log::Any behavior, you can create a formatter
 and name it as something other than C<default>, then use it when constructing
-the logging routines. L<Log::ger::Plugin::LogAny> from L<Log::ger::Like::LogAny>
+the logger routines. L<Log::ger::Plugin::LogAny> from L<Log::ger::Like::LogAny>
 distribution does this:
 
  package Log::ger::Plugin::LogAny;
@@ -146,12 +148,10 @@ distribution does this:
                  my $levels = [keys %Log::ger::Levels];
 
                  return [{
-                     log_subs    => [map { (["log_$_", $_, "join"], ["log_${_}f", $_, "default"]) }
-                                         @$levels],
-                     is_subs     => [map { ["log_is_$_", $_] } @$levels],
-                     log_methods => [map { (["$_", $_, "join"], ["${_}f", $_, "default"]) }
-                                         @$levels],
-                     is_methods  => [map { ["is_$_", $_] } @$levels],
+                     logger_subs    => [map { (["log_$_", $_, "join"], ["log_${_}f", $_, "default"]) } @$levels],
+                     logger_methods => [map { (["$_"    , $_, "join"], ["${_}f"    , $_, "default"]) } @$levels],
+                     level_checker_subs    => [map { ["log_is_$_", $_] } @$levels],
+                     level_checker_methods => [map { ["is_$_", $_] } @$levels],
                  }, 1];
              }],
      };

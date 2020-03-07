@@ -1,6 +1,8 @@
 package Log::ger::Manual::Tips;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 1;
@@ -20,8 +22,8 @@ When you use Log::ger in a package, e.g.:
  use Log::ger;
 
 then C<MyApp> is added to the list of package targets. The list is consulted
-whenever we need to reinitialize all targets, i.e. reinstall logging routines
-for those targets.
+whenever we need to reinitialize all targets, i.e. reinstall logger routines for
+those targets.
 
 Since by this time we have not added any outputs, then what Log::ger does is
 just install a no-op subroutine C<log_fatal()>, C<log_error()>, and so on to the
@@ -45,16 +47,16 @@ Now let's say in your main application, you do this:
 the C<use Log::ger::Output 'OUTPUTNAME'> line will install some hooks from
 C<Log::ger::Output::OUTPUTNAME> to the list of hooks, B<then reinitializes all
 existing targets.> In this case, the Screen output will install a hook in the
-C<create_log_routine> phase that produces logger routines that prints to screen.
-When reinitializing, Log::ger will reinstall these logger routines to the
-C<MyApp> and C<MyApp::Component1> namespaces. So when later user calls
-C<log_fatal()> in the C<MyApp> or C<MyApp::Component1> package, the log message
-will be printed to screen.
+C<create_outputter> phase that produces outputter that prints to screen. When
+reinitializing, Log::ger will reinstall these logger routines to the C<MyApp>
+and C<MyApp::Component1> namespaces. So when later user calls C<log_fatal()> in
+the C<MyApp> or C<MyApp::Component1> package, the log message will be printed to
+screen.
 
 Suppose later a C<use Log::ger::Output 'File'> statement is issued. The
-reinitialization process will change all logging routines in all targets to
-print to file instead. Logging is fast in Log::ger because Log::ger installs a
-customized logging routine on each target, but as a consequence reinitialization
+reinitialization process will change all logger routines in all targets to print
+to file instead. Logging is fast in Log::ger because Log::ger installs a
+customized logger routine on each target, but as a consequence reinitialization
 can take more time when there are lots of targets. This will become even slower
 if you load lots of plugins in your main application:
 

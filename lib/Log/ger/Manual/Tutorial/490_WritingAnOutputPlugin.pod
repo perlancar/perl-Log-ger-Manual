@@ -27,26 +27,26 @@ library called C<Lancard>. Create C<Log::ger::Output::Lancard> as follows:
 
  sub get_hooks {
      require Lancard::Client;
-     my %conf = @_;
+     my %plugin_conf = @_;
 
-     $conf{host} or die "Please specify host";
+     $plugin_conf{host} or die "Please specify host";
 
      my $lancard = Lancard::Client->connect(
-         host => $conf{host},
-         port => $conf{port} // 12345,
+         host => $plugin_conf{host},
+         port => $plugin_conf{port} // 12345,
      );
 
      return {
-         create_log_routine => [
+         create_outputter => [
              __PACKAGE__, # key
              50,          # priority
              sub {        # hook
                  my %hook_args = @_;
-                 my $logger = sub {
+                 my $outputter = sub {
                      my ($ctx, $msg) = @_;
                      $lancard->log($msg);
                  };
-                 [$logger];
+                 [$outputter];
              }
          },
      };
@@ -56,28 +56,27 @@ library called C<Lancard>. Create C<Log::ger::Output::Lancard> as follows:
 
 The only subroutine you have to provide is C<get_hooks> to return the hooks that
 this plugin wants to add. For output plugin, usually this is hook in the
-C<create_log_routine> or, less often, C<create_logml_routine> phase. Our
-C<get_hooks> should return a hashref with phase names as keys and hook records
-as values. Hook record is C<< [$key, $priority, $hook] >> where C<$key> is
-usually C<__PACKAGE__>, and C<$priority> is usually 50 unless you want to do
-something tricky or advanced.
+C<create_outputter>. Our C<get_hooks> should return a hashref with phase names
+as keys and hook records as values. Hook record is C<< [$key, $priority, $hook]
+>> where C<$key> is usually C<__PACKAGE__>, and C<$priority> is usually 50
+unless you want to do something tricky or advanced.
 
 At this point, it will really help if you understand how hooks work by reading
 L<Log::ger::Manual::Internals>. But, without reading the said documentation,
 it's still possible to write an output plugin so let's continue right away if
 you want to skip reading the internals documentation.
 
-The actual hook coderef (C<$hook>) should return a logger routine, which is
-another coderef (C<$logger> in the above code). Logger routine will receive C<<
-($ctx, $msg) >> as argument where C<$msg> is the already-formatted message. You
-typically just need to send C<$msg> (which is almost always a string) to some
-output. In our example, we send the log message string to the logging server via
-the client object C<$lancard>.
+The actual hook coderef (C<$hook>) should return an outputter routine, which is
+another coderef (C<$outputter> in the above code). Outputter will receive C<<
+($per_target_conf, $msg, $per_msg_conf) >> as argument where C<$msg> is the
+already-formatted message. You typically just need to send C<$msg> (which is
+almost always a string) to some output. In our example, we send the log message
+string to the logging server via the client object C<$lancard>.
 
 Note that a separate logger routine will be created for each logging level (and
-for each target package that uses logging!), so you'd want to keep C<$logger>
+for each target package that uses logging!), so you'd want to keep C<$outputter>
 small, like avoid instantiating your Lancard client C<$lancard> inside
-C<$logger> as there will be multiple clients instantiated.
+C<$outputter> as there will be multiple clients instantiated.
 
 To use your newly written output plugin, do the usual:
 

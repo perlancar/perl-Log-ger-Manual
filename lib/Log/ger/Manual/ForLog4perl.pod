@@ -90,14 +90,14 @@ LOGWARN et al for you instead of the default names:
 or you can also use one or more of L<Log::ger::Plugin::WithWarn>,
 L<Log::ger::Plugin::WithDie>, L<Log::ger::Plugin::WithCarp>.
 
-C<LGP:WithWarn> will add "*_warn" variants to some of the logging routines (i.e.
+C<LGP:WithWarn> will add "*_warn" variants to some of the logger routines (i.e.
 those at level == 30), so you will get:
 
  log_warn_warn()
 
 which will C<warn()> in addition to log.
 
-L<LGP:WithDie> will add "*_die" variants to some of the logging routines (i.e.
+L<LGP:WithDie> will add "*_die" variants to some of the logger routines (i.e.
 those at level 0 < x <= 20), so you will get:
 
  log_error_die()
@@ -105,7 +105,7 @@ those at level 0 < x <= 20), so you will get:
 
 which will C<die()> in addition to log.
 
-C<LGP:WithCarp> will add L<Carp> variants to some of the logging routines, so
+C<LGP:WithCarp> will add L<Carp> variants to some of the logger routines, so
 you will get:
 
  log_warn_carp()

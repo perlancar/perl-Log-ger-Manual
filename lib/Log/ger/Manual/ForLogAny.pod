@@ -116,10 +116,10 @@ In Log::Any, this is a way to set an adapter temporarily:
 
 One way to do this in Log::ger:
 
- my $saved = Log::ger::Util::save_hooks('create_logml_routine'); # or create_log_routine
+ my $saved = Log::ger::Util::save_hooks('create_outputter');
  Log::ger::Output->set('Name', ...);
  ...
- Log::ger::Util::restore_hooks('create_logml_routine', $saved);
+ Log::ger::Util::restore_hooks('create_outputter', $saved);
 
 A nicer interface may be provided in the future.
 
