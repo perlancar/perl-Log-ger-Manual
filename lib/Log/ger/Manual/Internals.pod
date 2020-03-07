@@ -459,7 +459,7 @@ It should return:
 
 C<&create_log_routine> will be called with:
 
- (\%per_target_conf, $msg, $lnum, \%per_msg_conf)
+ (\%per_target_conf, $msg, \%per_msg_conf)
 
 for each routine specified in the C<log_subs> (or C<log_methods>) in the routine
 names (see documentation on C<create_routine_names> phase). Extra arguments
