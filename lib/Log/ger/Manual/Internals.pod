@@ -26,7 +26,7 @@ subroutines, i.e. they expect the first argument to be the object).
 =head2 Structure of a logging routine
 
 This is the logging routine(s) that Log::ger will construct and install to
-targets, in pseudo-code (the actual constructed code is more streamline and
+targets, in pseudo-code (the actual constructed code is more streamlined and
 optimized):
 
  sub {
