@@ -1,3 +1,9 @@
+0.032.003  2020-03-07  Released-By: PERLANCAR; Urgency: medium
+
+	   - Internals: In "Structure of a logging routine" section, add more
+             comments to code and describe level filtering.
+
+
 0.032.002  2020-03-07  Released-By: PERLANCAR; Urgency: medium
 
 	   - Internals: add Per-message configuration & Per-target
