@@ -1,3 +1,10 @@
+0.032.004  2020-03-07  Released-By: PERLANCAR; Urgency: low
+
+	   - No text changes.
+
+           - Fix POD typos.
+
+
 0.032.003  2020-03-07  Released-By: PERLANCAR; Urgency: medium
 
 	   - Internals: In "Structure of a logging routine" section, add more
