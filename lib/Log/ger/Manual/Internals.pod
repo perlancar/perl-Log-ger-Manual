@@ -130,7 +130,7 @@ level.
 Filter is the way a "multilevel log routine" is implemented, i.e. instead of a
 dedicated logging routine per level, a general log routine is produced and the
 level information is passed as an argument. For example: C<< log("info",
-"blah")>> or C<<log(level=>"info", message=>"blah") >>.
+"blah") >> or C<< log(level=>"info", message=>"blah") >>.
 
 =head2 Formatter
 
