@@ -1,3 +1,11 @@
+0.032.002  2020-03-07  Released-By: PERLANCAR; Urgency: medium
+
+	   - Internals: add Per-message configuration & Per-target
+	     configuration to glossary.
+
+           - Internals: Add "Structure of a logging routine" section.
+
+
 0.032.001  2020-03-07  Released-By: PERLANCAR; Urgency: medium
 
 	   - Rename variables/terms for clarity.
