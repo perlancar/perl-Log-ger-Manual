@@ -23,6 +23,49 @@ or an object (which is basically the same as installing to a package, but the
 routines will expect to be called as object methods instead of plain
 subroutines, i.e. they expect the first argument to be the object).
 
+=head2 Structure of a logging routine
+
+This is the logging routine(s) that Log::ger will construct and install to
+targets, in pseudo-code (the actual constructed code is more streamline and
+optimized):
+
+ sub {
+     # early exit if there is no output
+     if (no output is configured) {
+         return 0;
+     }
+
+     # get per-message configuration
+     my $per_msg_conf;
+     if (filter is configured) {
+         $per_msg_conf = filter(@_);
+         return 0 unless $per_msg_conf;
+     }
+     $per_msg_conf //= { level => $level_of_this_logging_routine };
+
+     # construct formatted message
+     my $fmsg;
+     if (formatter is configured) {
+         $fmsg = formatter(@_);
+     } else {
+         $fmsg = \@_;
+     }
+     if (layouter is configured) {
+         $fmsg = layouter($fmsg, $per_target_conf, $levelnum, $levelstr, $per_msg_conf);
+     }
+
+     # send formatted message to an output
+     output_logger($per_target_conf, $fmsg, $per_msg_conf);
+ }
+
+C<$per_target_conf> is the L</"Per-target configuration">. C<$per_msg_conf> is
+the L</"Per-message configuration">. An output plugin will supply the
+C<output_logger> routine. A default formatter is supplied by Log::ger but can
+also come from one or more plugins. By default there is no layouter, but a
+plugin can provide one. The actual routine names that will be used will be
+supplied by Log::ger (the default is C<log_trace>, C<log_debug>, and so on) or
+can be customized by a plugin via the L</create_routine_names> hook.
+
 
 =head1 GLOSSARY
 
@@ -193,6 +236,43 @@ screen (terminal), file, syslog.
 In Log::ger, log messages are sent to a single output. But there is a
 L<multiplexer output|/Composite output> that (re)sends the log messages to other
 output(s).
+
+=head2 Per-message configuration
+
+A hash that is produced by L<filter|/Filter>, usually from information provided
+in the logging statement's arguments. For example, this logging statement:
+
+ log(level => 'warn', message => 'blah', ...);
+
+might be converted by the filter to this per-message configuration:
+
+ {level=>'warn', ...}
+
+The per-message configuration, if available, will be passed to the L<logging
+routine|/"Structure of a logging routine">, so the logging routine can customize
+logging based on some criteria specified in the logging statement's arguments.
+
+See also: L</"Per-target configuration">.
+
+=head2 Per-target configuration
+
+A hash that is supplied when a L<log producer|/Log Producer> calls
+C<get_logger()>:
+
+ my $logger = Log::ger->get_logger(category => "blah", ...);
+
+or via C<import()> arguments to Log::ger:
+
+ use Log::ger category => 'blah', ...;
+
+This hash will be passed to the L<logger routine|/"Structure of a logging
+routine"> so the logger routine can customize logging based on category or other
+criteria.
+
+Currently, the main use of per-target configuration is to supply C<category>,
+which by default is set to the caller's package if not specified.
+
+See also: L</"Per-message configuration">.
 
 =head2 Phase
 
