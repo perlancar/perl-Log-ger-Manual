@@ -35,9 +35,10 @@ optimized):
          return 0;
      }
 
-     # get per-message configuration
+     # get per-message (per-logging statement) configuration
      my $per_msg_conf;
      if (filter is configured) {
+         # filter can also decide to cancel logging based on some criteria
          $per_msg_conf = filter(@_);
          return 0 unless $per_msg_conf;
      }
@@ -46,11 +47,23 @@ optimized):
      # construct formatted message
      my $fmsg;
      if (formatter is configured) {
+         # for example, the default formatter might format ("Data is %s", [1])
+         # into: "Data is [1]". A custom formatter might format arguments in a
+         # different way.
+
          $fmsg = formatter(@_);
      } else {
+         # if no formatter is installed, the arguments are passed as-is. note
+         # that most output plugins expect the formatted message to be a string
+         # instead of data structure, but some plugins can handle data
+         # structure.
+
          $fmsg = \@_;
      }
      if (layouter is configured) {
+         # usually a layouter adds more information to message, e.g. timestamp,
+         # PID, etc
+
          $fmsg = layouter($fmsg, $per_target_conf, $levelnum, $levelstr, $per_msg_conf);
      }
 
@@ -59,12 +72,13 @@ optimized):
  }
 
 C<$per_target_conf> is the L</"Per-target configuration">. C<$per_msg_conf> is
-the L</"Per-message configuration">. An output plugin will supply the
-C<output_logger> routine. A default formatter is supplied by Log::ger but can
-also come from one or more plugins. By default there is no layouter, but a
-plugin can provide one. The actual routine names that will be used will be
-supplied by Log::ger (the default is C<log_trace>, C<log_debug>, and so on) or
-can be customized by a plugin via the L</create_routine_names> hook.
+the L</"Per-message configuration">. By default there is no filter; a plugin
+might supply one. An output plugin will supply the C<output_logger> routine. A
+default formatter is supplied by Log::ger but can also come from one or more
+plugins. By default there is no layouter, but a plugin can provide one. The
+actual routine names that will be used will be supplied by Log::ger (the default
+is C<log_trace>, C<log_debug>, and so on) or can be customized by a plugin via
+the L</create_routine_names> hook.
 
 
 =head1 GLOSSARY
