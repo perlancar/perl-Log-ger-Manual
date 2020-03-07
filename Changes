@@ -1,3 +1,11 @@
+0.033.000  2020-03-07  Released-By: PERLANCAR; Urgency: medium
+
+	   - Adjust terminology to Log::ger 0.033.
+
+	   - [bugfix] Fix information of arguments supplied to logging
+	     routines.
+
+
 0.032.004  2020-03-07  Released-By: PERLANCAR; Urgency: low
 
 	   - No text changes.
