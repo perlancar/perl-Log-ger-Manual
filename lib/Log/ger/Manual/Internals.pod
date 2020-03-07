@@ -80,6 +80,16 @@ actual routine names that will be used will be supplied by Log::ger (the default
 is C<log_trace>, C<log_debug>, and so on) or can be customized by a plugin via
 the L</create_routine_names> hook.
 
+By default, level filtering is done by Log::ger installing null logging routines
+(C<<sub {0}>>) for routine names that are above the current level
+(C<<$Log::ger::Current_Level>>). For example, the default level is warn (30) so
+routine names C<log_info> (40), C<log_debug> (50), C<log_trace> (60) will get
+installed as a null logger, while the other routines C<log_warn>, C<log_error>
+(20), C<log_fatal> (10) will get installed the logging routine described above.
+
+Filtering by category or other criteria is usually performed by a filter or the
+output plugin (e.g. the L<composite output|/"Composite output">).
+
 
 =head1 GLOSSARY
 
