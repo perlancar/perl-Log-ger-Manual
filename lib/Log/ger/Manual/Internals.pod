@@ -115,7 +115,8 @@ Implemented in L<Log::ger::Output::Composite>.
 
 This is a routine that takes arguments supplied by the user in the logging
 statement (e.g. C<< log(level=>"info", message=>"blah", category=>"foo", ...) >>
-and return a false value or a per-message configuration.
+and return a false value or a per-message configuration. This routine will be
+used by the constructed L<logger routine|/"Logger routine">.
 
 If false is returned, logging is cancelled. Otherwise, the per-message
 configuration hash is passed to the layouter and outputter.
@@ -134,13 +135,16 @@ a dedicated logger routine per level, a general logger routine is used for all
 levels where the level information is passed as an argument. For example: C<<
 log("info", "blah") >> or C<< log(level=>"info", message=>"blah") >>.
 
+See also: L</Formatter>, L</Layouter>, L</Outputter>.
+
 =head2 Formatter
 
 A routine that takes arguments supplied by the user to the logger routine (e.g.
 C<< log_warn("blah %s", $args, ...) >> and converts it to the message (usually
-string) that is sent to the output (or the layouter, if there is one).
+string) that is sent to the output (or the layouter, if there is one). This
+routine will be used by the constructed L<logger routine|/"Logger routine">.
 
-See also L</Layouter>.
+See also L</Filter>, L</Layouter>, L</Outputter>.
 
 =head2 Hook
 
@@ -159,6 +163,30 @@ their priority to 50 (normal).
 
 The process of constructing L<logger routines|/Logger routine> and installing
 them to targets. See L</"INIT"> for more details about the process.
+
+=head2 Layouter
+
+A routine that takes the formatted message (usually a string) and converts it to
+the final message string that is sent to output. Usually a layouter is used to
+add additional information along with the log message itself, e.g. timestamp,
+source file/line number, PID (process ID), etc. This routine will be used by the
+constructed L<logger routine|/"Logger routine">.
+
+See also L</Formatter>, L</Outputter>, L</Filter>.
+
+=head2 Level
+
+The main way by which log messages are filtered. Level refers to the important
+or "severity" of a message. Log producer chooses to log a message with a certain
+level, e.g.:
+
+    log_trace "This is a low importance log message";
+    $log->log("error", "This is a highly important log message!");
+
+while log consumer chooses only to "see" log messages "above" certain level
+only.
+
+Another way to filter log messages is by its L<category|/Category>.
 
 =head2 Level checker routine
 
@@ -183,29 +211,6 @@ routine:
 
 The other type of routines that are constructed and installed to target is
 L<logger routines|/Logger routine>.
-
-=head2 Layouter
-
-A routine that takes the formatted message (usually a string) and converts it to
-the final message string that is sent to output. Usually a layouter is used to
-add additional information along with the log message itself, e.g. timestamp,
-source file/line number, PID (process ID), etc.
-
-See also L</Formatter>.
-
-=head2 Level
-
-The main way by which log messages are filtered. Level refers to the important
-or "severity" of a message. Log producer chooses to log a message with a certain
-level, e.g.:
-
-    log_trace "This is a low importance log message";
-    $log->log("error", "This is a highly important log message!");
-
-while log consumer chooses only to "see" log messages "above" certain level
-only.
-
-Another way to filter log messages is by its L<category|/Category>.
 
 =head2 Log consumer
 
@@ -279,6 +284,8 @@ message already formatted by the L<formatter|/Formatter> and
 L<layouter|/Layouter>, if they are available, or just the raw arguments
 specified in the logging statement. C<$per_msg_conf> is the optional
 L</"Per-message configuration">.
+
+See also: L</Formatter>, L</Filter>, L</Layouter>.
 
 =head2 Per-message configuration
 
