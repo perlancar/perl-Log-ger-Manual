@@ -264,6 +264,22 @@ In Log::ger, log messages are sent to a single output by the outputter. But
 there is a L<multiplexer output|/Composite output> that (re)sends the log
 messages to other output(s).
 
+=head2 Outputter
+
+A routine, usually supplied by an output plugin, that will actually send
+formatted log message to an L<output|/Output> (e.g. screen, file, syslog). This
+routine will be used by the constructed L<logger routine|/"Logger routine">.
+
+Outputter will receive these arguments:
+
+ ($per_target_conf, $fmsg, $per_msg_conf)
+
+C<$per_target_conf> is the L</"Per-target configuration">. C<$fmsg> is the
+message already formatted by the L<formatter|/Formatter> and
+L<layouter|/Layouter>, if they are available, or just the raw arguments
+specified in the logging statement. C<$per_msg_conf> is the optional
+L</"Per-message configuration">.
+
 =head2 Per-message configuration
 
 A hash that is produced by L<filter|/Filter>, usually from information provided
