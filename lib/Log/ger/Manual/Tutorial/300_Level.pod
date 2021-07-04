@@ -130,7 +130,7 @@ C<TRACE=1>) then set the logging level according to it.
 A more complex program might want to customize (increase the number of) levels.
 Log::ger allows you to do this. Basically all you have to do is set
 C<%Log::ger::Levels>, preferably before intializing logging for any package
-usign C<use Log::ger>.
+using C<use Log::ger>.
 
 Some modules provide levels that mimic those in other frameworks, e.g.
 L<Log::ger::Level::Like::LogAny> or other C<Log::ger::Level::Like::*> modules.
