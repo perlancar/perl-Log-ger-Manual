@@ -112,7 +112,7 @@ To change level, you can use:
  Log::ger::Util::set_level("info"); # or ...
  Log::ger::Util::set_level(40);
 
-C<set_level()> will die if you feed it an unknown level.
+C<set_level()> will die if you feed it an unknown string level.
 
 Normally you will only need to do this in an application, not in modules. One
 piece of advice is to allow user to change the level without her having to
