@@ -14,4 +14,10 @@ This distribution contains the following documentation pages:
 
 # INSERT_MODULES_LIST -Log::ger::Manual
 
-Start with L<Log::ger::Manual::Tutorial>.
+If you want to use Log::ger in your module and applications, start with
+L<Log::ger::Manual::Tutorial>.
+
+If you want to understand the concept and the code, or want to write a plugin,
+start with the glossary in L<Log::ger::Manual::Internals>.
+
+For various logging issues, start with L<Log::ger::Manual::FAQ>.
