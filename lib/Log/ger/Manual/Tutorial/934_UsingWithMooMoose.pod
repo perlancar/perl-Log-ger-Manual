@@ -1,6 +1,8 @@
 package Log::ger::Manual::Tutorial::934_UsingWithMooMoose;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 1;

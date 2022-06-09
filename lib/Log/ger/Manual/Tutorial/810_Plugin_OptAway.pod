@@ -1,6 +1,8 @@
 package Log::ger::Manual::Tutorial::810_Plugin_OptAway;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 1;

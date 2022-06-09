@@ -1,5 +1,6 @@
 package Log::ger::Manual::Tutorial::790_WritingALayoutPlugin;
 
+# AUTHORITY
 # DATE
 # DIST
 # VERSION

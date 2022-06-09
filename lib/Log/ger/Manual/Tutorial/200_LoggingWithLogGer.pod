@@ -1,6 +1,8 @@
 package Log::ger::Manual::Tutorial::200_LoggingWithLogGer;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 1;

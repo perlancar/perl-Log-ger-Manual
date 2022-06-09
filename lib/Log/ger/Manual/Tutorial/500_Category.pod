@@ -1,6 +1,8 @@
 package Log::ger::Manual::Tutorial::500_Category;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 1;

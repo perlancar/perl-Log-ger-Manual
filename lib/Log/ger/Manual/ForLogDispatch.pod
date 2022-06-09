@@ -1,6 +1,8 @@
 package Log::ger::Manual::ForLogDispatch;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 1;

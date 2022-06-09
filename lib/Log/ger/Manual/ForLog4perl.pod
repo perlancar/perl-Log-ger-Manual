@@ -1,6 +1,8 @@
 package Log::ger::Manual::ForLog4perl;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 1;

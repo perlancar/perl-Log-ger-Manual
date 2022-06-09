@@ -1,6 +1,8 @@
 package Log::ger::Manual::Tutorial::931_UsingInApplication;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 1;

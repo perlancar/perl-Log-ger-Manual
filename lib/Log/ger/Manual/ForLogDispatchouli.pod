@@ -1,6 +1,8 @@
 package Log::ger::Manual::ForLogDispatchouli;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 1;

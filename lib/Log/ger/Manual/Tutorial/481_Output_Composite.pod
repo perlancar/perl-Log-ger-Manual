@@ -1,6 +1,8 @@
 package Log::ger::Manual::Tutorial::481_Output_Composite;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 1;
