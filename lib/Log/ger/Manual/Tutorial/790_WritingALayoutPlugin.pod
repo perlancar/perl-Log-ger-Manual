@@ -31,6 +31,10 @@ C<Log::ger::Layout::ConvertCase> as follows:
  use strict;
  use warnings;
 
+ sub meta { +{
+     v => 2,
+ } }
+
  sub get_hooks {
      my %plugin_conf = @_;
 
@@ -54,6 +58,10 @@ C<Log::ger::Layout::ConvertCase> as follows:
  }
 
  1;
+
+First of all, the plugin needs to define C<meta()> that returns a hashref where
+the required key is C<v> set to 2. This is a way to do API versioning so
+Log::ger can reject plugins with incompatible API version.
 
 The plugin module needs to define C<get_hooks> which returns a hashref of hook
 names and hook records. For the list of available hooks (as well as basically

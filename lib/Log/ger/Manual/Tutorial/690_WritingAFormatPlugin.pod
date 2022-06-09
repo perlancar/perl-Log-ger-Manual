@@ -59,6 +59,10 @@ by using L<String::Flogger>.
  use warnings;
  use String::Flogger qw(flog);
 
+ sub meta { +{
+     v => 2,
+ } }
+
  sub get_hooks {
      my %conf = @_;
 
@@ -75,6 +79,11 @@ by using L<String::Flogger>.
      };
  }
  1;
+
+
+First of all, the plugin needs to define C<meta()> that returns a hashref where
+the required key is C<v> set to 2. This is a way to do API versioning so
+Log::ger can reject plugins with incompatible API version.
 
 Basically, in the format plugin you need to define C<get_hooks> which returns a
 hashref of phase names and hook records. For a format plugin, the relevant phase

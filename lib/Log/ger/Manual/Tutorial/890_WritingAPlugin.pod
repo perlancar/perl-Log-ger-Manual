@@ -6,8 +6,21 @@ package Log::ger::Manual::Tutorial::890_WritingAPlugin;
 # VERSION
 
 1;
-# ABSTRACT: TODO
+# ABSTRACT: Writing a plugin
 
 =head1 DESCRIPTION
 
-TODO
+For now, please see these tutorial pages as they also discuss writing plugins:
+
+=over
+
+=item * L<Log::ger::Manual::Tutorial::490_WritingAnOutputPlugin>
+
+=item * L<Log::ger::Manual::Tutorial::690_WritingAFormatPlugin>
+
+=item * L<Log::ger::Manual::Tutorial::790_WritingALayoutPlugin>
+
+=back
+
+Also see existing plugins like L<Log::ger::Plugin::MultilevelLog> or
+L<Log::ger::Plugin::OptAway>.
