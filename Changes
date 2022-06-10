@@ -1,3 +1,17 @@
+0.040.000  2022-06-10  Released-By: PERLANCAR; Urgency: medium
+
+           - Update to Log::ger 0.040 (meta() was added in 0.034).
+
+           - In main POD page, add more starting pointers.
+
+           - Fill out Tutorial::890_WritingAPlugin.
+
+           - Rename Tips.pm to Tips.pod.
+
+           - In Glossary in Internals: add Outputter, cross-reference between
+             Filter, Formatter, Layouter, Outputter.
+
+
 0.033.000  2020-03-07  Released-By: PERLANCAR; Urgency: medium
 
 	   - Adjust terminology to Log::ger 0.033.
