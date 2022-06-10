@@ -195,7 +195,7 @@ function is to check for a certain level. When logging level is at a certain
 level or more severe, the associated level checker routine will return true; and
 vice versa. This is an efficient way to avoid doing work when unneeded.
 
-The default level checker routine names are "log_is_<LEVEL>", e.g.
+The default level checker routine names are "log_is_<LEVELNAME>", e.g.
 "log_is_trace", "log_is_debug", and so on. An example of using a level checker
 routine:
 
@@ -240,10 +240,10 @@ C<trace> level.
 
 =head2 Logger routine
 
-Or logger routine. A type of routines that are constructed and installed to
+Or log routine. A type of routines that are constructed and installed to
 L<target|/Target> which produces a log message.
 
-The default "log routine" names are "log_<LEVEL>", e.g. "log_trace",
+The default "log routine" names are "log_<LEVELNAME>", e.g. "log_trace",
 "log_debug", and so on. An example of using a "log routine":
 
     use Log::ger;
